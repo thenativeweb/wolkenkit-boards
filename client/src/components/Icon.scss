@@ -1,0 +1,27 @@
+.ui-icon {
+  width: 24px;
+  height: 24px;
+}
+
+p .ui-icon {
+  margin-bottom: -2px;
+}
+
+.ui-icon--xsmall {
+  width: $icon-dimension-xsmall;
+  height: $icon-dimension-xsmall;
+}
+
+.ui-icon--small {
+  width: $icon-dimension-small;
+  height: $icon-dimension-small;
+}
+
+.ui-icon--medium {
+  width: $icon-dimension-medium;
+  height: $icon-dimension-medium;
+}
+
+a .ui-icon {
+  fill: currentColor;
+}

@@ -1,0 +1,77 @@
+.ui-button {
+  display: inline-block;
+  position: relative;
+  margin-right: $grid-step-size;
+  margin-bottom: $grid-step-size;
+  padding: 0 $grid-step-size*2;
+  font-size: $font-size-large;
+  line-height: $grid-step-size*5;
+  border: none;
+  outline: none;
+  vertical-align: middle;
+  text-align: center !important;
+  background: $color-brand-light-grey;
+  color: $color-brand-dark;
+  border-radius: $button-border-radius;
+  transition: background 0.15s ease-out, transform 0.15s ease-out, opacity 0.15s ease-out;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.ui-button:last-child {
+  margin: 0;
+}
+
+.ui-button:hover,
+.ui-button.primary {
+  color: $color-brand-highlight;
+  background-color: $color-brand-featured;
+  transform-origin: 50% 0;
+}
+
+.ui-button.primary:disabled {
+  opacity: 0.4;
+}
+
+.ui-button.secondary {
+}
+
+.ui-button,
+.ui-button:link,
+.ui-button:visited,
+.ui-button:hover,
+.ui-button:active {
+  text-decoration: none;
+}
+
+.ui-button--icon {
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  background: none;
+  line-height: normal;
+  padding: 0;
+
+  .ui-icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+  }
+}
+
+.ui-button--icon:hover {
+  background: none;
+  color: $color-brand-highlight;
+  transform-origin: 50% 0;
+}
+
+.ui-button--context-menu {
+  flex-grow: 0;
+  margin: 0;
+}
+
+.ui-button--context-menu:hover {
+  color: $color-brand-featured;
+}

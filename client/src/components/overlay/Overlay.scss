@@ -1,0 +1,9 @@
+.ui-overlay {
+  background: rgba(255,255,255, 0.8);
+  color: $color-brand-dark;
+  padding: $grid-step-size $grid-step-size * 2;
+  max-width: 90vw;
+  opacity: 0;
+  padding-top: 20px;
+  will-change: opacity, transform;
+}

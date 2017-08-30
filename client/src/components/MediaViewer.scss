@@ -1,0 +1,59 @@
+.ui-media-viewer {
+  position: fixed;
+  z-index: $z-index-modal;
+  left: 0; top: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+
+  .ui-media-viewer__backdrop {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: $color-backdrop;
+    opacity: 0;
+    transition: opacity 200ms;
+    will-change: opacity;
+  }
+
+  .ui-media-viewer__destination {
+    height: 100%;
+    width: auto;
+  }
+
+  .ui-media-viewer__transfer {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+    z-index: $z-index-transfer;
+  }
+
+  .ui-media-viewer__close {
+    position: fixed;
+    top: $grid-step-size;
+    right: $grid-step-size;
+    fill: $color-brand-dark;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 200ms;
+    will-change: opacity;
+    z-index: $z-index-transfer+10;
+  }
+}
+
+.ui-media-viewer--visible {
+  pointer-events: all;
+
+  .ui-media-viewer__backdrop {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .ui-media-viewer__close {
+    opacity: 1;
+  }
+}

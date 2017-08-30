@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>wolkenkit-boards</title>
+    <style>
+      body {
+        background: #333;
+        overflow-y: scroll;
+      }
+
+      .ui-app {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        left: 0; top: 0; right: 0; bottom: 0;
+      }
+
+      @keyframes ui-spinner-grow {
+        0% {
+          transform: scale(1);
+        }
+        20% {
+          transform: scale(1, 2);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+
+      .ui-spinner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ui-spinner__item {
+        display: inline-block;
+        width: 4px;
+        height: 14px;
+        margin-right: 2px;
+        animation: ui-spinner-grow 1000ms linear infinite;
+        will-change: transform;
+      }
+
+      .ui-spinner--fullscreen {
+        position: absolute;
+        left: 0; top: 0; right: 0; bottom: 0;
+      }
+
+      .ui-spinner--inactive .ui-spinner__item {
+        animation: none;
+      }
+
+      .ui-spinner__item:nth-child(1) {
+        background-color: #FBF937;
+        animation-delay: 0;
+      }
+
+      .ui-spinner__item:nth-child(2) {
+        background-color: #fd765e;
+        animation-delay: 80ms;
+      }
+
+      .ui-spinner__item:nth-child(3) {
+        background-color: #96e55d;
+        animation-delay: 160ms;
+      }
+
+      .ui-spinner__item:nth-child(4) {
+        background-color: #51ADEE;
+        animation-delay: 240ms;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ui-app">
+      <div class='ui-spinner ui-spinner--fullscreen'>
+        <div class='ui-spinner__item'></div>
+        <div class='ui-spinner__item'></div>
+        <div class='ui-spinner__item'></div>
+        <div class='ui-spinner__item'></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

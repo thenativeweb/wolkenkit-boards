@@ -1,0 +1,10 @@
+# Node.js folders
+*node_modules/
+
+# Build artefacts
+*build/
+
+# OS generated files and folders
+logs/
+.DS_Store
+npm-debug.log

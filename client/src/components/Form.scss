@@ -1,0 +1,54 @@
+.ui-form__row {
+  text-align: left;
+  padding: $grid-step-size $grid-step-size * 3;
+  font-size: $font-size-large;
+  line-height: 28px;
+}
+
+.ui-form__row--message {
+  color: $color-text-default;
+  font-weight: 700;
+}
+
+.ui-form__row--vertical-center {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ui-form__row--horizontal-content-align-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ui-form__row--vertical-content-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.ui-form__row--action-buttons {
+  display: flex;
+  flex-direction: column;
+
+  * {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.ui-form__row input[type='text'],
+.ui-form__row textarea {
+  width: 100%;
+}
+
+.ui-form__row input[type='checkbox']{
+  display: inline-block;
+  margin: 0 $grid-step-size 0 0;
+}
+
+.ui-form__row label {
+  color: $color-text-default;
+}
+
+.ui-form__row:first-child {
+  padding: $grid-step-size*2 $grid-step-size*3 $grid-step-size $grid-step-size*3;
+}

@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "eslint-config-es/2015/server",
+    "plugin:wolkenkit/recommended"
+  ],
+  "plugins": [
+    "wolkenkit"
+  ]
+}

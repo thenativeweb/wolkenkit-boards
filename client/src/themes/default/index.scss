@@ -1,0 +1,58 @@
+@import 'variables';
+@import 'reset';
+
+/*
+* Components
+*/
+@import 'components/AppBar';
+@import 'components/Button';
+@import 'components/ColorToggle';
+@import 'components/Dialog';
+@import 'components/Form';
+@import 'components/Icon';
+@import 'components/Label';
+@import 'components/List';
+@import 'components/LoginBox';
+@import 'components/MediaViewer';
+@import 'components/NonIdealState';
+@import 'components/menu/Menu';
+@import 'components/menu/ContextMenu';
+@import 'components/menu/SidebarMenu';
+@import 'components/overlay/Overlay';
+@import 'components/overlay/Overlays';
+@import 'components/Post';
+@import 'components/Posts';
+@import 'components/TextBox';
+
+/*
+* Screens
+*/
+@import 'screens/App';
+@import 'screens/boards/Boards';
+@import 'screens/board/Board';
+
+body {
+  background: #333 url('themes/default/images/background.png') left top repeat;
+  font-size: $font-size-default;
+  font-family: $font-family-default;
+  letter-spacing: -0.02em;
+  line-height: 1.5em;
+  color: $color-text-default;
+  overflow-y: scroll;
+}
+
+a:link {
+  color: #aaa;
+}
+
+a:visited {
+  color: #aaa;
+}
+
+::selection {
+  background: #aaa !important;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+}

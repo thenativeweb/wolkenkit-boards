@@ -1,0 +1,17 @@
+.ui-text-box {
+  padding: 0.5em 0.6em;
+  border: 1px solid $color-brand-light-grey;
+  box-sizing: border-box;
+  outline: none;
+  font-size: inherit;
+  text-overflow: ellipsis;
+  user-select: text;
+}
+
+.ui-text-box:focus {
+  border-color: $color-brand-grey;
+}
+
+.ui-text-box--dense {
+  padding: 0.1em 0.5em 0.2em;
+}

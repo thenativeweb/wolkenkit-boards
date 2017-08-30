@@ -1,0 +1,104 @@
+.ui-sidebar-menu {
+  height: $grid-step-size * 4;
+  width: $grid-step-size * 4;
+}
+
+.ui-sidebar-menu .ui-sidebar-menu__container {
+  .ui-sidebar-menu__backdrop {
+    background: $color-backdrop;
+    position: fixed;
+    left: 0;
+    top: $grid-step-size * 4;
+    height: calc(100% - #{$grid-step-size * 4});
+    width: 100%;
+    overflow: hidden;
+    z-index: $z-index-navigation;
+    opacity: 0;
+    transition: opacity 300ms;
+    will-change: opacity;
+    pointer-events: none;
+  }
+
+  .ui-menu {
+    position: fixed;
+    z-index: $z-index-navigation;
+    left: 0; top: $grid-step-size * 4;
+    width: $sidebar-width;
+    height: calc(100% - #{$grid-step-size * 4});
+    background: $color-panel-background;
+    border-top: 1px solid $color-brand-light-grey;
+    transform: translateX(-$sidebar-width);
+    transition: transform 0.2s cubic-bezier(0.770, 0.000, 0.175, 1.000);
+    will-change: transform;
+  }
+
+  .ui-sidebar-menu__footer {
+    background: #2f333b;
+    color: darken(#fff, 15%);
+    position: absolute;
+    left: 0; bottom: 0; right: 0;
+    text-align: center;
+    font-size: $font-size-small;
+    letter-spacing: 0;
+    margin: $grid-step-size;
+    padding-top: $grid-step-size*2;
+    padding-bottom: $grid-step-size*1.5;
+    font-weight: 300;
+
+    > div {
+      padding-bottom: $grid-step-size/2;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .sponsor,
+    .sponsor:visited, {
+      text-decoration: none;
+      color: $color-brand-featured;
+      font-weight: 400;
+    }
+  }
+}
+
+.ui-sidebar-menu .ui-sidebar-menu__toggle {
+  position: relative;
+
+  .ui-menu-toggle {
+    position: absolute;
+    height: $grid-step-size * 4;
+    width: $grid-step-size * 4;
+    display: none;
+    margin: 0;
+  }
+
+  .ui-menu-toggle svg {
+    fill: $color-brand-dark;
+    transition: fill 0.15s ease-in-out;
+    will-change: fill;
+  }
+
+  .ui-menu-toggle:hover svg {
+    fill: $color-brand-featured;
+  }
+}
+
+.ui-sidebar-menu.state-expanded {
+  .ui-sidebar-menu__backdrop {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .ui-menu {
+    transform: translateX(0px);
+  }
+}
+
+.ui-sidebar-menu.state-expanded .ui-menu-toggle.collapse {
+  display: block;
+}
+
+.ui-sidebar-menu.state-collapsed .ui-menu-toggle.expand {
+  display: block;
+}

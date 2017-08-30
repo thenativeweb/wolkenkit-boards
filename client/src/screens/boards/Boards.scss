@@ -1,0 +1,14 @@
+.ui-screen--boards {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: $grid-step-size*6 0;
+
+  .ui-list {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    width: 50%;
+  }
+}
