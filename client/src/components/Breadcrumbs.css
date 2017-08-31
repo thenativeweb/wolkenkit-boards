@@ -1,0 +1,44 @@
+@value (
+  color-brand-dark,
+  color-brand-featured,
+  color-brand-grey,
+  grid-step-size
+) from '../theme/index.css';
+
+.Breadcrumbs {
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  margin-left: calc(grid-step-size * 2);
+
+  & .BackLink {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: color-brand-dark;
+    text-decoration: none;
+    padding-right: calc(grid-step-size * 4);
+
+    & > div {
+      padding-bottom: 2px;
+    }
+  }
+
+  & .BackLink:hover {
+    color: color-brand-featured;
+  }
+
+  & .BackLink::after {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 1px;
+    background: color-brand-grey;
+    top: calc(50% - 10px);
+    right: calc(grid-step-size * 2);
+  }
+
+  &.disabled {
+    display: none;
+  }
+}

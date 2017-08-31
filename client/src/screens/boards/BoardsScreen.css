@@ -1,11 +1,15 @@
-.ui-screen--boards {
+@value (
+  grid-step-size
+) from '../../theme/index.css';
+
+.BoardsScreen {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: $grid-step-size*6 0;
+  padding: calc(grid-step-size * 6) 0;
 
-  .ui-list {
+  & .List {
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;

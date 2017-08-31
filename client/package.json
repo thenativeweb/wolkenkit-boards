@@ -21,6 +21,7 @@
     "postcss-cssnext": "3.0.2",
     "postcss-icss-values": "2.0.1",
     "postcss-loader": "2.0.6",
+    "postcss-modules-values-replace": "1.2.1",
     "processenv": "0.1.1",
     "prop-types": "15.5.10",
     "react-addons-transition-group": "15.6.0",

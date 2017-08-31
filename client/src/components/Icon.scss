@@ -25,3 +25,7 @@ p .ui-icon {
 a .ui-icon {
   fill: currentColor;
 }
+
+.ui-icon-arrow-west {
+  transform: scale(-1, 1);
+}

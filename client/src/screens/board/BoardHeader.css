@@ -1,0 +1,26 @@
+@value (
+  color-text-default,
+  color-brand-grey,
+  color-brand-highlight
+) from '../../theme/index.css';
+
+.Form {
+  margin-left: $grid-step-size*3;
+  font-size: $font-size-medium;
+  margin-bottom: 1px;
+
+  & .TextBox {
+    min-width: 250px;
+    background: transparent;
+    border: 1px transparent solid;
+    color: inherit;
+    transition: border 400ms, background 400ms;
+
+    &:hover,
+    &:focus {
+      background: color-brand-highlight;
+      border: 1px color-brand-grey solid;
+      color: color-text-default;
+    }
+  }
+}

@@ -2,11 +2,11 @@ import BoardHeader from './board/BoardHeader.jsx';
 import BoardScreen from './board/BoardScreen.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
 import MainMenu from './MainMenu.jsx';
-import Navigation from './Navigation.jsx';
 import { Overlays } from '../components/overlay';
 import React from 'react';
 import services from '../services';
-import { Button, Confirm, ContextMenu, Dialog, Form, Symbols } from '../components';
+import styles from './App.css';
+import { AppBar, Breadcrumbs, Button, Confirm, ContextMenu, Dialog, Form, Symbols } from '../components';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
@@ -41,15 +41,14 @@ class App extends React.Component {
   render () {
     return (
       <HashRouter>
-        <div className='app'>
+        <div className={ styles.App }>
           <Symbols />
-          <div className='ui-app-bar'>
+          <AppBar>
             <MainMenu />
-            <div className='ui-app-bar__breadcrumbs'>
-              <Navigation />
+            <Breadcrumbs>
               <Route exact={ true } path='/board/:slug' component={ BoardHeader } />
-            </div>
-          </div>
+            </Breadcrumbs>
+          </AppBar>
           <Switch>
             <Route exact={ true } location={ location } path='/' component={ BoardsScreen } />
             <Route exact={ true } location={ location } path='/boards' component={ BoardsScreen } />

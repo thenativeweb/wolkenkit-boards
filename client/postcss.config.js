@@ -1,6 +1,6 @@
 module.exports = {
   plugins: {
-    'postcss-icss-values': {},
+    'postcss-modules-values-replace': {},
     'postcss-cssnext': {}
   }
 };

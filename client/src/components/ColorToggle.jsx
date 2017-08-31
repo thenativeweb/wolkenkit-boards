@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 class ColorToggle extends React.PureComponent {
@@ -33,7 +34,7 @@ class ColorToggle extends React.PureComponent {
 
   render () {
     return (
-      <div className='ui-color-toggle'>
+      <div className={ classNames('ui-color-toggle', this.props.className) }>
         {this.props.colors.map(this.renderColor)}
       </div>
     );
