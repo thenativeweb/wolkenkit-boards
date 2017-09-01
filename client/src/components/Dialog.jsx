@@ -1,7 +1,8 @@
-import Button from './Button.jsx';
+import classNames from 'classnames';
 import DialogChrome from './DialogChrome.jsx';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
+import styles from './Dialog.css';
 
 class Dialog extends React.PureComponent {
   constructor (props) {
@@ -36,34 +37,25 @@ class Dialog extends React.PureComponent {
   }
 
   render () {
-    let content,
-        overlayClasses = 'ui-dialog__backdrop',
-        titlebar;
+    let content;
 
-    if (this.props.showClose) {
-      titlebar = (
-        <div className='dialog__titlebar'>
-          <div className='dialog__titlebar__close'>
-            <Button icon='close' iconSize='medium' onClick={ this.handleOverlayClicked } />
-          </div>
-        </div>
-      );
-    }
+    const backdropClasseNames = classNames(styles.Backdrop, {
+      [styles.BackdropHidden]: !this.props.isVisible
+    });
 
     if (!this.props.isVisible) {
       content = null;
-      overlayClasses += ' hidden';
     } else {
       content = (
-        <DialogChrome type={ this.props.type } titlebar={ titlebar }>
+        <DialogChrome type={ this.props.type }>
           {this.props.children}
         </DialogChrome>
       );
     }
 
     return (
-      <div className='ui-dialog'>
-        <div className={ overlayClasses } onClick={ this.handleOverlayClicked } />
+      <div className={ styles.Dialog }>
+        <div className={ backdropClasseNames } onClick={ this.handleOverlayClicked } />
         <ReactTransitionGroup>
           {content}
         </ReactTransitionGroup>
@@ -74,7 +66,6 @@ class Dialog extends React.PureComponent {
 
 Dialog.defaultProps = {
   isVisible: false,
-  showClose: false,
   type: 'left-aligned',
   onCancel () {}
 };

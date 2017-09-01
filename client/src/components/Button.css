@@ -69,8 +69,11 @@
 
   &:hover {
     background: none;
-    color: color-brand-featured;
     transform-origin: 50% 0;
+
+    & .Label {
+      color: color-brand-featured;
+    }
 
     & .Icon {
       fill: color-brand-featured;

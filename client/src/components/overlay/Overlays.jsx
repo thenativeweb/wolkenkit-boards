@@ -3,6 +3,7 @@ import eventbus from '../../services/eventbus';
 import Overlay from './Overlay.jsx';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
+import styles from './Overlays.css';
 
 class Overlays extends React.PureComponent {
   constructor (props) {
@@ -64,10 +65,7 @@ class Overlays extends React.PureComponent {
   }
 
   render () {
-    const containerClasses = classNames({
-      'ui-overlays': true,
-      'ui-overlays--visible': this.state.isVisible
-    });
+    const containerClasses = classNames(styles.Overlays);
 
     return (
       <div className={ containerClasses }>

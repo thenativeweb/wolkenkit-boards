@@ -36,7 +36,7 @@ const Button = function (props) {
       className={ buttonClassNames }
     >
       <Icon className={ styles.Icon } name={ props.icon } size={ props.iconSize } />
-      { children ? <Label>{ children }</Label> : null }
+      { children ? <Label className={ styles.Label }>{ children }</Label> : null }
     </button>
   );
 };

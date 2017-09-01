@@ -3,6 +3,7 @@ import Post from './Post.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
+import styles from './Posts.css';
 
 class Posts extends React.Component {
   constructor (props) {
@@ -12,7 +13,7 @@ class Posts extends React.Component {
   }
 
   handleDoubleClick (event) {
-    if (!event.target.classList.contains('ui-posts')) {
+    if (!event.target.classList.contains(styles.Posts)) {
       return;
     }
 
@@ -22,7 +23,7 @@ class Posts extends React.Component {
   render () {
     return (
       <FileDropZone onFileDropped={ this.props.onImageNote }>
-        <div className='ui-posts' onDoubleClick={ this.handleDoubleClick }>
+        <div className={ styles.Posts } onDoubleClick={ this.handleDoubleClick }>
           <ReactTransitionGroup>
             {this.props.posts.map(post => (
               <Post

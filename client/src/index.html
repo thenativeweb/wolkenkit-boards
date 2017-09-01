@@ -9,14 +9,13 @@
         overflow-y: scroll;
       }
 
-      .ui-app {
+      .Shell {
         position: absolute;
-        margin: 0;
-        padding: 0;
         left: 0; top: 0; right: 0; bottom: 0;
+        margin: 0; padding: 0;
       }
 
-      @keyframes ui-spinner-grow {
+      @keyframes spinner-grow-animation {
         0% {
           transform: scale(1);
         }
@@ -28,58 +27,58 @@
         }
       }
 
-      .ui-spinner {
+      .Spinner {
         display: flex;
         align-items: center;
         justify-content: center;
       }
 
-      .ui-spinner__item {
+      .SpinnterItem {
         display: inline-block;
         width: 4px;
         height: 14px;
         margin-right: 2px;
-        animation: ui-spinner-grow 1000ms linear infinite;
+        animation: spinner-grow-animation 1000ms linear infinite;
         will-change: transform;
       }
 
-      .ui-spinner--fullscreen {
+      .SpinnerTypeFullscreen {
         position: absolute;
         left: 0; top: 0; right: 0; bottom: 0;
       }
 
-      .ui-spinner--inactive .ui-spinner__item {
+      .ui-spinner--inactive .SpinnterItem {
         animation: none;
       }
 
-      .ui-spinner__item:nth-child(1) {
+      .SpinnterItem:nth-child(1) {
         background-color: #FBF937;
         animation-delay: 0;
       }
 
-      .ui-spinner__item:nth-child(2) {
+      .SpinnterItem:nth-child(2) {
         background-color: #fd765e;
         animation-delay: 80ms;
       }
 
-      .ui-spinner__item:nth-child(3) {
+      .SpinnterItem:nth-child(3) {
         background-color: #96e55d;
         animation-delay: 160ms;
       }
 
-      .ui-spinner__item:nth-child(4) {
+      .SpinnterItem:nth-child(4) {
         background-color: #51ADEE;
         animation-delay: 240ms;
       }
     </style>
   </head>
   <body>
-    <div class="ui-app">
-      <div class='ui-spinner ui-spinner--fullscreen'>
-        <div class='ui-spinner__item'></div>
-        <div class='ui-spinner__item'></div>
-        <div class='ui-spinner__item'></div>
-        <div class='ui-spinner__item'></div>
+    <div class="Shell">
+      <div class='Spinner SpinnerTypeFullscreen'>
+        <div class='SpinnterItem'></div>
+        <div class='SpinnterItem'></div>
+        <div class='SpinnterItem'></div>
+        <div class='SpinnterItem'></div>
       </div>
     </div>
     <script type="text/javascript" src="index.js"></script>

@@ -1,0 +1,30 @@
+@value (
+  grid-step-size,
+  color-panel-background,
+  sidebar-width,
+  z-index-modal
+) from '../theme/index.css';
+
+.DialogChrome {
+  position: fixed;
+  width: sidebar-width;
+  height: 100%;
+  z-index: z-index-modal;
+  padding: calc(grid-step-size * 6) 0 0 0;
+  margin: 0;
+  background: color-panel-background;
+  opacity: 0;
+  pointer-events: all;
+  will-change: opacity, transform;
+
+  & .Content {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+
+    & img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+  }
+}

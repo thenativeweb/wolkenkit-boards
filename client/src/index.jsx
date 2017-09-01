@@ -4,7 +4,6 @@ import ReactDom from 'react-dom';
 import services from './services';
 import { setup } from 'wolkenkit-ux';
 import wolkenkit from 'wolkenkit-client';
-import './reset.css';
 
 setup.client();
 
@@ -32,7 +31,7 @@ wolkenkit.connect({
     }
 
     services.boardsApi = boardsApi;
-    ReactDom.render(<App />, document.querySelector('.ui-app'));
+    ReactDom.render(<App />, document.querySelector('.Shell'));
   }).
   catch(err => {
     throw err;

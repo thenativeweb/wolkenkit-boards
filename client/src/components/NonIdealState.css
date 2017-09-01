@@ -1,0 +1,19 @@
+@value (
+  color-brand-grey,
+  font-size-large,
+  grid-step-size
+) from '../theme/index.css';
+
+.NonIdealState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: calc(grid-step-size * 6);
+
+  & .Message {
+    text-align: center;
+    max-width: 50%;
+    font-size: font-size-large;
+    color: color-brand-grey;
+  }
+}

@@ -6,11 +6,11 @@
 @value color-brand-darker: #000203;
 
 @value color-text-default: color-brand-dark;
-@value color-backdrop: rgba(53, 66, 71, 0.5);
+@value color-backdrop: rgba(0, 0, 0, 0.5);
 @value color-panel-background: rgba(255, 255, 255, 0.95);
 
 @value font-size-tiny: 12px;
-@value font-size-default: 14px/20px;
+@value font-size-default: 14px;
 @value font-size-small: 14px;
 @value font-size-medium: 16px;
 @value font-size-large: 20px;

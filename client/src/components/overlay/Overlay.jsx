@@ -1,5 +1,6 @@
 import anime from 'animejs';
 import React from 'react';
+import styles from './Overlay.css';
 
 class Overlay extends React.PureComponent {
   componentWillEnter (done) {
@@ -27,7 +28,7 @@ class Overlay extends React.PureComponent {
   render () {
     /* eslint-disable no-return-assign */
     return (
-      <div ref={ ref => this.element = ref } className='ui-overlay ui-overlay--alert'>
+      <div ref={ ref => this.element = ref } className={ styles.Overlay }>
         <div className='ui-overlay__text'>{ this.props.children }</div>
       </div>
     );

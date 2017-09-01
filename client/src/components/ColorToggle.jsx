@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import styles from './ColorToggle.css';
 
 class ColorToggle extends React.PureComponent {
   constructor (props) {
@@ -14,27 +15,32 @@ class ColorToggle extends React.PureComponent {
   }
 
   renderColor (color) {
-    let colorClasses = `ui-color-toggle__button ${color}`;
+    const buttonClassNames = classNames(styles.Button, {
+      [styles.ButtonSelected]: color === this.props.selectedColor
+    });
 
-    if (color === this.props.selectedColor) {
-      colorClasses += ' selected';
-    }
+    const colorClassNames = classNames(styles.Color, {
+      [styles.ColorGreen]: color === 'green',
+      [styles.ColorPaperLined]: color === 'paper-lined',
+      [styles.ColorRed]: color === 'red',
+      [styles.ColorYellow]: color === 'yellow'
+    });
 
     return (
       <div
-        className={ colorClasses }
+        className={ buttonClassNames }
         key={ color }
         data-color={ color }
         onClick={ this.handleColorClicked }
       >
-        <div data-type={ color } className='color' />
+        <div className={ colorClassNames } />
       </div>
     );
   }
 
   render () {
     return (
-      <div className={ classNames('ui-color-toggle', this.props.className) }>
+      <div className={ classNames(styles.ColorToggle, this.props.className) }>
         {this.props.colors.map(this.renderColor)}
       </div>
     );

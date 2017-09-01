@@ -5,7 +5,7 @@
 ) from '../theme/index.css';
 
 :global body {
-  background: #333 url('../themes/default/images/background.png') left top repeat;
+  background: #333 url('../theme/images/background.png') left top repeat;
   color: color-text-default;
   font-size: font-size-default;
   font-family: font-family-default;

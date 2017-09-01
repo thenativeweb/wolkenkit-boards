@@ -1,6 +1,14 @@
-.ui-media-viewer {
+@value (
+  color-backdrop,
+  color-brand-dark,
+  grid-step-size,
+  z-index-modal,
+  z-index-transfer
+) from '../theme/index.css';
+
+.MediaViewer {
   position: fixed;
-  z-index: $z-index-modal;
+  z-index: z-index-modal;
   left: 0; top: 0; right: 0; bottom: 0;
   overflow: hidden;
   display: flex;
@@ -11,49 +19,49 @@
   padding: 0;
   pointer-events: none;
 
-  .ui-media-viewer__backdrop {
+  & .Backdrop {
     position: absolute;
     left: 0; top: 0; right: 0; bottom: 0;
-    background: $color-backdrop;
+    background: color-backdrop;
     opacity: 0;
     transition: opacity 200ms;
     will-change: opacity;
   }
 
-  .ui-media-viewer__destination {
+  & .Destination {
     height: 100%;
     width: auto;
   }
 
-  .ui-media-viewer__transfer {
+  & .Transfer {
     position: fixed;
     opacity: 0;
     pointer-events: none;
-    z-index: $z-index-transfer;
+    z-index: z-index-transfer;
   }
 
-  .ui-media-viewer__close {
+  & .CloseButton {
     position: fixed;
-    top: $grid-step-size;
-    right: $grid-step-size;
-    fill: $color-brand-dark;
+    top: grid-step-size;
+    right: grid-step-size;
+    fill: color-brand-dark;
     cursor: pointer;
     opacity: 0;
     transition: opacity 200ms;
     will-change: opacity;
-    z-index: $z-index-transfer+10;
+    z-index: calc(z-index-transfer + 10);
   }
 }
 
-.ui-media-viewer--visible {
+.MediaViewerVisible {
   pointer-events: all;
 
-  .ui-media-viewer__backdrop {
+  & .Backdrop {
     opacity: 1;
     cursor: pointer;
   }
 
-  .ui-media-viewer__close {
+  & .CloseButton {
     opacity: 1;
   }
 }

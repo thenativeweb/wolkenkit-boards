@@ -1,0 +1,64 @@
+@value (
+  grid-step-size
+) from '../theme/index.css';
+
+.ColorToggle {
+  height: calc(grid-step-size * 3);
+  overflow: none;
+  display: flex;
+  justify-content: flex-end;
+
+  & .Button {
+    width: calc(grid-step-size * 3);
+    height: calc(grid-step-size * 3);
+    cursor: pointer;
+    display: block;
+
+    & .Color {
+      display: block;
+      box-sizing: border-box;
+      width: 20px;
+      height: 6px;
+      margin-left: 5px;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      transform: scaleY(1);
+      transform-origin: top center;
+      transition: transform 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
+      will-change: transform;
+
+      &.ColorGreen {
+        background-color: #96e55d;
+      }
+
+      &.ColorPaperLined {
+        background: #f2f1f0;
+      }
+
+      &.ColorRed {
+        background-color: #fd765e;
+      }
+
+      &.ColorYellow {
+        background-color: #ff9;
+      }
+    }
+
+    &:hover {
+      & .Color {
+        transform: scaleY(2.5);
+      }
+    }
+
+    &:last-child {
+      & .Color {
+        margin-right: 0;
+      }
+    }
+
+    &.ButtonSelected {
+      & .Color {
+        transform: scaleY(2.5);
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@value (
+  icon-dimension-medium,
+  icon-dimension-small,
+  icon-dimension-xsmall
+) from '../theme/index.css';
+
+.Icon {
+  width: 24px;
+  height: 24px;
+}
+
+p .Icon {
+  margin-bottom: -2px;
+}
+
+.SizeXS {
+  width: icon-dimension-xsmall;
+  height: icon-dimension-xsmall;
+}
+
+.SizeS {
+  width: icon-dimension-small;
+  height: icon-dimension-small;
+}
+
+.SizeM {
+  width: icon-dimension-medium;
+  height: icon-dimension-medium;
+}
+
+a .Icon {
+  fill: currentColor;
+}

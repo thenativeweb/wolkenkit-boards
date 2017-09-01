@@ -1,8 +1,12 @@
-.ui-overlays {
+@value (
+  z-index-overlay
+) from '../../theme/index.css';
+
+.Overlays {
   position: absolute;
   left: 0; top: 0; right: 0; bottom: 0;
   overflow: hidden;
-  z-index: $z-index-overlay;
+  z-index: z-index-overlay;
   pointer-events: none;
   display: flex;
   justify-content: center;

@@ -58,7 +58,7 @@ class MountBoardForm extends React.Component {
             placeholder='Pick a title'
           />
         </Form.Row>
-        <Form.Row type='vertical-content-align-center horizontal-content-align-left'>
+        <Form.Row horizontalContentAlign='left' verticalContentAlign='center'>
           <input
             checked={ this.state.isPrivate }
             type='checkbox'

@@ -11,18 +11,18 @@ const paths = {
 };
 
 const configuration = {
-  devtool: 'eval',
+  devtool: 'source-map',
   context: paths.src,
   devServer: {
     contentBase: paths.src,
     compress: true,
     host: 'local.wolkenkit.io',
-    port: 8080
+    port: 8080,
+    hot: true
   },
   entry: [
     './index.jsx',
-    './index.html',
-    './index.scss'
+    './index.html'
   ],
   output: {
     path: paths.build,
@@ -56,15 +56,6 @@ const configuration = {
         ]
       },
       {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          { loader: 'sass-loader', options: { includePaths: [ './node_modules' ]}}
-        ]
-      },
-      {
         test: /\.html$/,
         use: [
           { loader: 'file-loader', options: { name: '[name].[ext]' }}
@@ -95,6 +86,10 @@ if (isProductionMode) {
   ];
 
   configuration.devtool = undefined;
+} else {
+  configuration.plugins = [
+    new webpack.HotModuleReplacementPlugin()
+  ];
 }
 
 module.exports = configuration;

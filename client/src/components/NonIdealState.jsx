@@ -1,5 +1,7 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styles from './NonIdealState.css';
 
 const NonIdealState = function (props) {
   const { children, className, when } = props;
@@ -9,7 +11,7 @@ const NonIdealState = function (props) {
   }
 
   return (
-    <div className={ `ui-non-ideal-state ${className}` }>
+    <div className={ classNames(styles.NonIdealState, className) }>
       <div className={ `ui-non-ideal-state__message` }>{ children }</div>
     </div>
   );

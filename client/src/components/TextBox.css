@@ -1,0 +1,23 @@
+@value (
+  color-brand-light-grey,
+  color-brand-grey
+) from '../theme/index.css';
+
+
+.TextBox {
+  padding: 0.5em 0.6em;
+  border: 1px solid color-brand-light-grey;
+  box-sizing: border-box;
+  outline: none;
+  font-size: inherit;
+  text-overflow: ellipsis;
+  user-select: text;
+
+  &:focus {
+    border-color: color-brand-grey;
+  }
+}
+
+.TypeDense {
+  padding: 0.1em 0.5em 0.2em;
+}

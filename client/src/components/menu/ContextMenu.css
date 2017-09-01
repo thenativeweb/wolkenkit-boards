@@ -1,0 +1,18 @@
+@value (
+  color-panel-background,
+  grid-step-size,
+  panel-border-radius,
+  z-index-menu
+) from '../../theme/index.css';
+
+.Container {
+  position: absolute;
+  background: color-panel-background;
+  border-radius: panel-border-radius;
+  min-width: calc(grid-step-size * 15);
+  z-index: z-index-menu;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+}
+
+.ContextMenu {
+}

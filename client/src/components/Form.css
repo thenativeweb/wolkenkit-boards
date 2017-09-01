@@ -1,0 +1,53 @@
+@value (
+  color-text-default,
+  font-size-large,
+  grid-step-size
+) from '../theme/index.css';
+
+.Form {}
+
+.Row {
+  text-align: left;
+  padding: grid-step-size calc(grid-step-size * 3);
+  font-size: font-size-large;
+  line-height: 28px;
+
+  &:first-child {
+    padding: calc(grid-step-size * 2) calc(grid-step-size * 3) grid-step-size calc(grid-step-size * 3);
+  }
+
+  & input[type='text'],
+  & textarea {
+    width: 100%;
+  }
+
+  & input[type='checkbox']{
+    display: inline-block;
+    margin: 0 grid-step-size 0 0;
+  }
+}
+
+.HorizontalContentAlignLeft {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.VerticalContentAlignCenter {
+  display: flex;
+  align-items: center;
+}
+
+.RowTypeMessage {
+  color: color-text-default;
+  font-weight: 700;
+}
+
+.RowTypeActionButtons {
+  display: flex;
+  flex-direction: column;
+
+  & * {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

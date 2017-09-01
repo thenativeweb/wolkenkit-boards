@@ -1,7 +1,9 @@
 import anime from 'animejs';
 import bus from '../services/eventbus';
 import Button from './Button.jsx';
+import classNames from 'classnames';
 import React from 'react';
+import styles from './MediaViewer.css';
 
 class MediaViewer extends React.Component {
   constructor (props) {
@@ -145,13 +147,13 @@ class MediaViewer extends React.Component {
     return [
       <img
         key='transfer'
-        className='ui-media-viewer__transfer'
+        className={ styles.Transfer }
         ref={ this.handleTransferRefChanged }
         src={ this.state.content.url }
       />,
       <img
         key='destination'
-        className='ui-media-viewer__destination'
+        className={ styles.Destination }
         ref={ this.handleImageRefChanged }
         src={ this.state.content.url }
       />
@@ -161,19 +163,19 @@ class MediaViewer extends React.Component {
   render () {
     return (
       <div
-        className={ `ui-media-viewer ${this.state.isVisible ? 'ui-media-viewer--visible' : ''}` }
+        className={ classNames(styles.MediaViewer, { [styles.MediaViewerVisible]: this.state.isVisible }) }
       >
         <div
-          className={ `ui-media-viewer__backdrop` }
+          className={ styles.BackDrop }
           onClick={ this.handleClick }
         />
         { this.renderImage() }
         <Button
           key='close'
           icon='close'
-          iconSize='medium'
+          iconSize='m'
           onClick={ this.handleClick }
-          className={ `ui-media-viewer__close` }
+          className={ styles.CloseButton }
         />
       </div>
     );

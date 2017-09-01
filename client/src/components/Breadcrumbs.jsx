@@ -8,7 +8,7 @@ const Breadcrumbs = ({ children }) => (
     <Switch>
       <Route path='/board/:slug'>
         <Link to='/' className={ styles.BackLink }>
-          <Icon name='arrow-west' size='xsmall' style={{ marginRight: 8 }} />
+          <Icon className={ styles.BackLinkIcon } name='arrow-west' size='xs' style={{ marginRight: 8 }} />
           <Label>Boards</Label>
         </Link>
       </Route>

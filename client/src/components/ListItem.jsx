@@ -41,7 +41,7 @@ class ListItem extends React.PureComponent {
         return (
           <div ref={ ref => this.element = ref } className={ itemClassNames }>
             <Link className={ styles.Link } to={ this.props.to }>
-              { icon ? <Icon className={ styles.IconLeft } name={ icon } size='small' /> : null }
+              { icon ? <Icon className={ styles.IconLeft } name={ icon } size='s' /> : null }
 
               <Label className={ styles.Label }>{ label }</Label>
 
@@ -49,12 +49,12 @@ class ListItem extends React.PureComponent {
                 className={ styles.ContextMenuButton }
                 type='context-menu'
                 icon='context-menu'
-                iconSize='medium'
+                iconSize='m'
                 data-id={ this.props['data-id'] }
                 onClick={ onContextMenu }
               />
 
-              <Icon className={ styles.IconRight } name='arrow-east' size='small' />
+              <Icon className={ styles.IconRight } name='arrow-east' size='s' />
             </Link>
           </div>
         );
@@ -64,7 +64,7 @@ class ListItem extends React.PureComponent {
             <Button
               className={ styles.Button }
               icon='add'
-              iconSize='medium'
+              iconSize='m'
               onClick={ onClick }
             >
               { label }

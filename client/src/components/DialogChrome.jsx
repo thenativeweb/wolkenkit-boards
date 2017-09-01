@@ -1,5 +1,6 @@
 import anime from 'animejs';
 import React from 'react';
+import styles from './DialogChrome.css';
 
 class DialogChrome extends React.PureComponent {
   componentWillEnter (done) {
@@ -27,7 +28,7 @@ class DialogChrome extends React.PureComponent {
   render () {
     /* eslint-disable no-return-assign */
     return (
-      <div ref={ ref => this.element = ref } className={ `ui-dialog__chrome dialog--${this.props.type}` }>
+      <div ref={ ref => this.element = ref } className={ styles.DialogChrome }>
         { this.props.titlebar }
         <div className='dialog__content'>
           {this.props.children}
