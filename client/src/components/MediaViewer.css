@@ -1,14 +1,8 @@
-@value (
-  color-backdrop,
-  color-brand-dark,
-  grid-step-size,
-  z-index-modal,
-  z-index-transfer
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .MediaViewer {
   position: fixed;
-  z-index: z-index-modal;
+  z-index: var(--z-index-modal);
   left: 0; top: 0; right: 0; bottom: 0;
   overflow: hidden;
   display: flex;
@@ -22,7 +16,7 @@
   & .Backdrop {
     position: absolute;
     left: 0; top: 0; right: 0; bottom: 0;
-    background: color-backdrop;
+    background: var(--color-backdrop);
     opacity: 0;
     transition: opacity 200ms;
     will-change: opacity;
@@ -37,19 +31,19 @@
     position: fixed;
     opacity: 0;
     pointer-events: none;
-    z-index: z-index-transfer;
+    z-index: var(--z-index-transfer);
   }
 
   & .CloseButton {
     position: fixed;
-    top: grid-step-size;
-    right: grid-step-size;
-    fill: color-brand-dark;
+    top: var(--grid-step-size);
+    right: var(--grid-step-size);
+    fill: var(--color-brand-dark);
     cursor: pointer;
     opacity: 0;
     transition: opacity 200ms;
     will-change: opacity;
-    z-index: calc(z-index-transfer + 10);
+    z-index: calc(var(--z-index-transfer) + 10);
   }
 }
 

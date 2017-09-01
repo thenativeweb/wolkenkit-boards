@@ -1,8 +1,4 @@
-@value (
-  icon-dimension-medium,
-  icon-dimension-small,
-  icon-dimension-xsmall
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .Icon {
   width: 24px;
@@ -14,18 +10,18 @@ p .Icon {
 }
 
 .SizeXS {
-  width: icon-dimension-xsmall;
-  height: icon-dimension-xsmall;
+  width: var(--icon-dimension-xsmall);
+  height: var(--icon-dimension-xsmall);
 }
 
 .SizeS {
-  width: icon-dimension-small;
-  height: icon-dimension-small;
+  width: var(--icon-dimension-small);
+  height: var(--icon-dimension-small);
 }
 
 .SizeM {
-  width: icon-dimension-medium;
-  height: icon-dimension-medium;
+  width: var(--icon-dimension-medium);
+  height: var(--icon-dimension-medium);
 }
 
 a .Icon {

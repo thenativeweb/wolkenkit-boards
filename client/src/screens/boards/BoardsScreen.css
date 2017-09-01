@@ -1,13 +1,11 @@
-@value (
-  grid-step-size
-) from '../../theme/index.css';
+@import '../../theme/variables.css';
 
 .BoardsScreen {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: calc(grid-step-size * 6) 0;
+  padding: calc(var(--grid-step-size) * 6) 0;
 
   & .List {
     flex-grow: 0;

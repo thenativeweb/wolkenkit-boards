@@ -11,8 +11,9 @@ class MediaViewer extends React.Component {
 
     this.handleImageRefChanged = this.handleImageRefChanged.bind(this);
     this.handleTransferRefChanged = this.handleTransferRefChanged.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleShowEvent = this.handleShowEvent.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleCloseClicked = this.handleCloseClicked.bind(this);
 
     this.state = {
       isVisible: false,
@@ -24,6 +25,14 @@ class MediaViewer extends React.Component {
 
   componentDidMount () {
     bus.on('mediaViewer::show', this.handleShowEvent);
+  }
+
+  componentDidUpdate () {
+    if (this.state.isVisible) {
+      window.addEventListener('keydown', this.handleKeyDown);
+    } else {
+      window.removeEventListener('keydown', this.handleKeyDown);
+    }
   }
 
   componentWillUnmount () {
@@ -66,7 +75,7 @@ class MediaViewer extends React.Component {
     });
   }
 
-  handleClick () {
+  handleCloseClicked () {
     if (this.isAnimating) {
       return false;
     }
@@ -74,6 +83,16 @@ class MediaViewer extends React.Component {
     this.animateOut(() => {
       this.hide();
     });
+  }
+
+  handleKeyDown (event) {
+    switch (event.keyCode) {
+      case 27:
+        this.handleCloseClicked();
+        break;
+      default:
+        break;
+    }
   }
 
   animateIn () {
@@ -166,15 +185,15 @@ class MediaViewer extends React.Component {
         className={ classNames(styles.MediaViewer, { [styles.MediaViewerVisible]: this.state.isVisible }) }
       >
         <div
-          className={ styles.BackDrop }
-          onClick={ this.handleClick }
+          className={ styles.Backdrop }
+          onClick={ this.handleCloseClicked }
         />
         { this.renderImage() }
         <Button
           key='close'
           icon='close'
           iconSize='m'
-          onClick={ this.handleClick }
+          onClick={ this.handleCloseClicked }
           className={ styles.CloseButton }
         />
       </div>

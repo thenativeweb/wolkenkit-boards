@@ -1,0 +1,40 @@
+:root {
+  --color-brand-featured: #51ADEE;
+  --color-brand-highlight: #FFFFFF;
+  --color-brand-light-grey: #DDDDDD;
+  --color-brand-grey: #8A9699;
+  --color-brand-dark: #354247;
+  --color-brand-darker: #000203;
+
+  --color-text-default: #354247;
+  --color-backdrop: rgba(0, 0, 0, 0.5);
+  --color-panel-background: rgba(255, 255, 255, 0.95);
+
+  --font-size-tiny: 12px;
+  --font-size-default: 14px;
+  --font-size-small: 14px;
+  --font-size-medium: 16px;
+  --font-size-large: 20px;
+  --font-size-xlarge: 22px;
+  --font-family-default: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+
+  --z-index-content: 100;
+  --z-index-content-overlay: 100;
+  --z-index-navigation: 1000;
+  --z-index-menu: 2000;
+  --z-index-modal: 3000;
+  --z-index-overlay: 4000;
+  --z-index-transfer: 5000;
+
+  --icon-dimension-xsmall: 14px;
+  --icon-dimension-small: 16px;
+  --icon-dimension-medium: 20px;
+
+  --grid-step-size: 10px;
+
+  --sidebar-width: 300px;
+
+  --panel-border-radius: 1px;
+
+  --button-border-radius: 2px;
+}

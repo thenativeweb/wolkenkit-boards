@@ -1,16 +1,12 @@
-@value (
-  color-panel-background,
-  grid-step-size,
-  z-index-navigation
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .AppBar {
   flex-grow: 0;
   flex-shrink: 0;
-  background: color-panel-background;
+  background: var(--color-panel-background);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  height: calc(grid-step-size*4);
-  z-index: calc(z-index-navigation+10);
+  height: calc(var(--grid-step-size) * 4);
+  z-index: calc(var(--z-index-navigation) + 10);
   position: fixed;
   width: 100%;
   display: flex;
@@ -21,6 +17,6 @@
     flex-grow: 1;
     flex-shrink: 1;
     display: flex;
-    margin-left: calc(grid-step-size*2);
+    margin-left: calc(var(--grid-step-size) * 2);
   }
 }

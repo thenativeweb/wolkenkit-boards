@@ -1,28 +1,20 @@
-@value (
-  button-border-radius,
-  color-brand-dark,
-  color-brand-featured,
-  color-brand-highlight,
-  color-brand-light-grey,
-  font-size-large,
-  grid-step-size
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .Button {
   display: inline-block;
   position: relative;
-  margin-right: grid-step-size;
-  margin-bottom: grid-step-size;
-  padding: 0 calc(grid-step-size * 2);
-  font-size: font-size-large;
-  line-height: calc(grid-step-size * 5);
+  margin-right: var(--grid-step-size);
+  margin-bottom: var(--grid-step-size);
+  padding: 0 calc(var(--grid-step-size) * 2);
+  font-size: var(--font-size-large);
+  line-height: calc(var(--grid-step-size) * 5);
   border: none;
   outline: none;
   vertical-align: middle;
   text-align: center !important;
-  background: color-brand-light-grey;
-  color: color-brand-dark;
-  border-radius: button-border-radius;
+  background: var(--color-brand-light-grey);
+  color: var(--color-brand-dark);
+  border-radius: var(--button-border-radius);
   transition: background 0.15s ease-out, transform 0.15s ease-out, opacity 0.15s ease-out;
   cursor: pointer;
   overflow: hidden;
@@ -33,14 +25,14 @@
   }
 
   &:hover {
-    color: color-brand-highlight;
-    background-color: color-brand-featured;
+    color: var(--color-brand-highlight);
+    background-color: var(--color-brand-featured);
   }
 }
 
 .TypePrimary {
-  color: color-brand-highlight;
-  background-color: color-brand-featured;
+  color: var(--color-brand-highlight);
+  background-color: var(--color-brand-featured);
   transform-origin: 50% 0;
 }
 
@@ -62,9 +54,9 @@
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;
-    margin-right: grid-step-size;
-    color: color-brand-dark;
-    fill: color-brand-dark;
+    margin-right: var(--grid-step-size);
+    color: var(--color-brand-dark);
+    fill: var(--color-brand-dark);
   }
 
   &:hover {
@@ -72,11 +64,11 @@
     transform-origin: 50% 0;
 
     & .Label {
-      color: color-brand-featured;
+      color: var(--color-brand-featured);
     }
 
     & .Icon {
-      fill: color-brand-featured;
+      fill: var(--color-brand-featured);
     }
   }
 }

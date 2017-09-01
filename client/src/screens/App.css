@@ -1,14 +1,10 @@
-@value (
-  color-text-default,
-  font-family-default,
-  font-size-default
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 :global body {
   background: #333 url('../theme/images/background.png') left top repeat;
-  color: color-text-default;
-  font-size: font-size-default;
-  font-family: font-family-default;
+  color: var(--color-text-default);
+  font-size: var(--font-size-default);
+  font-family: var(--font-family-default);
   letter-spacing: -0.02em;
   line-height: 1.5em;
   overflow-y: scroll;

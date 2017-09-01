@@ -1,25 +1,19 @@
-@value (
-  color-brand-dark,
-  color-brand-featured,
-  color-brand-grey,
-  font-size-medium,
-  grid-step-size
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .Breadcrumbs {
   flex-grow: 1;
   flex-shrink: 1;
   display: flex;
-  margin-left: calc(grid-step-size * 2);
-  font-size: font-size-medium;
+  margin-left: calc(var(--grid-step-size) * 2);
+  font-size: var(--font-size-medium);
 
   & .BackLink {
     position: relative;
     display: flex;
     align-items: center;
-    color: color-brand-dark;
+    color: var(--color-brand-dark);
     text-decoration: none;
-    padding-right: calc(grid-step-size * 4);
+    padding-right: calc(var(--grid-step-size) * 4);
 
     & .BackLinkIcon {
       transform: scaleX(-1);
@@ -31,7 +25,7 @@
   }
 
   & .BackLink:hover {
-    color: color-brand-featured;
+    color: var(--color-brand-featured);
   }
 
   & .BackLink::after {
@@ -39,9 +33,9 @@
     position: absolute;
     height: 20px;
     width: 1px;
-    background: color-brand-grey;
+    background: var(--color-brand-grey);
     top: calc(50% - 10px);
-    right: calc(grid-step-size * 2);
+    right: calc(var(--grid-step-size) * 2);
   }
 
   &.disabled {

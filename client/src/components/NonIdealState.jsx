@@ -12,7 +12,7 @@ const NonIdealState = function (props) {
 
   return (
     <div className={ classNames(styles.NonIdealState, className) }>
-      <div className={ `ui-non-ideal-state__message` }>{ children }</div>
+      <div className={ styles.Message }>{ children }</div>
     </div>
   );
 };

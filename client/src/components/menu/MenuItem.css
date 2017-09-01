@@ -1,18 +1,10 @@
-@value (
-  color-text-default,
-  color-brand-light-grey,
-  color-brand-featured,
-  color-brand-highlight,
-  font-size-large,
-  font-size-medium,
-  grid-step-size
-) from '../../theme/index.css';
+@import '../../theme/variables.css';
 
 .MenuItem {
   display: block;
   position: relative;
-  line-height: calc(grid-step-size * 6);
-  color: color-text-default;
+  line-height: calc(var(--grid-step-size) * 6);
+  color: var(--color-text-default);
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
@@ -27,7 +19,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: color-brand-light-grey;
+    background: var(--color-brand-light-grey);
     margin: 0;
   }
 
@@ -36,19 +28,19 @@
   }
 
   &:hover {
-    color: color-brand-highlight;
-    background: color-brand-featured;
+    color: var(--color-brand-highlight);
+    background: var(--color-brand-featured);
   }
 }
 
 .SizeS {
-  font-size: font-size-medium;
-  line-height: font-size-medium;
+  font-size: var(--font-size-medium);
+  line-height: var(--font-size-medium);
   padding: 10px 18px;
 }
 
 .SizeM {
-  font-size: font-size-large;
-  line-height: calc(grid-step-size * 5);
-  padding: 0 calc(grid-step-size * 3);
+  font-size: var(--font-size-large);
+  line-height: calc(var(--grid-step-size) * 5);
+  padding: 0 calc(var(--grid-step-size) * 3);
 }

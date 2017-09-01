@@ -1,19 +1,15 @@
-@value (
-  color-text-default,
-  font-size-large,
-  grid-step-size
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .Form {}
 
 .Row {
   text-align: left;
-  padding: grid-step-size calc(grid-step-size * 3);
-  font-size: font-size-large;
+  padding: var(--grid-step-size) calc(var(--grid-step-size) * 3);
+  font-size: var(--font-size-large);
   line-height: 28px;
 
   &:first-child {
-    padding: calc(grid-step-size * 2) calc(grid-step-size * 3) grid-step-size calc(grid-step-size * 3);
+    padding: calc(var(--grid-step-size) * 2) calc(var(--grid-step-size) * 3) var(--grid-step-size) calc(var(--grid-step-size) * 3);
   }
 
   & input[type='text'],
@@ -23,7 +19,7 @@
 
   & input[type='checkbox']{
     display: inline-block;
-    margin: 0 grid-step-size 0 0;
+    margin: 0 var(--grid-step-size) 0 0;
   }
 }
 
@@ -38,7 +34,7 @@
 }
 
 .RowTypeMessage {
-  color: color-text-default;
+  color: var(--color-text-default);
   font-weight: 700;
 }
 

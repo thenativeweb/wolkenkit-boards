@@ -1,7 +1,4 @@
-@value (
-  color-backdrop,
-  z-index-modal
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .Dialog {
   position: absolute;
@@ -9,11 +6,11 @@
   pointer-events: none;
 
   & .Backdrop {
-    background: color-backdrop;
+    background: var(--color-backdrop);
     position: fixed;
     left: 0; top: 0; right: 0; bottom: 0;
     overflow: hidden;
-    z-index: z-index-modal;
+    z-index: var(--z-index-modal);
     pointer-events: all;
     opacity: 1;
     transition: opacity 300ms;

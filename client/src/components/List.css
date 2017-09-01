@@ -1,21 +1,12 @@
-@value (
-  color-brand-dark,
-  color-brand-featured,
-  color-brand-light-grey,
-  color-panel-background,
-  font-size-large,
-  font-size-xlarge,
-  grid-step-size,
-  panel-border-radius
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .List {
-  background: color-panel-background;
+  background: var(--color-panel-background);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  color: color-brand-dark;
-  border-radius: panel-border-radius;
+  color: var(--color-brand-dark);
+  border-radius: var(--panel-border-radius);
   line-height: 30px;
-  font-size: font-size-xlarge;
+  font-size: var(--font-size-xlarge);
   overflow: hidden;
 
   & .Header {
@@ -23,7 +14,7 @@
     justify-content: space-between;
     align-items: center;
     font-size: inherit;
-    border-bottom: 1px solid color-brand-light-grey;
+    border-bottom: 1px solid var(--color-brand-light-grey);
     font-weight: 700;
   }
 }

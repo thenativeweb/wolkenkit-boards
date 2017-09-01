@@ -1,16 +1,14 @@
-@value (
-  grid-step-size
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .ColorToggle {
-  height: calc(grid-step-size * 3);
+  height: calc(var(--grid-step-size) * 3);
   overflow: none;
   display: flex;
   justify-content: flex-end;
 
   & .Button {
-    width: calc(grid-step-size * 3);
-    height: calc(grid-step-size * 3);
+    width: calc(var(--grid-step-size) * 3);
+    height: calc(var(--grid-step-size) * 3);
     cursor: pointer;
     display: block;
 

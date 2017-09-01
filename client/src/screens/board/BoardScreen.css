@@ -1,7 +1,4 @@
-@value (
-  grid-step-size,
-  z-index-content-overlay
-) from '../../theme/index.css';
+@import '../../theme/variables.css';
 
 .BoardScreen {
   position: absolute;
@@ -12,7 +9,7 @@
     position: fixed;
     left: 50%;
     margin-left: -62px;
-    top: calc(grid-step-size * 4);
-    z-index: z-index-content-overlay;
+    top: calc(var(--grid-step-size) * 4);
+    z-index: var(--z-index-content-overlay);
   }
 }

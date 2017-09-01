@@ -1,12 +1,8 @@
-@value (
-  color-brand-light-grey,
-  color-brand-grey
-) from '../theme/index.css';
-
+@import '../theme/variables.css';
 
 .TextBox {
   padding: 0.5em 0.6em;
-  border: 1px solid color-brand-light-grey;
+  border: 1px solid var(--color-brand-light-grey);
   box-sizing: border-box;
   outline: none;
   font-size: inherit;
@@ -14,7 +10,7 @@
   user-select: text;
 
   &:focus {
-    border-color: color-brand-grey;
+    border-color: var(--color-brand-grey);
   }
 }
 

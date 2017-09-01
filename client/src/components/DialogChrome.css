@@ -1,18 +1,13 @@
-@value (
-  grid-step-size,
-  color-panel-background,
-  sidebar-width,
-  z-index-modal
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .DialogChrome {
   position: fixed;
-  width: sidebar-width;
+  width: var(--sidebar-width);
   height: 100%;
-  z-index: z-index-modal;
-  padding: calc(grid-step-size * 6) 0 0 0;
+  z-index: var(--z-index-modal);
+  padding: calc(var(--grid-step-size) * 6) 0 0 0;
   margin: 0;
-  background: color-panel-background;
+  background: var(--color-panel-background);
   opacity: 0;
   pointer-events: all;
   will-change: opacity, transform;

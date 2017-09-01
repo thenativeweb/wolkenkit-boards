@@ -1,13 +1,8 @@
-@value (
-  color-brand-dark,
-  color-brand-light-grey,
-  font-size-large,
-  grid-step-size
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .ListItem {
   & .IconLeft {
-    margin-right: grid-step-size;
+    margin-right: var(--grid-step-size);
   }
 
   & .Label {
@@ -16,7 +11,7 @@
   }
 
   & .IconRight {
-    margin-left: calc(grid-step-size * 2);
+    margin-left: calc(var(--grid-step-size) * 2);
   }
 }
 
@@ -24,7 +19,7 @@
   display: flex;
 
   & .Button {
-    padding: calc(grid-step-size * 3) calc(grid-step-size * 3.5);
+    padding: calc(var(--grid-step-size) * 3) calc(var(--grid-step-size) * 3.5);
     font-size: inherit;
     font-weight: inherit;
   }
@@ -41,14 +36,14 @@
     display: block;
     display: flex;
     align-items: center;
-    padding: calc(grid-step-size * 3) calc(grid-step-size * 3.5);
-    font-size: font-size-large;
-    color: color-brand-dark;
-    border-bottom: 1px solid color-brand-light-grey;
+    padding: calc(var(--grid-step-size) * 3) calc(var(--grid-step-size) * 3.5);
+    font-size: var(--font-size-large);
+    color: var(--color-brand-dark);
+    border-bottom: 1px solid  var(--color-brand-light-grey);
   }
 
   &:hover {
-    background: color-brand-light-grey;
+    background: var(--color-brand-light-grey);
 
     & .ContextMenuButton {
       opacity: 1;

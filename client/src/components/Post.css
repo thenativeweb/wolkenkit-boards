@@ -1,9 +1,4 @@
-@value (
-  color-brand-highlight,
-  font-size-small,
-  font-size-medium,
-  grid-step-size
-) from '../theme/index.css';
+@import '../theme/variables.css';
 
 .Container {
   will-change: transform;
@@ -17,7 +12,7 @@
   width: 186px;
   max-height: 280px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-  font-size: font-size-medium;
+  font-size: var(--font-size-medium);
   line-height: 20px;
   color: #222;
   overflow: hidden;
@@ -36,7 +31,7 @@
     height: 35px;
     background-position: 0px 0px;
     background-repeat: no-repeat;
-    font-size: font-size-small;
+    font-size: var(--font-size-small);
     line-height: 35px;
     flex: 0 0 35px;
     display: flex;
@@ -46,8 +41,8 @@
       content: '';
       position: absolute;
       top: 0;
-      left: grid-step-size;
-      right: grid-step-size;
+      left: var(--grid-step-size);
+      right: var(--grid-step-size);
       height: 1px;
       background: rgba(0, 0, 0, 0.25);
     }
@@ -56,21 +51,21 @@
       flex-grow: 1;
       flex-shrink: 1;
       color: rgba(0, 0, 0, 0.5);
-      margin-left: grid-step-size;
+      margin-left: var(--grid-step-size);
     }
 
     & .MetaButton {
       display: flex;
-      margin-right: grid-step-size;
-    }
+      margin-right: var(--grid-step-size);
 
-    /*.ui-button svg {
-      fill: rgba(0, 0, 0, 0.4);
-    }
+      & svg {
+        fill: rgba(0, 0, 0, 0.5);
+      }
 
-    .ui-button:hover svg {
-      fill: rgba(0, 0, 0, 0.8);
-    }*/
+      &:hover svg {
+        fill: rgba(0, 0, 0, 0.8);
+      }
+    }
   }
 
   &.IsSelected {
@@ -150,7 +145,7 @@
 }
 
 .PostTypeImage {
-  background: color-brand-highlight !important;
+  background: var(--color-brand-highlight) !important;
   border: 0px;
   padding: 0px;
   margin: 0px;
