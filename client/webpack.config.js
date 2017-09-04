@@ -2,29 +2,109 @@ const path = require('path');
 
 const CompressionPlugin = require('compression-webpack-plugin'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
       processenv = require('processenv'),
       webpack = require('webpack');
 
-const isProductionMode = processenv('NODE_ENV') === 'production';
+const nodeEnv = processenv('NODE_ENV');
 
 const paths = {
   src: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'build')
 };
 
+const getDevToolFor = function (environment) {
+  switch (environment) {
+    case 'production':
+      return undefined;
+    default:
+      return 'cheap-module-source-map';
+  }
+};
+
+const getStyleLoadersFor = function (environment) {
+  switch (environment) {
+    case 'production':
+      return ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: 'wk-[local]--[hash:base64:5]'
+            }
+          },
+          'postcss-loader'
+        ]
+      });
+    default:
+      return [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+            importLoaders: 1,
+            localIdentName: 'wk-[local]--[hash:base64:5]'
+          }
+        },
+        'postcss-loader'
+      ];
+  }
+};
+
+const getPluginsFor = function (environment) {
+  switch (environment) {
+    case 'production':
+      return [
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': JSON.stringify('production'),
+          'process.env.API_HOST': processenv('API_HOST') && JSON.stringify(processenv('API_HOST')),
+          'process.env.API_PORT': processenv('API_PORT'),
+          'process.env.STORAGE_HOST': processenv('STORAGE_HOST') && JSON.stringify(processenv('STORAGE_HOST')),
+          'process.env.STORAGE_PORT': processenv('STORAGE_PORT'),
+          'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
+          'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
+        }),
+        new CompressionPlugin({
+          asset: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: /\.(css|js|html)$/
+        }),
+        new ExtractTextPlugin('style.css'),
+        new webpack.optimize.UglifyJsPlugin(),
+        new HtmlWebpackPlugin({
+          template: path.join(paths.src, 'template.ejs'),
+          minify: {
+            collapseWhitespace: true,
+            removeComments: true,
+            minifyCSS: true
+          }
+        })
+      ];
+    default:
+      return [
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+          template: path.join(paths.src, 'template.ejs')
+        })
+      ];
+  }
+};
+
 const configuration = {
-  devtool: 'source-map',
+  devtool: getDevToolFor(nodeEnv),
   context: paths.src,
   devServer: {
     contentBase: paths.src,
     compress: true,
     host: 'local.wolkenkit.io',
-    port: 8080,
-    hot: true
+    port: 8080
   },
   entry: [
-    './index.jsx',
-    './index.html'
+    './index.jsx'
   ],
   output: {
     path: paths.build,
@@ -44,20 +124,7 @@ const configuration = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                importLoaders: 1,
-                localIdentName: 'wk-[local]--[hash:base64:5]'
-              }
-            },
-            'postcss-loader'
-          ]
-        })
+        use: getStyleLoadersFor(nodeEnv)
       },
       {
         test: /\.html$/,
@@ -72,35 +139,8 @@ const configuration = {
         ]
       }
     ]
-  }
+  },
+  plugins: getPluginsFor(nodeEnv)
 };
-
-if (isProductionMode) {
-  configuration.plugins = [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.API_HOST': processenv('API_HOST') && JSON.stringify(processenv('API_HOST')),
-      'process.env.API_PORT': processenv('API_PORT'),
-      'process.env.STORAGE_HOST': processenv('STORAGE_HOST') && JSON.stringify(processenv('STORAGE_HOST')),
-      'process.env.STORAGE_PORT': processenv('STORAGE_PORT'),
-      'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
-      'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.(css|js|html)$/
-    }),
-    new ExtractTextPlugin('style.css'),
-    new webpack.optimize.UglifyJsPlugin()
-  ];
-
-  configuration.devtool = undefined;
-} else {
-  configuration.plugins = [
-    new ExtractTextPlugin('style.css'),
-    new webpack.HotModuleReplacementPlugin()
-  ];
-}
 
 module.exports = configuration;
