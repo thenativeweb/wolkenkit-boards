@@ -1,6 +1,8 @@
 const path = require('path');
 
-const processenv = require('processenv'),
+const CompressionPlugin = require('compression-webpack-plugin'),
+      ExtractTextPlugin = require('extract-text-webpack-plugin'),
+      processenv = require('processenv'),
       webpack = require('webpack');
 
 const isProductionMode = processenv('NODE_ENV') === 'production';
@@ -42,18 +44,20 @@ const configuration = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: 'wk-[local]--[hash:base64:5]'
-            }
-          },
-          'postcss-loader'
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                localIdentName: 'wk-[local]--[hash:base64:5]'
+              }
+            },
+            'postcss-loader'
+          ]
+        })
       },
       {
         test: /\.html$/,
@@ -82,12 +86,19 @@ if (isProductionMode) {
       'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
       'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
     }),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.(css|js|html)$/
+    }),
+    new ExtractTextPlugin('style.css'),
     new webpack.optimize.UglifyJsPlugin()
   ];
 
   configuration.devtool = undefined;
 } else {
   configuration.plugins = [
+    new ExtractTextPlugin('style.css'),
     new webpack.HotModuleReplacementPlugin()
   ];
 }
