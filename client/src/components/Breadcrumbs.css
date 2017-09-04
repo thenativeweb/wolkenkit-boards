@@ -13,7 +13,7 @@
     align-items: center;
     color: var(--color-brand-dark);
     text-decoration: none;
-    padding-right: calc(var(--grid-step-size) * 4);
+    padding-right: calc(var(--grid-step-size) * 3);
 
     & .BackLinkIcon {
       transform: scaleX(-1);
@@ -35,7 +35,7 @@
     width: 1px;
     background: var(--color-brand-grey);
     top: calc(50% - 10px);
-    right: calc(var(--grid-step-size) * 2);
+    right: calc(var(--grid-step-size) * 0.5);
   }
 
   &.disabled {

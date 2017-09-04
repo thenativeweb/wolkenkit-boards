@@ -1,6 +1,8 @@
 @import '../theme/variables.css';
 
-.Form {}
+.Form {
+  /* Left blank intentionally */
+}
 
 .Row {
   text-align: left;
@@ -17,7 +19,7 @@
     width: 100%;
   }
 
-  & input[type='checkbox']{
+  & input[type='checkbox'] {
     display: inline-block;
     margin: 0 var(--grid-step-size) 0 0;
   }

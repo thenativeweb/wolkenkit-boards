@@ -1,7 +1,7 @@
 @import '../../theme/variables.css';
 
 .Overlay {
-  background: rgba(255,255,255, 0.8);
+  background: rgba(255, 255, 255, 0.8);
   color: var(--color-brand-dark);
   padding: var(--grid-step-size) calc(var(--grid-step-size) * 2);
   max-width: 90vw;

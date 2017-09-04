@@ -1,7 +1,7 @@
 @import '../../theme/variables.css';
 
 .Form {
-  margin-left: calc(var(--grid-step-size) * 3);
+  margin-left: var(--grid-step-size);
   font-size: var(--font-size-medium);
   margin-bottom: 1px;
 

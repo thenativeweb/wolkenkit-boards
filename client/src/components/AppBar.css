@@ -4,7 +4,7 @@
   flex-grow: 0;
   flex-shrink: 0;
   background: var(--color-panel-background);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   height: calc(var(--grid-step-size) * 4);
   z-index: calc(var(--z-index-navigation) + 10);
   position: fixed;
@@ -12,11 +12,4 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  & .Breadcrumbs {
-    flex-grow: 1;
-    flex-shrink: 1;
-    display: flex;
-    margin-left: calc(var(--grid-step-size) * 2);
-  }
 }

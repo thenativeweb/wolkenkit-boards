@@ -29,8 +29,6 @@
   & .Meta {
     position: relative;
     height: 35px;
-    background-position: 0px 0px;
-    background-repeat: no-repeat;
     font-size: var(--font-size-small);
     line-height: 35px;
     flex: 0 0 35px;
@@ -100,7 +98,7 @@
 
 .PostTypeText {
   & .Content {
-    outline: 0px;
+    outline: 0;
     background: none;
     width: 100%;
     min-height: 150px;
@@ -108,10 +106,8 @@
     resize: none;
     box-sizing: border-box;
     padding: 9px 10px;
-    margin: 0px;
+    margin: 0;
     font-weight: inherit;
-    font: inherit;
-    overflow: hidden;
     white-space: pre-wrap;
     word-wrap: break-word;
     position: relative;
@@ -124,7 +120,7 @@
     }
   }
 
-  & .Content.IsEditing {
+  &.IsEditing .Content {
     cursor: text;
   }
 
@@ -147,9 +143,9 @@
 
 .PostTypeImage {
   background: var(--color-brand-highlight) !important;
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
+  border: 0;
+  padding: 0;
+  margin: 0;
   height: auto;
   overflow: hidden;
   white-space: normal;
