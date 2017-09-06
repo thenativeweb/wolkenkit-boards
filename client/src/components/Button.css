@@ -1,0 +1,85 @@
+@import '../theme/variables.css';
+
+.Button {
+  display: inline-block;
+  position: relative;
+  margin-right: var(--grid-step-size);
+  margin-bottom: var(--grid-step-size);
+  padding: 0 calc(var(--grid-step-size) * 2);
+  font-size: var(--font-size-large);
+  line-height: calc(var(--grid-step-size) * 5);
+  border: none;
+  outline: none;
+  vertical-align: middle;
+  text-align: center !important;
+  background: var(--color-brand-light-grey);
+  color: var(--color-brand-dark);
+  border-radius: var(--button-border-radius);
+  transition: background 0.15s ease-out, transform 0.15s ease-out, opacity 0.15s ease-out;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &:hover {
+    color: var(--color-brand-highlight);
+    background-color: var(--color-brand-featured);
+  }
+}
+
+.TypePrimary {
+  color: var(--color-brand-highlight);
+  background-color: var(--color-brand-featured);
+  transform-origin: 50% 0;
+}
+
+.TypePrimary:disabled {
+  opacity: 0.4;
+}
+
+.TypeIcon {
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  background: none;
+  line-height: normal;
+  padding: 0;
+
+  & .Icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    margin-right: var(--grid-step-size);
+    color: var(--color-brand-dark);
+    fill: var(--color-brand-dark);
+  }
+
+  &:hover {
+    background: none;
+    transform-origin: 50% 0;
+
+    & .Label {
+      color: var(--color-brand-featured);
+    }
+
+    & .Icon {
+      fill: var(--color-brand-featured);
+    }
+  }
+}
+
+.TypeIconOnly {
+  & .Icon {
+    margin-right: 0;
+  }
+}
+
+.TypeContextMenu {
+  flex-grow: 0;
+  margin: 0;
+}

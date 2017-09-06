@@ -5,7 +5,8 @@ import post from '../../actions/post';
 import React from 'react';
 import services from '../../services';
 import state from '../../state';
-import { ColorToggle, MediaViewer, Posts, Screen } from '../../components';
+import styles from './BoardScreen.css';
+import { ColorToggle, MediaViewer, Posts } from '../../components';
 
 const POST_WIDTH = 180;
 
@@ -160,7 +161,7 @@ class BoardScreen extends React.Component {
     }
 
     return (
-      <Screen name='board'>
+      <div className={ styles.BoardScreen }>
         <Posts
           posts={ state.posts }
           onTextNote={ BoardScreen.handleTextNoted }
@@ -173,12 +174,13 @@ class BoardScreen extends React.Component {
           onFullscreenRequest={ BoardScreen.handleFullscreenRequested }
         />
         <ColorToggle
+          className={ styles.ColorToggle }
           colors={ state.postColors }
           selectedColor={ state.selectedPostColor }
           onChange={ BoardScreen.handleColorToggleChanged }
         />
         <MediaViewer />
-      </Screen>
+      </div>
     );
   }
   /* eslint-enable class-methods-use-this */

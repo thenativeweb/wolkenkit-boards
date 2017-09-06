@@ -58,7 +58,7 @@ class MountBoardForm extends React.Component {
             placeholder='Pick a title'
           />
         </Form.Row>
-        <Form.Row type='vertical-content-align-center horizontal-content-align-left'>
+        <Form.Row horizontalContentAlign='left' verticalContentAlign='center'>
           <input
             checked={ this.state.isPrivate }
             type='checkbox'
@@ -68,8 +68,8 @@ class MountBoardForm extends React.Component {
           <label htmlFor='just-for-myself'>Just for myself</label>
         </Form.Row>
         <Form.Row type='action-buttons'>
-          <Button className='primary' disabled={ this.state.title === '' }>Mount it!</Button>
-          <Button className='secondary' onClick={ this.handleCancelClicked }>Cancel</Button>
+          <Button type='primary' disabled={ this.state.title === '' }>Mount it!</Button>
+          <Button onClick={ this.handleCancelClicked }>Cancel</Button>
         </Form.Row>
       </Form>
     );

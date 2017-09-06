@@ -1,6 +1,7 @@
 import Button from '../Button.jsx';
 import classNames from 'classnames';
 import React from 'react';
+import styles from './SidebarMenu.css';
 
 class SidebarMenu extends React.Component {
   constructor (props) {
@@ -23,22 +24,32 @@ class SidebarMenu extends React.Component {
   }
 
   render () {
-    const menuClasses = classNames(
-      'ui-sidebar-menu',
-      `state-${(this.props.isExpanded ? 'expanded' : 'collapsed')}`
-    );
+    const menuClasses = classNames(styles.SidebarMenu, {
+      [styles.IsExpanded]: this.props.isExpanded,
+      [styles.IsCollapsed]: !this.props.isExpanded
+    });
 
     return (
       <div className={ menuClasses }>
-        <div className='ui-sidebar-menu__container'>
-          <div className='ui-sidebar-menu__backdrop' onClick={ this.handleCollapseRessed } />
-          <div className='ui-menu ui-menu-main'>
+        <div className={ styles.Container }>
+          <div className={ styles.Backdrop } onClick={ this.handleCollapseRessed } />
+          <div className={ styles.Menu }>
             {this.props.children}
           </div>
         </div>
-        <div className='ui-sidebar-menu__toggle'>
-          <Button icon='menu' iconSize='small' onClick={ this.handleExpandPressed } className='ui-menu-toggle expand' />
-          <Button icon='close' iconSize='small' onClick={ this.handleCollapseRessed } className='ui-menu-toggle collapse' />
+        <div className={ styles.Toggles }>
+          <Button
+            icon='menu'
+            iconSize='s'
+            onClick={ this.handleExpandPressed }
+            className={ classNames(styles.Toggle, styles.ToggleExpand) }
+          />
+          <Button
+            icon='close'
+            iconSize='s'
+            onClick={ this.handleCollapseRessed }
+            className={ classNames(styles.Toggle, styles.ToggleCollapse) }
+          />
         </div>
       </div>
     );

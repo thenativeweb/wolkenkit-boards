@@ -1,0 +1,33 @@
+@import '../theme/variables.css';
+
+:global body {
+  background: #333 url('../theme/images/background.png') left top repeat;
+  color: var(--color-text-default);
+  font-size: var(--font-size-default);
+  font-family: var(--font-family-default);
+  letter-spacing: -0.02em;
+  line-height: 1.5em;
+  overflow-y: scroll;
+
+  & a {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+  & ::selection {
+    background: #aaa !important;
+  }
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5 {
+    font-weight: normal;
+  }
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,13 +1,13 @@
 import boards from '../../actions/boards';
 import eventbus from '../../services/eventbus';
-import { Link } from 'react-router-dom';
 import MountBoardForm from './MountBoardForm.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
 import state from '../../state';
-import { Button, Dialog, Icon, Label, List, NonIdealState, Screen } from '../../components';
+import styles from './BoardsScreen.css';
+import { Dialog, List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
   static handleError (error) {
@@ -33,7 +33,6 @@ class BoardsScreen extends React.Component {
     this.subscriptions = [];
   }
 
-  /* eslint-disable class-methods-use-this */
   componentDidMount () {
     boards.readAndObserve().
       then(cancel => {
@@ -52,7 +51,6 @@ class BoardsScreen extends React.Component {
       cancel();
     });
   }
-  /* eslint-enable class-methods-use-this */
 
   handleBoardMounted (event) {
     boards.tryToMount({
@@ -131,34 +129,29 @@ class BoardsScreen extends React.Component {
     const { mountDialogVisible } = this.state;
 
     return (
-      <Screen name='boards'>
-        <List>
+      <div className={ styles.BoardsScreen }>
+        <List className={ styles.List }>
           <List.Header>
-            <List.Item type='add'>
-              <Button icon='add' iconSize='medium' onClick={ this.handleMountClicked }>
-                Mount new board
-              </Button>
-            </List.Item>
+            <ListItem
+              type='add'
+              label='Mount new board'
+              onClick={ this.handleMountClicked }
+            />
           </List.Header>
           <NonIdealState when={ state.boards.length === 0 }>
             You haven&lsquo;t created any board yet, go ahead and do so!
           </NonIdealState>
           <ReactTransitionGroup>
             { state.boards.map(board => (
-              <List.Item type='link' key={ board.slug }>
-                <Link to={ `/board/${board.slug}` }>
-                  { board.isPrivate ? <Icon name='lock' size='small' /> : null }
-                  <Label>{ board.title }</Label>
-                  <Button
-                    type='context-menu'
-                    icon='context-menu'
-                    iconSize='medium'
-                    data-id={ board.id }
-                    onClick={ this.handleContextMenuClicked }
-                  />
-                  <Icon name='arrow-east' size='small' />
-                </Link>
-              </List.Item>
+              <ListItem
+                type='link'
+                data-id={ board.id }
+                key={ board.slug }
+                icon={ board.isPrivate ? 'lock' : null }
+                to={ `/board/${board.slug}` }
+                label={ board.title }
+                onContextMenu={ this.handleContextMenuClicked }
+              />
             ))}
           </ReactTransitionGroup>
         </List>
@@ -171,7 +164,7 @@ class BoardsScreen extends React.Component {
             onCancel={ this.handleMountBoardDialogCanceled }
           />
         </Dialog>
-      </Screen>
+      </div>
     );
   }
 }

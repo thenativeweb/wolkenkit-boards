@@ -1,7 +1,9 @@
 import anime from 'animejs';
 import bus from '../services/eventbus';
 import Button from './Button.jsx';
+import classNames from 'classnames';
 import React from 'react';
+import styles from './MediaViewer.css';
 
 class MediaViewer extends React.Component {
   constructor (props) {
@@ -9,8 +11,9 @@ class MediaViewer extends React.Component {
 
     this.handleImageRefChanged = this.handleImageRefChanged.bind(this);
     this.handleTransferRefChanged = this.handleTransferRefChanged.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleShowEvent = this.handleShowEvent.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleCloseClicked = this.handleCloseClicked.bind(this);
 
     this.state = {
       isVisible: false,
@@ -22,6 +25,14 @@ class MediaViewer extends React.Component {
 
   componentDidMount () {
     bus.on('mediaViewer::show', this.handleShowEvent);
+  }
+
+  componentDidUpdate () {
+    if (this.state.isVisible) {
+      window.addEventListener('keydown', this.handleKeyDown);
+    } else {
+      window.removeEventListener('keydown', this.handleKeyDown);
+    }
   }
 
   componentWillUnmount () {
@@ -64,7 +75,7 @@ class MediaViewer extends React.Component {
     });
   }
 
-  handleClick () {
+  handleCloseClicked () {
     if (this.isAnimating) {
       return false;
     }
@@ -72,6 +83,16 @@ class MediaViewer extends React.Component {
     this.animateOut(() => {
       this.hide();
     });
+  }
+
+  handleKeyDown (event) {
+    switch (event.keyCode) {
+      case 27:
+        this.handleCloseClicked();
+        break;
+      default:
+        break;
+    }
   }
 
   animateIn () {
@@ -145,13 +166,13 @@ class MediaViewer extends React.Component {
     return [
       <img
         key='transfer'
-        className='ui-media-viewer__transfer'
+        className={ styles.Transfer }
         ref={ this.handleTransferRefChanged }
         src={ this.state.content.url }
       />,
       <img
         key='destination'
-        className='ui-media-viewer__destination'
+        className={ styles.Destination }
         ref={ this.handleImageRefChanged }
         src={ this.state.content.url }
       />
@@ -161,19 +182,19 @@ class MediaViewer extends React.Component {
   render () {
     return (
       <div
-        className={ `ui-media-viewer ${this.state.isVisible ? 'ui-media-viewer--visible' : ''}` }
+        className={ classNames(styles.MediaViewer, { [styles.MediaViewerVisible]: this.state.isVisible }) }
       >
         <div
-          className={ `ui-media-viewer__backdrop` }
-          onClick={ this.handleClick }
+          className={ styles.Backdrop }
+          onClick={ this.handleCloseClicked }
         />
         { this.renderImage() }
         <Button
           key='close'
           icon='close'
-          iconSize='medium'
-          onClick={ this.handleClick }
-          className={ `ui-media-viewer__close` }
+          iconSize='m'
+          onClick={ this.handleCloseClicked }
+          className={ styles.CloseButton }
         />
       </div>
     );

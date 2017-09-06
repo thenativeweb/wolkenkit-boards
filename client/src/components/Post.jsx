@@ -6,6 +6,7 @@ import EditableText from './EditableText.jsx';
 import eventbus from '../services/eventbus';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styles from './Post.css';
 
 class Post extends React.PureComponent {
   constructor (props) {
@@ -190,7 +191,7 @@ class Post extends React.PureComponent {
   renderTextContent () {
     return (
       <EditableText
-        className='content'
+        className={ styles.Content }
         initialText={ this.props.content }
         onEditingStarted={ this.handleEditingStarted }
         onChange={ this.handleTextChanged }
@@ -202,16 +203,16 @@ class Post extends React.PureComponent {
 
   renderImageContent () {
     return (
-      <div className='content'>
+      <div className={ styles.Content }>
         <img ref={ this.handleImageRefChanged } src={ this.props.content.url } />
       </div>
     );
   }
 
-  renderContent () {
+  renderContent (type) {
     let content;
 
-    switch (this.props.type) {
+    switch (type) {
       case 'text':
         content = this.renderTextContent();
         break;
@@ -225,13 +226,13 @@ class Post extends React.PureComponent {
     return content;
   }
 
-  renderMetaActions () {
+  renderMetaActions (type) {
     const menuButton = (
-      <div className='meta__button'>
+      <div className={ styles.MetaButton }>
         <Button
           type='context-menu'
           icon='context-menu'
-          iconSize='small'
+          iconSize='s'
           onClick={ this.handleContextMenuButtonClicked }
         />
       </div>
@@ -239,23 +240,21 @@ class Post extends React.PureComponent {
 
     let fullScreenButton = null;
 
-    if (this.props.type === 'image') {
+    if (type === 'image') {
       fullScreenButton = (
-        <div className='meta__button'>
+        <div className={ styles.MetaButton }>
           <Button
             icon='fullscreen'
-            iconSize='small'
+            iconSize='s'
             onClick={ this.handleFullscreenButtonPressed }
           />
         </div>
       );
     }
 
-    const creator = <div className='created-by'><span>by</span> {this.props.creator}</div>;
-
     return (
-      <div className='meta'>
-        {creator}
+      <div className={ styles.Meta }>
+        <div className={ styles.Author }><span>by</span> {this.props.creator}</div>
         {fullScreenButton}
         {menuButton}
       </div>
@@ -263,19 +262,24 @@ class Post extends React.PureComponent {
   }
 
   render () {
-    const postClasses = {
-      'ui-post': true,
-      editing: this.state.isBeingEdited,
-      dragging: this.state.isBeingDragged,
-      done: this.props.isDone
-    };
-    const { dragging, isBeingEdited, rotation } = this.state;
+    const { color, isDone, left, top, type } = this.props;
+    const { dragging, isBeingDragged, isBeingEdited, rotation } = this.state;
 
-    postClasses[this.props.color] = true;
+    const postClasses = classNames(styles.Post, {
+      [styles.IsEditing]: isBeingEdited,
+      [styles.IsDragging]: isBeingDragged,
+      [styles.IsDone]: isDone,
+      [styles.ColorGreen]: color === 'green',
+      [styles.ColorPaperLined]: color === 'paper-lined',
+      [styles.ColorRed]: color === 'red',
+      [styles.ColorYellow]: color === 'yellow',
+      [styles.PostTypeImage]: type === 'image',
+      [styles.PostTypeText]: type === 'text'
+    });
 
     const position = {
-      left: this.props.left,
-      top: this.props.top
+      left,
+      top
     };
 
     if (dragging) {
@@ -291,7 +295,7 @@ class Post extends React.PureComponent {
         onStop={ this.handleDragStop }
       >
         <div
-          className='ui-post-container'
+          className={ styles.Container }
           style={{ transform: `translate(${position.left}px, ${position.top}px)` }}
         >
           <div
@@ -300,8 +304,8 @@ class Post extends React.PureComponent {
             data-type={ this.props.type }
             style={{ transform: rotation }}
           >
-            {this.renderContent()}
-            {this.renderMetaActions()}
+            {this.renderContent(type)}
+            {this.renderMetaActions(type)}
           </div>
         </div>
       </DraggableCore>

@@ -1,5 +1,7 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styles from './TextBox.css';
 
 /* eslint-disable react/prefer-stateless-function */
 class TextBox extends React.PureComponent {
@@ -38,9 +40,13 @@ class TextBox extends React.PureComponent {
   render () {
     const { className, placeholder, type, value, onChange, onBlur } = this.props;
 
+    const textBoxClassNames = classNames(styles.TextBox, {
+      [styles.TypeDense]: type === 'dense'
+    }, className);
+
     return (
       <input
-        className={ `ui-text-box ${className} ui-text-box--${type}` }
+        className={ textBoxClassNames }
         ref={ this.handleRefChanged }
         onChange={ onChange }
         onBlur={ onBlur }

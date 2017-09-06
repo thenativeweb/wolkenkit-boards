@@ -1,0 +1,52 @@
+@import '../theme/variables.css';
+
+.ListItem {
+  & .IconLeft {
+    margin-right: var(--grid-step-size);
+  }
+
+  & .Label {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  & .IconRight {
+    margin-left: calc(var(--grid-step-size) * 2);
+  }
+}
+
+.TypeAdd {
+  display: flex;
+
+  & .Button {
+    padding: calc(var(--grid-step-size) * 3) calc(var(--grid-step-size) * 3.5);
+    font-size: inherit;
+    font-weight: inherit;
+  }
+}
+
+.TypeLink {
+  opacity: 0;
+
+  & .ContextMenuButton {
+    opacity: 0;
+  }
+
+  & .Link {
+    display: block;
+    display: flex;
+    align-items: center;
+    padding: calc(var(--grid-step-size) * 3) calc(var(--grid-step-size) * 3.5);
+    font-size: var(--font-size-large);
+    color: var(--color-brand-dark);
+    border-bottom: 1px solid  var(--color-brand-light-grey);
+  }
+
+  &:hover {
+    background: var(--color-brand-light-grey);
+
+    & .ContextMenuButton {
+      opacity: 1;
+    }
+  }
+}

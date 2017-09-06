@@ -1,0 +1,37 @@
+@import '../theme/variables.css';
+
+.Footer {
+  background: #2f333b;
+  color: color(var(--color-brand-highlight) shade(15%));
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  font-size: var(--font-size-small);
+  letter-spacing: 0;
+  margin: var(--grid-step-size);
+  padding-top: calc(var(--grid-step-size) * 2);
+  padding-bottom: calc(var(--grid-step-size) * 1.5);
+  font-weight: 300;
+
+  & > div {
+    padding-bottom: calc(var(--grid-step-size) / 2);
+  }
+
+  & a {
+    text-decoration: none;
+  }
+
+  & .Sponsors {
+    margin-top: var(--grid-step-size);
+    padding-top: calc(var(--grid-step-size) * 1.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    & .Sponsor {
+      text-decoration: none;
+      color: var(--color-brand-featured);
+      font-weight: 400;
+    }
+  }
+}

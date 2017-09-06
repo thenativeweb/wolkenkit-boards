@@ -2,6 +2,7 @@ import activeBoard from '../../actions/activeBoard';
 import { observer } from 'mobx-react';
 import React from 'react';
 import state from '../../state';
+import styles from './BoardHeader.css';
 import { Form, TextBox } from '../../components';
 
 class BoardHeader extends React.Component {
@@ -37,8 +38,9 @@ class BoardHeader extends React.Component {
     }
 
     return (
-      <Form onSubmit={ this.handleFormSubmit }>
+      <Form className={ styles.Form } onSubmit={ this.handleFormSubmit }>
         <TextBox
+          className={ styles.TextBox }
           autofocus={ false }
           ref={ this.handleInputRefChanged }
           type='dense'

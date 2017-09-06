@@ -31,7 +31,7 @@ wolkenkit.connect({
     }
 
     services.boardsApi = boardsApi;
-    ReactDom.render(<App />, document.querySelector('.ui-app'));
+    ReactDom.render(<App />, document.querySelector('.Shell'));
   }).
   catch(err => {
     throw err;

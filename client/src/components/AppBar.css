@@ -1,0 +1,15 @@
+@import '../theme/variables.css';
+
+.AppBar {
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: var(--color-panel-background);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  height: calc(var(--grid-step-size) * 4);
+  z-index: calc(var(--z-index-navigation) + 10);
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

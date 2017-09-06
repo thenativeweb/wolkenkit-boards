@@ -1,0 +1,44 @@
+@import '../theme/variables.css';
+
+.Breadcrumbs {
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  margin-left: calc(var(--grid-step-size) * 2);
+  font-size: var(--font-size-medium);
+
+  & .BackLink {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--color-brand-dark);
+    text-decoration: none;
+    padding-right: calc(var(--grid-step-size) * 3);
+
+    & .BackLinkIcon {
+      transform: scaleX(-1);
+    }
+
+    & > div {
+      padding-bottom: 2px;
+    }
+  }
+
+  & .BackLink:hover {
+    color: var(--color-brand-featured);
+  }
+
+  & .BackLink::after {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 1px;
+    background: var(--color-brand-grey);
+    top: calc(50% - 10px);
+    right: calc(var(--grid-step-size) * 0.5);
+  }
+
+  &.disabled {
+    display: none;
+  }
+}

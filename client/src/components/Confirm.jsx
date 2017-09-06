@@ -81,12 +81,12 @@ class Confirm extends React.PureComponent {
         <Form.Row type='message'>{ this.state.title }</Form.Row>
         <Form.Row type='action-buttons'>
           <Button
-            className='primary'
+            type='primary'
             onClick={ this.handleConfirm }
           >{ this.state.confirm }
           </Button>
           <Button
-            className='secondary'
+            type='secondary'
             onClick={ this.handleCancel }
           >{ this.state.cancel }
           </Button>

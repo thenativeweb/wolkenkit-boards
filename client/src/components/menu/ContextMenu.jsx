@@ -1,6 +1,7 @@
 import eventbus from '../../services/eventbus';
 import MenuItem from './MenuItem.jsx';
 import React from 'react';
+import styles from './ContextMenu.css';
 
 class ContextMenu extends React.Component {
   constructor (props) {
@@ -95,10 +96,10 @@ class ContextMenu extends React.Component {
       <div
         id='ui-context-menu'
         ref={ this.handleRefContainerChanged }
-        className='ui-context-menu-panel'
+        className={ styles.Container }
         style={ style }
       >
-        <div className='ui-menu ui-menu-context'>
+        <div className={ styles.ContextMenu }>
           {this.state.items.map((item, i) =>
             <MenuItem key={ i } id={ item.id } data={ item.data } onClick={ this.handleItemClicked }>{item.label}</MenuItem>
           )}

@@ -1,0 +1,66 @@
+@import '../theme/variables.css';
+
+.MediaViewer {
+  position: fixed;
+  z-index: var(--z-index-modal);
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
+
+  & .Backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-backdrop);
+    opacity: 0;
+    transition: opacity 200ms;
+    will-change: opacity;
+  }
+
+  & .Destination {
+    height: 100%;
+    width: auto;
+  }
+
+  & .Transfer {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+    z-index: var(--z-index-transfer);
+  }
+
+  & .CloseButton {
+    position: fixed;
+    top: var(--grid-step-size);
+    right: var(--grid-step-size);
+    fill: var(--color-brand-dark);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 200ms;
+    will-change: opacity;
+    z-index: calc(var(--z-index-transfer) + 10);
+  }
+}
+
+.MediaViewerVisible {
+  pointer-events: all;
+
+  & .Backdrop {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  & .CloseButton {
+    opacity: 1;
+  }
+}

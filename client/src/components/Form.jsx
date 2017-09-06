@@ -1,20 +1,21 @@
+import classNames from 'classnames';
 import React from 'react';
+import styles from './Form.css';
 
 /* eslint-disable react/prefer-stateless-function */
 class Row extends React.PureComponent {
   render () {
-    const { className, children, type } = this.props;
+    const { className, children, horizontalContentAlign, type, verticalContentAlign } = this.props;
 
-    let classes = `ui-form__row ${className}`;
-
-    if (type) {
-      type.split(' ').forEach(newType => {
-        classes += ` ui-form__row--${newType}`;
-      });
-    }
+    const rowClassNames = classNames(styles.Row, {
+      [styles.RowTypeMessage]: type === 'message',
+      [styles.RowTypeActionButtons]: type === 'action-buttons',
+      [styles.HorizontalContentAlignLeft]: horizontalContentAlign === 'left',
+      [styles.VerticalContentAlignCenter]: verticalContentAlign === 'center'
+    }, className);
 
     return (
-      <div className={ classes }>
+      <div className={ rowClassNames }>
         { children }
       </div>
     );
@@ -26,7 +27,7 @@ class Form extends React.PureComponent {
     const { className, onSubmit, children } = this.props;
 
     return (
-      <form className={ `ui-form ${className}` } onSubmit={ onSubmit }>
+      <form className={ classNames(styles.Form, className) } onSubmit={ onSubmit }>
         { children }
       </form>
     );

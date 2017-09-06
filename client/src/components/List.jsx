@@ -1,11 +1,13 @@
 import anime from 'animejs';
+import classNames from 'classnames';
 import React from 'react';
+import styles from './List.css';
 
 const Header = function (props) {
-  const { className, children, type } = props;
+  const { className, children } = props;
 
   return (
-    <div className={ `ui-list__header ui-list__header--${type || 'default'} ${className || ''}` }>
+    <div className={ classNames(styles.Header, className) }>
       { children }
     </div>
   );
@@ -36,9 +38,14 @@ class Item extends React.PureComponent {
   render () {
     const { className, children, type } = this.props;
 
+    const itemClassNames = classNames(styles.Item, {
+      [styles.ItemTypeAdd]: type === 'add',
+      [styles.ItemTypeLink]: type === 'link'
+    }, className);
+
     /* eslint-disable no-return-assign */
     return (
-      <div ref={ ref => this.element = ref } className={ `ui-list__item ui-list__item--${type || 'default'} ${className || ''}` }>
+      <div ref={ ref => this.element = ref } className={ itemClassNames }>
         { children }
       </div>
     );
@@ -50,7 +57,7 @@ const List = function (props) {
   const { className, children } = props;
 
   return (
-    <div className={ `ui-list ${className || ''}` }>
+    <div className={ classNames(styles.List, className) }>
       { children }
     </div>
   );
