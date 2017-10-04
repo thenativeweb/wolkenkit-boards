@@ -79,11 +79,14 @@ class EditableText extends React.PureComponent {
       range.moveToElementText(this.element);
       range.select();
     } else if (window.getSelection) {
-      selection = window.getSelection();
-      range = window.document.createRange();
-      range.selectNodeContents(this.element);
-      selection.removeAllRanges();
-      selection.addRange(range);
+      // Satisfy Safari and delay selection of the text onto the next tick
+      setTimeout(() => {
+        selection = window.getSelection();
+        range = window.document.createRange();
+        range.selectNodeContents(this.element);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }, 0);
     }
   }
 

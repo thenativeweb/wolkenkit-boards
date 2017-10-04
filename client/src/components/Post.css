@@ -122,6 +122,7 @@
 
   &.IsEditing .Content {
     cursor: text;
+    user-select: text;
   }
 
   &.ColorGreen.IsEditing {
