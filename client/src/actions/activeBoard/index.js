@@ -4,6 +4,8 @@ import noteImage from './noteImage';
 import noteText from './noteText';
 import readAndObserve from './readAndObserve';
 import rename from './rename';
+import startEditing from './startEditing';
+import stopEditing from './stopEditing';
 import throwAwayPost from './throwAwayPost';
 import tryToRename from './tryToRename';
 
@@ -14,6 +16,8 @@ export default {
   noteText,
   readAndObserve,
   rename,
+  startEditing,
+  stopEditing,
   throwAwayPost,
   tryToRename
 };
@@ -25,6 +29,8 @@ export {
   noteText,
   readAndObserve,
   rename,
+  startEditing,
+  stopEditing,
   throwAwayPost,
   tryToRename
 };

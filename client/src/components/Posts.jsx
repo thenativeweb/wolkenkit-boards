@@ -21,6 +21,8 @@ class Posts extends React.Component {
   }
 
   render () {
+    const { activePostId } = this.props;
+
     return (
       <FileDropZone onFileDropped={ this.props.onImageNote }>
         <div className={ styles.Posts } onDoubleClick={ this.handleDoubleClick }>
@@ -29,6 +31,7 @@ class Posts extends React.Component {
               <Post
                 id={ post.id }
                 key={ post.id }
+                isEditing={ activePostId === post.id }
                 left={ post.position.left }
                 top={ post.position.top }
                 color={ post.color }
@@ -38,6 +41,9 @@ class Posts extends React.Component {
                 isDone={ post.isDone }
                 onMoveEnd={ this.props.onMove }
                 onColorChange={ this.props.onColorChange }
+                onEditingStarted={ this.props.onEditingStarted }
+                onEditingStopped={ this.props.onEditingStopped }
+                onEditEnd={ this.props.onEditEnd }
                 onEdit={ this.props.onEdit }
                 onMarkAsDone={ this.props.onMarkAsDone }
                 onThrowAway={ this.props.onThrowAway }
@@ -52,6 +58,7 @@ class Posts extends React.Component {
 }
 
 Posts.defaultProps = {
+  activePostId: undefined,
   posts: [],
   onColorChange () {},
   onEdit () {},
@@ -64,9 +71,11 @@ Posts.defaultProps = {
 };
 
 Post.propTypes = {
+  activePostId: PropTypes.string,
   posts: PropTypes.array,
   onColorChange: PropTypes.func,
   onEdit: PropTypes.func,
+  onEditingStarted: PropTypes.func,
   onImageNote: PropTypes.func,
   onMarkAsDone: PropTypes.func,
   onMove: PropTypes.func,

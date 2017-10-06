@@ -100,17 +100,40 @@
   & .Content {
     outline: 0;
     background: none;
+    color: inherit;
     width: 100%;
     min-height: 150px;
     max-height: 224px;
     resize: none;
     box-sizing: border-box;
-    padding: 9px 10px;
     margin: 0;
     font-weight: inherit;
     white-space: pre-wrap;
     word-wrap: break-word;
     position: relative;
+    pointer-events: none;
+
+    & textarea {
+      -webkit-appearance: none;
+      outline: inherit;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      width: 100%;
+      min-height: 150px;
+      max-height: 224px;
+      resize: none;
+      box-sizing: border-box;
+      padding: 9px 10px;
+      margin: 0;
+      font-size: var(--font-size-medium);
+      font-family: var(--font-family-default);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      position: relative;
+      cursor: pointer;
+      pointer-events: none;
+    }
 
     & a {
       white-space: inherit;
@@ -120,9 +143,10 @@
     }
   }
 
-  &.IsEditing .Content {
+  &.IsEditing .Content textarea {
     cursor: text;
     user-select: text;
+    pointer-events: all;
   }
 
   &.ColorGreen.IsEditing {

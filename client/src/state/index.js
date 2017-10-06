@@ -2,6 +2,7 @@ import { extendObservable } from 'mobx';
 
 const state = extendObservable({}, {
   activeBoard: undefined,
+  activePostId: undefined,
   boards: [],
   newBoardTitle: undefined,
   posts: [],

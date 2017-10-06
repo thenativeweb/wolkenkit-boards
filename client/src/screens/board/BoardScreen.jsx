@@ -41,6 +41,9 @@ class BoardScreen extends React.Component {
         top: event.clientY - containerPosition.top - POST_WIDTH / 2
       }
     }).
+      then(postId => {
+        console.log(postId);
+      }).
       catch(BoardScreen.handleError);
   }
 
@@ -71,6 +74,15 @@ class BoardScreen extends React.Component {
       to: color
     }).
       catch(BoardScreen.handleError);
+  }
+
+  static handlePostEditingStarted (postId) {
+    activeBoard.startEditing(postId);
+  }
+
+  static handlePostEditingStopped () {
+    console.log('blasdfasd');
+    activeBoard.stopEditing();
   }
 
   static handlePostEdited (postId, content) {
@@ -164,11 +176,14 @@ class BoardScreen extends React.Component {
       <div className={ styles.BoardScreen }>
         <Posts
           posts={ state.posts }
+          activePostId={ state.activePostId }
           onTextNote={ BoardScreen.handleTextNoted }
           onImageNote={ BoardScreen.handleImageNoted }
           onMove={ BoardScreen.handlePostMoved }
           onColorChange={ BoardScreen.handlePostColorChanged }
           onEdit={ BoardScreen.handlePostEdited }
+          onEditingStarted={ BoardScreen.handlePostEditingStarted }
+          onEditingStopped={ BoardScreen.handlePostEditingStopped }
           onMarkAsDone={ BoardScreen.handlePostMarkedAsDone }
           onThrowAway={ BoardScreen.handlePostThrownAway }
           onFullscreenRequest={ BoardScreen.handleFullscreenRequested }

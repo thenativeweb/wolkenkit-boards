@@ -1,4 +1,5 @@
 import services from '../../services';
+import startEditing from './startEditing';
 import state from '../../state';
 
 const noteText = function (options) {
@@ -36,7 +37,13 @@ const noteText = function (options) {
         color,
         position
       }).
-      await('cleanedUp', () => resolve()).
+      await('noted', event => {
+        resolve(event.aggregate.id);
+
+        setTimeout(() => {
+          startEditing(event.aggregate.id);
+        }, 300);
+      }).
       failed(err => reject(err));
   });
 };
