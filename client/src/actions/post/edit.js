@@ -1,6 +1,7 @@
+import { action } from 'mobx';
 import services from '../../services';
 
-const edit = function (options) {
+const edit = action(options => {
   const { boardsApi } = services;
 
   if (!options) {
@@ -22,6 +23,6 @@ const edit = function (options) {
       await('edited', () => resolve()).
       failed(err => reject(err));
   });
-};
+});
 
 export default edit;
