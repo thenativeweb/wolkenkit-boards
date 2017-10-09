@@ -21,7 +21,7 @@ class Posts extends React.Component {
   }
 
   render () {
-    const { activePostId } = this.props;
+    const { activePostId, activePostContent } = this.props;
 
     return (
       <FileDropZone onFileDropped={ this.props.onImageNote }>
@@ -36,15 +36,15 @@ class Posts extends React.Component {
                 top={ post.position.top }
                 color={ post.color }
                 type={ post.type }
-                content={ post.content }
+                content={ activePostId === post.id ? activePostContent : post.content }
                 creator={ post.creator }
                 isDone={ post.isDone }
                 onMoveEnd={ this.props.onMove }
                 onColorChange={ this.props.onColorChange }
+                onTextChange={ this.props.onTextChange }
                 onEditingStarted={ this.props.onEditingStarted }
                 onEditingStopped={ this.props.onEditingStopped }
                 onEditEnd={ this.props.onEditEnd }
-                onEdit={ this.props.onEdit }
                 onMarkAsDone={ this.props.onMarkAsDone }
                 onThrowAway={ this.props.onThrowAway }
                 onFullscreenRequest={ this.props.onFullscreenRequest }
@@ -58,27 +58,29 @@ class Posts extends React.Component {
 }
 
 Posts.defaultProps = {
+  activePostContent: undefined,
   activePostId: undefined,
   posts: [],
   onColorChange () {},
-  onEdit () {},
   onImageNote () {},
   onMarkAsDone () {},
   onMove () {},
+  onTextChange () {},
   onTextNote () {},
   onFullscreenRequest () {},
   onThrowAway () {}
 };
 
 Post.propTypes = {
+  activePostContent: PropTypes.string,
   activePostId: PropTypes.string,
   posts: PropTypes.array,
   onColorChange: PropTypes.func,
-  onEdit: PropTypes.func,
   onEditingStarted: PropTypes.func,
   onImageNote: PropTypes.func,
   onMarkAsDone: PropTypes.func,
   onMove: PropTypes.func,
+  onTextChange: PropTypes.func,
   onTextNote: PropTypes.func,
   onThrowAway: PropTypes.func
 };

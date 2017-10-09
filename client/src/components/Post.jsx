@@ -18,10 +18,7 @@ class Post extends React.PureComponent {
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragMove = this.handleDragMove.bind(this);
     this.handleDragStop = this.handleDragStop.bind(this);
-    // this.handleEditingStarted = this.handleEditingStarted.bind(this);
-    this.handleTextEdited = this.handleTextEdited.bind(this);
-    // this.handleEditingStopped = this.handleEditingStopped.bind(this);
-    // this.handleTextChanged = this.handleTextChanged.bind(this);
+    this.handleTextChanged = this.handleTextChanged.bind(this);
     this.handleContextMenuButtonClicked = this.handleContextMenuButtonClicked.bind(this);
     this.handleFullscreenButtonPressed = this.handleFullscreenButtonPressed.bind(this);
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
@@ -82,16 +79,22 @@ class Post extends React.PureComponent {
            this.state.previousPosition.top !== newPosition.top;
   }
 
-  // handleTextChanged (newText) {
-  //   if (newText.includes(':)') || newText.includes(':-)')) {
-  //     this.props.onColorChange(this.props.id, 'green');
-  //   } else if (newText.includes(':(') || newText.includes(':-(')) {
-  //     this.props.onColorChange(this.props.id, 'red');
-  //   }
-  // }
+  handleTextChanged (event) {
+    const newText = event.target.value;
 
-  handleTextEdited (newText) {
-    this.props.onEdit(this.props.id, newText);
+    const { color } = this.props;
+
+    if (newText.includes(':)') || newText.includes(':-)')) {
+      if (color !== 'green') {
+        this.props.onColorChange(this.props.id, 'green');
+      }
+    } else if (newText.includes(':(') || newText.includes(':-(')) {
+      if (color !== 'red') {
+        this.props.onColorChange(this.props.id, 'red');
+      }
+    }
+
+    this.props.onTextChange(newText);
   }
 
   handleContextMenuButtonClicked (event) {
@@ -132,9 +135,11 @@ class Post extends React.PureComponent {
   }
 
   handleDoubleClick () {
-    switch (this.props.type) {
+    const { id, content, type, onEditingStarted } = this.props;
+
+    switch (type) {
       case 'text':
-        this.props.onEditingStarted(this.props.id);
+        onEditingStarted({ id, content, type });
         break;
       default:
         break;
@@ -190,11 +195,10 @@ class Post extends React.PureComponent {
     return (
       <EditableText
         className={ styles.Content }
-        initialText={ this.props.content }
+        content={ this.props.content }
         isEditing={ this.props.isEditing }
         onChange={ this.handleTextChanged }
         onBlur={ this.props.onEditingStopped }
-        onEdited={ this.handleTextEdited }
       />
     );
   }
@@ -322,9 +326,8 @@ Post.defaultProps = {
   creator: '',
   onMoveEnd () {},
   onColorChange () {},
-  onEdit () {},
   onEditingStarted () {},
-  onEditingStopped () {}
+  onTextChange () {}
 };
 
 Post.propTypes = {
@@ -339,12 +342,12 @@ Post.propTypes = {
   creator: PropTypes.string,
   isEditing: PropTypes.bool,
   onColorChange: PropTypes.func,
-  onEdit: PropTypes.func,
   onEditingStarted: PropTypes.func,
   onEditingStopped: PropTypes.func,
   onFullscreenRequest: PropTypes.func,
   onMarkAsDone: PropTypes.func,
   onMoveEnd: PropTypes.func,
+  onTextChange: PropTypes.func,
   onThrowAway: PropTypes.func
 };
 

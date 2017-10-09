@@ -1,8 +1,9 @@
+import { action } from 'mobx';
 import services from '../../services';
 import state from '../../state';
 import storage from '../storage';
 
-const noteText = function (options) {
+const noteText = action(options => {
   const { boardsApi } = services;
 
   if (!options) {
@@ -42,6 +43,6 @@ const noteText = function (options) {
       }).
       catch(err => reject(err));
   });
-};
+});
 
 export default noteText;

@@ -104,7 +104,6 @@
     width: 100%;
     min-height: 150px;
     max-height: 224px;
-    resize: none;
     box-sizing: border-box;
     margin: 0;
     font-weight: inherit;
@@ -112,8 +111,11 @@
     word-wrap: break-word;
     position: relative;
     pointer-events: none;
+    overflow: hidden;
 
+    & div,
     & textarea {
+      display: block;
       -webkit-appearance: none;
       outline: inherit;
       background: transparent;
@@ -128,6 +130,8 @@
       margin: 0;
       font-size: var(--font-size-medium);
       font-family: var(--font-family-default);
+      font-weight: 400;
+      letter-spacing: -0.02em;
       white-space: pre-wrap;
       word-wrap: break-word;
       position: relative;
@@ -140,6 +144,7 @@
       word-wrap: break-word;
       color: inherit;
       text-decoration: underline;
+      pointer-events: all;
     }
   }
 

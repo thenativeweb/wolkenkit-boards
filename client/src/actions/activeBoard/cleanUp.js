@@ -1,7 +1,8 @@
+import { action } from 'mobx';
 import services from '../../services';
 import state from '../../state';
 
-const cleanUp = function () {
+const cleanUp = action(() => {
   const { boardsApi } = services;
 
   if (!state.activeBoard || !state.activeBoard.id) {
@@ -15,6 +16,6 @@ const cleanUp = function () {
       await('cleanedUp', () => resolve()).
       failed(err => reject(err));
   });
-};
+});
 
 export default cleanUp;

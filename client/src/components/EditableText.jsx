@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import createDOMPurify from 'dompurify';
 /* eslint-disable no-unused-vars */
 import linkify from 'linkifyjs';
 /* eslint-enable no-unused-vars */
@@ -9,8 +8,6 @@ import React from 'react';
 
 const KEY_ESCAPE = 27;
 const KEY_ENTER = 13;
-
-const DOMPurify = createDOMPurify(window);
 
 class EditableText extends React.PureComponent {
   static handleKeyDown (event) {
@@ -25,7 +22,6 @@ class EditableText extends React.PureComponent {
     super(props);
 
     this.handleElementRefChanged = this.handleElementRefChanged.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
 
@@ -37,28 +33,13 @@ class EditableText extends React.PureComponent {
   componentDidMount () {
     this.editingWasCanceled = false;
 
-    this.linkifiedText = linkifyHtml(this.props.initialText);
-    // this.element.innerHTML = this.linkifiedText;
+    this.linkifiedText = linkifyHtml(this.props.content);
   }
 
   componentDidUpdate (previousProps) {
     if (this.props.isEditing && !previousProps.isEditing) {
       this.focus();
     }
-
-    // if (previousProps.initialText !== this.props.initialText) {
-    //   if (!this.state.isEditing) {
-    //     this.linkifyHtml(this.props.initialText);
-    //   } else {
-    //     this.element.innerHTML = this.props.initialText;
-    //   }
-    // }
-  }
-
-  linkifyHtml (text) {
-    this.linkifiedText = linkifyHtml(text);
-    this.originalText = text;
-    this.element.innerHTML = this.linkifiedText;
   }
 
   handleElementRefChanged (element) {
@@ -67,28 +48,6 @@ class EditableText extends React.PureComponent {
 
   focus () {
     this.element.select();
-
-    // let range,
-    //     selection;
-    //
-    // this.element.focus();
-    //
-    // this.element.innerHTML = this.props.initialText;
-    //
-    // if (window.document.body.createTextRange) {
-    //   range = window.document.body.createTextRange();
-    //   range.moveToElementText(this.element);
-    //   range.select();
-    // } else if (window.getSelection) {
-    //   // Satisfy Safari and delay selection of the text onto the next tick
-    //   setTimeout(() => {
-    //     selection = window.getSelection();
-    //     range = window.document.createRange();
-    //     range.selectNodeContents(this.element);
-    //     selection.removeAllRanges();
-    //     selection.addRange(range);
-    //   }, 0);
-    // }
   }
 
   getText () {
@@ -98,7 +57,6 @@ class EditableText extends React.PureComponent {
   handleKeyUp (event) {
     if (event.which === KEY_ESCAPE) {
       this.element.blur();
-      // this.linkifyHtml(this.previousText);
     }
   }
 
@@ -106,28 +64,42 @@ class EditableText extends React.PureComponent {
     this.props.onBlur();
   }
 
+  renderStaticContent () {
+    return (
+      <div className='textarea' dangerouslySetInnerHTML={{ __html: linkifyHtml(this.props.content) }} />
+    );
+  }
+
+  renderTextArea () {
+    return (
+      <textarea
+        className='textarea'
+        ref={ this.handleElementRefChanged }
+        value={ this.props.content }
+        onFocus={ this.props.onFocus }
+        onChange={ this.props.onChange }
+        onKeyDown={ this.handleKeyDown }
+        onKeyUp={ this.handleKeyUp }
+        onBlur={ this.handleBlur }
+      />
+    );
+  }
+
   render () {
+    const { className, isEditing } = this.props;
+
     const classes = {
-      editing: this.state.isEditing
+      editing: isEditing
     };
 
-    classes[this.props.className] = true;
+    classes[className] = true;
 
     return (
       <div
         className={ classNames(classes) }
-        contentEditable={ this.state.isEditing }
         onDoubleClick={ this.handleDoubleClick }
       >
-        <textarea
-          ref={ this.handleElementRefChanged }
-          value={ this.props.initialText }
-          onFocus={ this.props.onFocus }
-          onChange={ this.props.onChange }
-          onKeyDown={ this.handleKeyDown }
-          onKeyUp={ this.handleKeyUp }
-          onBlur={ this.handleBlur }
-        />
+        { isEditing ? this.renderTextArea() : this.renderStaticContent() }
       </div>
     );
   }
@@ -140,11 +112,10 @@ EditableText.defaultProps = {
 };
 
 EditableText.propTypes = {
+  content: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
-  initialText: PropTypes.string,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  onEdited: PropTypes.func
+  onBlur: PropTypes.func
 };
 
 export default EditableText;

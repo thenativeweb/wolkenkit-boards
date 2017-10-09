@@ -1,8 +1,8 @@
+import { action } from 'mobx';
 import services from '../../services';
-import startEditing from './startEditing';
 import state from '../../state';
 
-const noteText = function (options) {
+const noteText = action(options => {
   const { boardsApi } = services;
 
   if (!options) {
@@ -38,14 +38,10 @@ const noteText = function (options) {
         position
       }).
       await('noted', event => {
-        resolve(event.aggregate.id);
-
-        setTimeout(() => {
-          startEditing(event.aggregate.id);
-        }, 300);
+        resolve(event);
       }).
       failed(err => reject(err));
   });
-};
+});
 
 export default noteText;

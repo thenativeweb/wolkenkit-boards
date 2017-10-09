@@ -1,4 +1,5 @@
 import activeBoard from '../../actions/activeBoard';
+import activePost from '../../actions/activePost';
 import menu from '../../actions/menu';
 import { observer } from 'mobx-react';
 import post from '../../actions/post';
@@ -41,8 +42,13 @@ class BoardScreen extends React.Component {
         top: event.clientY - containerPosition.top - POST_WIDTH / 2
       }
     }).
-      then(postId => {
-        console.log(postId);
+      then(notedEvent => {
+        setTimeout(() => {
+          activePost.startEditing({
+            id: notedEvent.aggregate.id,
+            content: notedEvent.data.content
+          });
+        }, 300);
       }).
       catch(BoardScreen.handleError);
   }
@@ -76,20 +82,25 @@ class BoardScreen extends React.Component {
       catch(BoardScreen.handleError);
   }
 
-  static handlePostEditingStarted (postId) {
-    activeBoard.startEditing(postId);
+  static handlePostEditingStarted (editedPost) {
+    activePost.startEditing({
+      id: editedPost.id,
+      content: editedPost.content
+    });
+  }
+
+  static handlePostTextChanged (newText) {
+    activePost.changeText(newText);
   }
 
   static handlePostEditingStopped () {
-    console.log('blasdfasd');
-    activeBoard.stopEditing();
-  }
-
-  static handlePostEdited (postId, content) {
     post.edit({
-      postId,
-      content
+      postId: state.activePostId,
+      content: state.activePostContent
     }).
+      then(() => {
+        activePost.stopEditing();
+      }).
       catch(BoardScreen.handleError);
   }
 
@@ -177,12 +188,13 @@ class BoardScreen extends React.Component {
         <Posts
           posts={ state.posts }
           activePostId={ state.activePostId }
+          activePostContent={ state.activePostContent }
           onTextNote={ BoardScreen.handleTextNoted }
           onImageNote={ BoardScreen.handleImageNoted }
           onMove={ BoardScreen.handlePostMoved }
           onColorChange={ BoardScreen.handlePostColorChanged }
-          onEdit={ BoardScreen.handlePostEdited }
           onEditingStarted={ BoardScreen.handlePostEditingStarted }
+          onTextChange={ BoardScreen.handlePostTextChanged }
           onEditingStopped={ BoardScreen.handlePostEditingStopped }
           onMarkAsDone={ BoardScreen.handlePostMarkedAsDone }
           onThrowAway={ BoardScreen.handlePostThrownAway }
