@@ -1,5 +1,13 @@
 @import '../theme/variables.css';
 
+:root {
+  --post-width: 186px;
+  --post-line-height: 20px;
+  --post-border-width: 3px;
+  --post-metabar-height: 35px;
+  --post-content-padding-top: 9px;
+}
+
 .Container {
   will-change: transform;
   backface-visibility: hidden;
@@ -9,29 +17,31 @@
 .Post {
   position: absolute;
   cursor: move;
-  width: 186px;
-  max-height: 280px;
+  width: var(--post-width);
+  max-height: calc(2 * var(--post-content-padding-top) + 9 * var(--post-line-height) + var(--post-metabar-height) + 2 * var(--post-border-width));
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
   font-size: var(--font-size-medium);
-  line-height: 20px;
+  line-height: var(--post-line-height);
   color: #222;
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 3px solid transparent;
+  border: var(--post-border-width) solid transparent;
   opacity: 0;
   will-change: transform, opacity;
   backface-visibility: hidden;
 
   &.IsDragging {
-    transition: transform 50ms linear !important;
+    transition: transform 50ms !important;
+    cursor: move !important;
+    user-select: none !important;
   }
 
   & .Meta {
     position: relative;
-    height: 35px;
+    height: var(--post-metabar-height);
     font-size: var(--font-size-small);
-    line-height: 35px;
-    flex: 0 0 35px;
+    line-height: var(--post-metabar-height);
+    flex: 0 0 var(--post-metabar-height);
     display: flex;
     justify-content: space-between;
 
@@ -67,7 +77,7 @@
   }
 
   &.IsSelected {
-    border: 3px solid #fff;
+    border: var(--post-border-width) solid #fff;
   }
 
   &.ColorYellow {
@@ -103,7 +113,7 @@
     color: inherit;
     width: 100%;
     min-height: 150px;
-    max-height: 224px;
+    max-height: calc(2 * var(--post-content-padding-top) + 9 * var(--post-line-height));
     box-sizing: border-box;
     margin: 0;
     font-weight: inherit;
@@ -122,12 +132,11 @@
       border: 0;
       color: inherit;
       width: 100%;
-      min-height: 150px;
-      max-height: 224px;
       resize: none;
       box-sizing: border-box;
-      padding: 9px 10px;
+      padding: var(--post-content-padding-top) 10px;
       margin: 0;
+      line-height: inherit;
       font-size: var(--font-size-medium);
       font-family: var(--font-family-default);
       font-weight: 400;
@@ -183,7 +192,7 @@
   flex-direction: column;
 
   & .Content {
-    max-height: 186px;
+    max-height: var(--post-width);
 
     & img {
       pointer-events: none;

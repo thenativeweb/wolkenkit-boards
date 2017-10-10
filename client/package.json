@@ -30,6 +30,7 @@
     "react-dom": "16.0.0",
     "react-draggable": "3.0.3",
     "react-router-dom": "4.2.2",
+    "react-textarea-autosize": "5.1.0",
     "roboter": "0.15.4",
     "roboter-server": "0.15.4",
     "slugify": "1.2.1",

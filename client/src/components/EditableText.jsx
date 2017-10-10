@@ -5,6 +5,7 @@ import linkify from 'linkifyjs';
 import linkifyHtml from 'linkifyjs/html';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Textarea from 'react-textarea-autosize';
 
 const KEY_ESCAPE = 27;
 const KEY_ENTER = 13;
@@ -21,7 +22,7 @@ class EditableText extends React.PureComponent {
   constructor (props) {
     super(props);
 
-    this.handleElementRefChanged = this.handleElementRefChanged.bind(this);
+    this.onElementRefChanged = this.onElementRefChanged.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
 
@@ -42,7 +43,7 @@ class EditableText extends React.PureComponent {
     }
   }
 
-  handleElementRefChanged (element) {
+  onElementRefChanged (element) {
     this.element = element;
   }
 
@@ -72,9 +73,12 @@ class EditableText extends React.PureComponent {
 
   renderTextArea () {
     return (
-      <textarea
+      <Textarea
         className='textarea'
-        ref={ this.handleElementRefChanged }
+        style={{ boxSizing: 'border-box' }}
+        minRows={ 1 }
+        maxRows={ 9 }
+        inputRef={ this.onElementRefChanged }
         value={ this.props.content }
         onFocus={ this.props.onFocus }
         onChange={ this.props.onChange }

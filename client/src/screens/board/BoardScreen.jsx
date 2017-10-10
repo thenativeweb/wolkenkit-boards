@@ -99,7 +99,9 @@ class BoardScreen extends React.Component {
       content: state.activePostContent
     }).
       then(() => {
-        activePost.stopEditing();
+        setTimeout(() => {
+          activePost.stopEditing();
+        }, 100);
       }).
       catch(BoardScreen.handleError);
   }
