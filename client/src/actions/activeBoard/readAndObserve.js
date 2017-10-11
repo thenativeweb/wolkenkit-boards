@@ -45,9 +45,9 @@ const readAndObserve = function (slug) {
           });
         });
 
-        resolve(() => {
-          subscriptions.forEach(cancel => {
-            cancel();
+        const cancel = () => {
+          subscriptions.forEach(cancelSubscription => {
+            cancelSubscription();
           });
 
           extendObservable(state, {
@@ -55,7 +55,9 @@ const readAndObserve = function (slug) {
             posts: [],
             newBoardTitle: undefined
           });
-        });
+        };
+
+        resolve(cancel);
       }).
       failed(err => reject(err));
   });

@@ -94,7 +94,7 @@ class Post extends React.PureComponent {
       }
     }
 
-    this.props.onTextChange(newText);
+    this.props.onEdit(newText);
   }
 
   handleContextMenuButtonClicked (event) {
@@ -135,11 +135,11 @@ class Post extends React.PureComponent {
   }
 
   handleDoubleClick () {
-    const { id, content, type, onEditingStarted } = this.props;
+    const { id, content, type, onEditStart } = this.props;
 
     switch (type) {
       case 'text':
-        onEditingStarted({ id, content, type });
+        onEditStart({ id, content, type });
         break;
       default:
         break;
@@ -198,7 +198,7 @@ class Post extends React.PureComponent {
         content={ this.props.content }
         isEditing={ this.props.isEditing }
         onChange={ this.handleTextChanged }
-        onBlur={ this.props.onEditingStopped }
+        onBlur={ this.props.onEditEnd }
       />
     );
   }
@@ -326,8 +326,9 @@ Post.defaultProps = {
   creator: '',
   onMoveEnd () {},
   onColorChange () {},
-  onEditingStarted () {},
-  onTextChange () {}
+  onEditStart () {},
+  onEdit () {},
+  onEditEnd () {}
 };
 
 Post.propTypes = {
@@ -342,12 +343,12 @@ Post.propTypes = {
   creator: PropTypes.string,
   isEditing: PropTypes.bool,
   onColorChange: PropTypes.func,
-  onEditingStarted: PropTypes.func,
-  onEditingStopped: PropTypes.func,
+  onEdit: PropTypes.func,
+  onEditEnd: PropTypes.func,
+  onEditStart: PropTypes.func,
   onFullscreenRequest: PropTypes.func,
   onMarkAsDone: PropTypes.func,
   onMoveEnd: PropTypes.func,
-  onTextChange: PropTypes.func,
   onThrowAway: PropTypes.func
 };
 

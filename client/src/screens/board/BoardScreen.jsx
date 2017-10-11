@@ -2,12 +2,13 @@ import activeBoard from '../../actions/activeBoard';
 import activePost from '../../actions/activePost';
 import menu from '../../actions/menu';
 import { observer } from 'mobx-react';
-import post from '../../actions/post';
+import posts from '../../actions/post';
 import React from 'react';
+import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
 import state from '../../state';
 import styles from './BoardScreen.css';
-import { ColorToggle, MediaViewer, Posts } from '../../components';
+import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
 const POST_WIDTH = 180;
 
@@ -30,7 +31,11 @@ class BoardScreen extends React.Component {
     state.selectedPostColor = newColor;
   }
 
-  static handleTextNoted (event) {
+  static handleDoubleClick (event) {
+    if (!event.target.classList.contains(styles.Posts)) {
+      return;
+    }
+
     const containerPosition = event.target.getBoundingClientRect();
 
     activeBoard.noteText({
@@ -66,35 +71,35 @@ class BoardScreen extends React.Component {
       catch(BoardScreen.handleError);
   }
 
-  static handlePostMoved (postId, position) {
-    post.move({
+  static handlePostMove (postId, position) {
+    posts.move({
       postId,
       position
     }).
       catch(BoardScreen.handleError);
   }
 
-  static handlePostColorChanged (postId, color) {
-    post.recolor({
+  static handlePostColorChange (postId, color) {
+    posts.recolor({
       postId,
       to: color
     }).
       catch(BoardScreen.handleError);
   }
 
-  static handlePostEditingStarted (editedPost) {
+  static handlePostEditStart (editedPost) {
     activePost.startEditing({
       id: editedPost.id,
       content: editedPost.content
     });
   }
 
-  static handlePostTextChanged (newText) {
+  static handlePostEdit (newText) {
     activePost.changeText(newText);
   }
 
-  static handlePostEditingStopped () {
-    post.edit({
+  static handlePostEditEnd () {
+    posts.edit({
       postId: state.activePostId,
       content: state.activePostContent
     }).
@@ -106,14 +111,14 @@ class BoardScreen extends React.Component {
       catch(BoardScreen.handleError);
   }
 
-  static handlePostMarkedAsDone (postId) {
-    post.markAsDone({
+  static handlePostMarkAsDone (postId) {
+    posts.markAsDone({
       postId
     }).
       catch(BoardScreen.handleError);
   }
 
-  static handlePostThrownAway (postId) {
+  static handlePostThrowAway (postId) {
     activeBoard.throwAwayPost({
       boardId: state.activeBoard.id,
       postId
@@ -145,8 +150,6 @@ class BoardScreen extends React.Component {
   constructor (props) {
     super(props);
 
-    this.handleHeaderRefChange = this.handleHeaderRefChange.bind(this);
-
     this.subscriptions = [];
   }
 
@@ -175,10 +178,6 @@ class BoardScreen extends React.Component {
   }
   /* eslint-enable class-methods-use-this */
 
-  handleHeaderRefChange (header) {
-    this.header = header;
-  }
-
   /* eslint-disable class-methods-use-this */
   render () {
     if (!state.activeBoard) {
@@ -187,21 +186,35 @@ class BoardScreen extends React.Component {
 
     return (
       <div className={ styles.BoardScreen }>
-        <Posts
-          posts={ state.posts }
-          activePostId={ state.activePostId }
-          activePostContent={ state.activePostContent }
-          onTextNote={ BoardScreen.handleTextNoted }
-          onImageNote={ BoardScreen.handleImageNoted }
-          onMove={ BoardScreen.handlePostMoved }
-          onColorChange={ BoardScreen.handlePostColorChanged }
-          onEditingStarted={ BoardScreen.handlePostEditingStarted }
-          onTextChange={ BoardScreen.handlePostTextChanged }
-          onEditingStopped={ BoardScreen.handlePostEditingStopped }
-          onMarkAsDone={ BoardScreen.handlePostMarkedAsDone }
-          onThrowAway={ BoardScreen.handlePostThrownAway }
-          onFullscreenRequest={ BoardScreen.handleFullscreenRequested }
-        />
+        <FileDropZone onFileDropped={ BoardScreen.handleImageNoted }>
+          <div className={ styles.Posts } onDoubleClick={ BoardScreen.handleDoubleClick }>
+            <ReactTransitionGroup>
+              {state.posts.map(post => (
+                <Post
+                  id={ post.id }
+                  key={ post.id }
+                  isEditing={ state.activePostId === post.id }
+                  left={ post.position.left }
+                  top={ post.position.top }
+                  color={ post.color }
+                  type={ post.type }
+                  content={ state.activePostId === post.id ? state.activePostContent : post.content }
+                  creator={ post.creator }
+                  isDone={ post.isDone }
+                  onMoveEnd={ BoardScreen.handlePostMove }
+                  onColorChange={ BoardScreen.handlePostColorChange }
+                  onEditStart={ BoardScreen.handlePostEditStart }
+                  onEdit={ BoardScreen.handlePostEdit }
+                  onEditEnd={ BoardScreen.handlePostEditEnd }
+                  onMarkAsDone={ BoardScreen.handlePostMarkAsDone }
+                  onThrowAway={ BoardScreen.handlePostThrowAway }
+                  onFullscreenRequest={ BoardScreen.handleFullscreenRequested }
+                />
+              ))}
+            </ReactTransitionGroup>
+          </div>
+        </FileDropZone>
+
         <ColorToggle
           className={ styles.ColorToggle }
           colors={ state.postColors }
