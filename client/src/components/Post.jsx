@@ -18,7 +18,7 @@ class Post extends React.PureComponent {
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragMove = this.handleDragMove.bind(this);
     this.handleDragStop = this.handleDragStop.bind(this);
-    this.handleTextChanged = this.handleTextChanged.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
     this.handleContextMenuButtonClicked = this.handleContextMenuButtonClicked.bind(this);
     this.handleFullscreenButtonPressed = this.handleFullscreenButtonPressed.bind(this);
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
@@ -79,22 +79,22 @@ class Post extends React.PureComponent {
            this.state.previousPosition.top !== newPosition.top;
   }
 
-  handleTextChanged (event) {
+  handleContentChange (event) {
     const newText = event.target.value;
 
-    const { color } = this.props;
+    const { id, color, onRecolor } = this.props;
 
     if (newText.includes(':)') || newText.includes(':-)')) {
       if (color !== 'green') {
-        this.props.onColorChange(this.props.id, 'green');
+        onRecolor(id, 'green');
       }
     } else if (newText.includes(':(') || newText.includes(':-(')) {
       if (color !== 'red') {
-        this.props.onColorChange(this.props.id, 'red');
+        onRecolor(this.props.id, 'red');
       }
     }
 
-    this.props.onEdit(newText);
+    this.props.onContentChange(newText);
   }
 
   handleContextMenuButtonClicked (event) {
@@ -114,7 +114,7 @@ class Post extends React.PureComponent {
   }
 
   handleFullscreenButtonPressed () {
-    this.props.onFullscreenRequest({
+    this.props.onRequestFullscreen({
       type: this.props.type,
       content: this.props.content,
       element: this.imageRef
@@ -197,7 +197,7 @@ class Post extends React.PureComponent {
         className={ styles.Content }
         content={ this.props.content }
         isEditing={ this.props.isEditing }
-        onChange={ this.handleTextChanged }
+        onChange={ this.handleContentChange }
         onBlur={ this.props.onEditEnd }
       />
     );
@@ -325,10 +325,12 @@ Post.defaultProps = {
   isDone: false,
   creator: '',
   onMoveEnd () {},
-  onColorChange () {},
+  onContentChange () {},
   onEditStart () {},
-  onEdit () {},
-  onEditEnd () {}
+  onEditEnd () {},
+  onRecolor () {},
+  onRequestFullscreen () {},
+  onThrowAway () {}
 };
 
 Post.propTypes = {
@@ -342,13 +344,13 @@ Post.propTypes = {
   color: PropTypes.string,
   creator: PropTypes.string,
   isEditing: PropTypes.bool,
-  onColorChange: PropTypes.func,
-  onEdit: PropTypes.func,
+  onContentChange: PropTypes.func,
   onEditEnd: PropTypes.func,
   onEditStart: PropTypes.func,
-  onFullscreenRequest: PropTypes.func,
   onMarkAsDone: PropTypes.func,
   onMoveEnd: PropTypes.func,
+  onRecolor: PropTypes.func,
+  onRequestFullscreen: PropTypes.func,
   onThrowAway: PropTypes.func
 };
 

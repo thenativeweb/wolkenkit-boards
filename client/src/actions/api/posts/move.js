@@ -1,7 +1,7 @@
-import services from '../../services';
+import services from '../../../services';
 
 const move = function (options) {
-  const { boardsApi } = services;
+  const { boardsApi, overlay } = services;
 
   if (!options) {
     throw new Error('Options are missing.');
@@ -15,12 +15,16 @@ const move = function (options) {
 
   const { postId, position } = options;
 
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     boardsApi.collaboration.post(postId).move({
       position
     }).
       await('moved', () => resolve()).
-      failed(err => reject(err));
+      failed(err => {
+        overlay.alert({
+          text: err.message
+        });
+      });
   });
 };
 

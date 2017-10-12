@@ -1,8 +1,7 @@
-import activeBoard from '../../actions/activeBoard';
 import activePost from '../../actions/activePost';
+import api from '../../actions/api';
 import menu from '../../actions/menu';
 import { observer } from 'mobx-react';
-import posts from '../../actions/post';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
@@ -10,20 +9,14 @@ import state from '../../state';
 import styles from './BoardScreen.css';
 import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
-const POST_WIDTH = 180;
+const POST_WIDTH = 192;
 
 class BoardScreen extends React.Component {
-  static handleFullscreenRequested (options) {
+  static handleRequestFullscreen (options) {
     services.mediaViewer.show({
       type: options.type,
       media: options.content,
       element: options.element
-    });
-  }
-
-  static handleError (error) {
-    services.overlay.alert({
-      text: error.message
     });
   }
 
@@ -38,7 +31,7 @@ class BoardScreen extends React.Component {
 
     const containerPosition = event.target.getBoundingClientRect();
 
-    activeBoard.noteText({
+    api.posts.noteText({
       boardId: state.activeBoard.id,
       content: 'New post',
       color: state.selectedPostColor,
@@ -50,16 +43,15 @@ class BoardScreen extends React.Component {
       then(notedEvent => {
         setTimeout(() => {
           activePost.startEditing({
-            id: notedEvent.aggregate.id,
+            postId: notedEvent.aggregate.id,
             content: notedEvent.data.content
           });
         }, 300);
-      }).
-      catch(BoardScreen.handleError);
+      });
   }
 
-  static handleImageNoted (images, coords) {
-    activeBoard.noteImage({
+  static handleFileDrop (images, coords) {
+    api.posts.noteImage({
       boardId: state.activeBoard.id,
       content: images[0],
       color: state.selectedPostColor,
@@ -67,63 +59,57 @@ class BoardScreen extends React.Component {
         left: coords.left - POST_WIDTH / 2,
         top: coords.top - POST_WIDTH / 2
       }
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
-  static handlePostMove (postId, position) {
-    posts.move({
+  static handlePostMoveEnd (postId, position) {
+    api.posts.move({
       postId,
       position
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
-  static handlePostColorChange (postId, color) {
-    posts.recolor({
+  static handlePostRecolor (postId, color) {
+    api.posts.recolor({
       postId,
       to: color
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
   static handlePostEditStart (editedPost) {
     activePost.startEditing({
-      id: editedPost.id,
+      postId: editedPost.id,
       content: editedPost.content
     });
   }
 
-  static handlePostEdit (newText) {
-    activePost.changeText(newText);
+  static handlePostContentChange (newContent) {
+    activePost.changeContent(newContent);
   }
 
   static handlePostEditEnd () {
-    posts.edit({
-      postId: state.activePostId,
-      content: state.activePostContent
+    api.posts.edit({
+      postId: state.activePost.id,
+      content: state.activePost.content
     }).
       then(() => {
         setTimeout(() => {
           activePost.stopEditing();
         }, 100);
-      }).
-      catch(BoardScreen.handleError);
+      });
   }
 
   static handlePostMarkAsDone (postId) {
-    posts.markAsDone({
+    api.posts.markAsDone({
       postId
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
   static handlePostThrowAway (postId) {
-    activeBoard.throwAwayPost({
+    api.board.throwAwayPost({
       boardId: state.activeBoard.id,
       postId
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
   static handleMainMenuClicked (id) {
@@ -134,11 +120,12 @@ class BoardScreen extends React.Component {
           cancel: 'Cancel',
           confirm: 'Clear all posts!',
           onConfirm: () => {
-            activeBoard.cleanUp().
+            api.board.cleanUp({
+              boardId: state.activeBoard.id
+            }).
               then(() => {
                 menu.collapse();
-              }).
-              catch(BoardScreen.handleError);
+              });
           }
         });
         break;
@@ -150,15 +137,15 @@ class BoardScreen extends React.Component {
   constructor (props) {
     super(props);
 
-    this.subscriptions = [];
+    this.unsubscribe = undefined;
   }
 
   componentDidMount () {
     const { match, history } = this.props;
 
-    activeBoard.readAndObserve(match.params.slug).
+    api.board.readAndObserve(match.params.slug).
       then(cancel => {
-        this.subscriptions.push(cancel);
+        this.unsubscribe = cancel;
 
         services.eventbus.on('main-menu::clicked', BoardScreen.handleMainMenuClicked);
       }).
@@ -172,9 +159,9 @@ class BoardScreen extends React.Component {
   componentWillUnmount () {
     services.eventbus.removeListener('main-menu::clicked', BoardScreen.handleMainMenuClicked);
 
-    this.subscriptions.forEach(cancel => {
-      cancel();
-    });
+    if (typeof this.unsubscribe === 'function') {
+      this.unsubscribe();
+    }
   }
   /* eslint-enable class-methods-use-this */
 
@@ -186,31 +173,35 @@ class BoardScreen extends React.Component {
 
     return (
       <div className={ styles.BoardScreen }>
-        <FileDropZone onFileDropped={ BoardScreen.handleImageNoted }>
+        <FileDropZone onDrop={ BoardScreen.handleFileDrop }>
           <div className={ styles.Posts } onDoubleClick={ BoardScreen.handleDoubleClick }>
             <ReactTransitionGroup>
-              {state.posts.map(post => (
-                <Post
-                  id={ post.id }
-                  key={ post.id }
-                  isEditing={ state.activePostId === post.id }
-                  left={ post.position.left }
-                  top={ post.position.top }
-                  color={ post.color }
-                  type={ post.type }
-                  content={ state.activePostId === post.id ? state.activePostContent : post.content }
-                  creator={ post.creator }
-                  isDone={ post.isDone }
-                  onMoveEnd={ BoardScreen.handlePostMove }
-                  onColorChange={ BoardScreen.handlePostColorChange }
-                  onEditStart={ BoardScreen.handlePostEditStart }
-                  onEdit={ BoardScreen.handlePostEdit }
-                  onEditEnd={ BoardScreen.handlePostEditEnd }
-                  onMarkAsDone={ BoardScreen.handlePostMarkAsDone }
-                  onThrowAway={ BoardScreen.handlePostThrowAway }
-                  onFullscreenRequest={ BoardScreen.handleFullscreenRequested }
-                />
-              ))}
+              { state.posts.map(post => {
+                const isEditing = state.activePost && state.activePost.id === post.id;
+
+                return (
+                  <Post
+                    id={ post.id }
+                    key={ post.id }
+                    isEditing={ isEditing }
+                    left={ post.position.left }
+                    top={ post.position.top }
+                    color={ post.color }
+                    type={ post.type }
+                    content={ isEditing ? state.activePost.content : post.content }
+                    creator={ post.creator }
+                    isDone={ post.isDone }
+                    onMoveEnd={ BoardScreen.handlePostMoveEnd }
+                    onRecolor={ BoardScreen.handlePostRecolor }
+                    onEditStart={ BoardScreen.handlePostEditStart }
+                    onContentChange={ BoardScreen.handlePostContentChange }
+                    onEditEnd={ BoardScreen.handlePostEditEnd }
+                    onMarkAsDone={ BoardScreen.handlePostMarkAsDone }
+                    onThrowAway={ BoardScreen.handlePostThrowAway }
+                    onRequestFullscreen={ BoardScreen.handleRequestFullscreen }
+                  />
+                );
+              })}
             </ReactTransitionGroup>
           </div>
         </FileDropZone>

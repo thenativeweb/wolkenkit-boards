@@ -1,10 +1,9 @@
-import services from '../../services';
-import state from '../../state';
+import services from '../../../services';
 
 // import storage from '../storage';
 
 const throwAwayPost = function (options) {
-  const { boardsApi } = services;
+  const { boardsApi, overlay } = services;
 
   if (!options) {
     throw new Error('Options are missing.');
@@ -18,16 +17,16 @@ const throwAwayPost = function (options) {
 
   const { boardId, postId } = options;
 
-  if (!state.activeBoard || !state.activeBoard.id) {
-    throw new Error('No board activated yet.');
-  }
-
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     boardsApi.collaboration.board(boardId).throwAwayPost({
       postId
     }).
       await('thrownAwayPost', () => resolve()).
-      failed(err => reject(err));
+      failed(err => {
+        overlay.alert({
+          text: err.message
+        });
+      });
 
     // Once this operation is supported by wolkenkit-depot-file this can be enabled.
     // if (type === 'image') {

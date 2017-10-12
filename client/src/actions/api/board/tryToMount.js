@@ -1,18 +1,15 @@
-import boards from '../../actions/boards';
+import boards from '../boards';
 import mount from './mount';
-import services from '../../services';
+import services from '../../../services';
 import slugify from 'slugify';
-import state from '../../state';
+import state from '../../../state';
 
-const tryToMount = function (options) {
-  if (!options) {
-    throw new Error('Options are missing.');
-  }
-  if (!options.title) {
+const tryToMount = function ({ title, isPrivate }) {
+  if (!title) {
     throw new Error('Title is missing.');
   }
 
-  const { title, isPrivate } = options;
+  const { overlay } = services;
 
   return new Promise((resolve, reject) => {
     boards.isSlugAvailable(slugify(title, { lower: true })).
@@ -23,14 +20,17 @@ const tryToMount = function (options) {
         }).
           then(resolve).
           catch(err => {
-            services.overlay.alert(err.message);
+            overlay.alert(err.message);
 
             reject(err);
           });
       }).
       catch(() => {
         state.newBoardTitle = '';
-        reject(new Error('A board with that name already exists! Try another one.'));
+
+        overlay.alert({
+          text: 'A board with that name already exists! Try another one.'
+        });
       });
   });
 };

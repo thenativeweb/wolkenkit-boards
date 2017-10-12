@@ -1,5 +1,5 @@
-import services from '../../services';
-import state from '../../state';
+import services from '../../../services';
+import state from '../../../state';
 
 const rename = function (newTitle) {
   const { boardsApi } = services;
@@ -16,6 +16,7 @@ const rename = function (newTitle) {
     boardsApi.collaboration.board(state.activeBoard.id).rename({
       title: newTitle
     }).
+      await('renamed', event => resolve(event)).
       failed(error => reject(error));
   });
 };

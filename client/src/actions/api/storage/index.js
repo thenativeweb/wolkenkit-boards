@@ -2,7 +2,7 @@ import request from 'superagent';
 
 /* eslint-disable no-process-env */
 const host = process.env.STORAGE_HOST || 'local.wolkenkit.io',
-      port = process.env.STORAGE_PORT || 3002;
+      port = process.env.STORAGE_PORT || 3001;
 /* eslint-enable no-process-env */
 
 const storageEndPointUrl = `https://${host}:${port}/`;

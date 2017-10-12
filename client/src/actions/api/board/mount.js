@@ -1,5 +1,5 @@
-import services from '../../services';
-import state from '../../state';
+import services from '../../../services';
+import state from '../../../state';
 
 const mount = function (options) {
   if (!options) {

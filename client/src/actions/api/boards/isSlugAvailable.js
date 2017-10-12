@@ -1,4 +1,4 @@
-import services from '../../services';
+import services from '../../../services';
 
 const isSlugAvailable = function (slug) {
   if (!slug) {

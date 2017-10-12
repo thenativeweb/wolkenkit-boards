@@ -1,8 +1,8 @@
 import { action } from 'mobx';
-import services from '../../services';
+import services from '../../../services';
 
 const edit = action(options => {
-  const { boardsApi } = services;
+  const { boardsApi, overlay } = services;
 
   if (!options) {
     throw new Error('Options are missing.');
@@ -16,12 +16,16 @@ const edit = action(options => {
 
   const { postId, content } = options;
 
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     boardsApi.collaboration.post(postId).edit({
       content
     }).
       await('edited', () => resolve()).
-      failed(err => reject(err));
+      failed(err => {
+        overlay.alert({
+          text: err.message
+        });
+      });
   });
 });
 

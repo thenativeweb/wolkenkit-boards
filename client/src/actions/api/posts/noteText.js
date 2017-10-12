@@ -1,9 +1,8 @@
 import { action } from 'mobx';
-import services from '../../services';
-import state from '../../state';
+import services from '../../../services';
 
 const noteText = action(options => {
-  const { boardsApi } = services;
+  const { boardsApi, overlay } = services;
 
   if (!options) {
     throw new Error('Options are missing.');
@@ -23,11 +22,7 @@ const noteText = action(options => {
 
   const { boardId, content, color, position } = options;
 
-  if (!state.activeBoard || !state.activeBoard.id) {
-    throw new Error('No board activated yet.');
-  }
-
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     boardsApi.collaboration.
       post().
       note({
@@ -40,7 +35,11 @@ const noteText = action(options => {
       await('noted', event => {
         resolve(event);
       }).
-      failed(err => reject(err));
+      failed(err => {
+        overlay.alert({
+          text: err.message
+        });
+      });
   });
 });
 

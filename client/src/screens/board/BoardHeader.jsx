@@ -1,6 +1,8 @@
 import activeBoard from '../../actions/activeBoard';
+import api from '../../actions/api';
 import { observer } from 'mobx-react';
 import React from 'react';
+import services from '../../services';
 import state from '../../state';
 import styles from './BoardHeader.css';
 import { Form, TextBox } from '../../components';
@@ -11,7 +13,17 @@ class BoardHeader extends React.Component {
   }
 
   static handleTitleBlur () {
-    activeBoard.tryToRename(state.newBoardTitle);
+    api.board.tryToRename({
+      boardId: state.activeBoard.id,
+      title: state.newBoardTitle
+    }).
+      catch(BoardHeader.handleError);
+  }
+
+  static handleError (error) {
+    services.overlay.alert({
+      text: error.message
+    });
   }
 
   constructor (props) {
@@ -28,8 +40,6 @@ class BoardHeader extends React.Component {
   handleFormSubmit (event) {
     event.preventDefault();
     this.headerTitleInput.blur();
-
-    activeBoard.tryToRename(state.newBoardTitle);
   }
 
   render () {

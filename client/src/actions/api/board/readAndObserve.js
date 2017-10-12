@@ -1,6 +1,6 @@
 import { extendObservable } from 'mobx';
-import services from '../../services';
-import state from '../../state';
+import services from '../../../services';
+import state from '../../../state';
 
 const readAndObserve = function (slug) {
   const { boardsApi } = services;
@@ -45,9 +45,9 @@ const readAndObserve = function (slug) {
           });
         });
 
-        const cancel = () => {
-          subscriptions.forEach(cancelSubscription => {
-            cancelSubscription();
+        const unsubscribe = () => {
+          subscriptions.forEach(cancel => {
+            cancel();
           });
 
           extendObservable(state, {
@@ -57,7 +57,7 @@ const readAndObserve = function (slug) {
           });
         };
 
-        resolve(cancel);
+        resolve(unsubscribe);
       }).
       failed(err => reject(err));
   });

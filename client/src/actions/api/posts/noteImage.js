@@ -1,10 +1,9 @@
 import { action } from 'mobx';
-import services from '../../services';
-import state from '../../state';
+import services from '../../../services';
 import storage from '../storage';
 
 const noteText = action(options => {
-  const { boardsApi } = services;
+  const { boardsApi, overlay } = services;
 
   if (!options) {
     throw new Error('Options are missing.');
@@ -24,10 +23,6 @@ const noteText = action(options => {
 
   const { boardId, content, color, position } = options;
 
-  if (!state.activeBoard || !state.activeBoard.id) {
-    throw new Error('No board activated yet.');
-  }
-
   return new Promise((resolve, reject) => {
     storage.put(content).
       then(object => {
@@ -38,8 +33,14 @@ const noteText = action(options => {
           type: 'image',
           position
         }).
-          await('noted', () => resolve()).
-          failed(err => reject(err));
+          await('noted', event => {
+            resolve(event);
+          }).
+          failed(err => {
+            overlay.alert({
+              text: err.message
+            });
+          });
       }).
       catch(err => reject(err));
   });

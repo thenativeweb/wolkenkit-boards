@@ -1,4 +1,4 @@
-import boards from '../../actions/boards';
+import api from '../../actions/api';
 import eventbus from '../../services/eventbus';
 import MountBoardForm from './MountBoardForm.jsx';
 import { observer } from 'mobx-react';
@@ -30,30 +30,24 @@ class BoardsScreen extends React.Component {
       mountDialogVisible: false
     };
 
-    this.subscriptions = [];
+    this.unsubscribe = undefined;
   }
 
   componentDidMount () {
-    boards.readAndObserve().
+    api.boards.readAndObserve().
       then(cancel => {
-        this.subscriptions.push(cancel);
-
-        return boards.observeEvents();
-      }).
-      then(cancel => {
-        this.subscriptions.push(cancel);
-      }).
-      catch(BoardsScreen.handleError);
+        this.unsubscribe = cancel;
+      });
   }
 
   componentWillUnmount () {
-    this.subscriptions.forEach(cancel => {
-      cancel();
-    });
+    if (typeof this.unsubscribe === 'function') {
+      this.unsubscribe();
+    }
   }
 
   handleBoardMounted (event) {
-    boards.tryToMount({
+    api.board.tryToMount({
       title: event.title,
       isPrivate: event.isPrivate
     }).
@@ -61,8 +55,7 @@ class BoardsScreen extends React.Component {
         this.setState({
           mountDialogVisible: false
         });
-      }).
-      catch(err => services.overlay.alert({ text: err.message }));
+      });
   }
 
   handleMountClicked (event) {
@@ -91,7 +84,7 @@ class BoardsScreen extends React.Component {
           cancel: 'Cancel',
           confirm: 'Discard it!',
           onConfirm: () => {
-            boards.discard({
+            api.board.discard({
               boardId: data
             }).
               then(() => {
