@@ -23,8 +23,7 @@ const readAndObserve = function (slug) {
         updated(boards => {
           if (boards[0]) {
             extendObservable(state, {
-              activeBoard: boards[0],
-              newBoardTitle: boards[0].title
+              activeBoard: boards[0]
             });
           }
         });
@@ -52,8 +51,7 @@ const readAndObserve = function (slug) {
 
           extendObservable(state, {
             activeBoard: undefined,
-            posts: [],
-            newBoardTitle: undefined
+            posts: []
           });
         };
 

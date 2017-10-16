@@ -1,5 +1,6 @@
 import boards from '../boards';
 import rename from './rename';
+import services from '../../../services';
 import slugify from 'slugify';
 import state from '../../../state';
 
@@ -11,17 +12,20 @@ const tryToRename = function ({ boardId, title }) {
     throw new Error('Title is missing');
   }
 
-  if (title === state.activeBoard.title) {
-    return;
-  }
+  return new Promise(resolve => {
+    if (title === state.activeBoard.title) {
+      return resolve();
+    }
 
-  return new Promise((resolve, reject) => {
     boards.isSlugAvailable(slugify(title, { lower: true })).
       then(() => rename(title)).
+      then(event => resolve(event)).
       catch(() => {
-        state.newBoardTitle = state.activeBoard.title;
+        state.newTitle = state.activeBoard.title;
 
-        reject(new Error('A board with that name already exists! Try another one.'));
+        services.overlay.alert({
+          text: 'A board with that name already exists! Try another one.'
+        });
       });
   });
 };

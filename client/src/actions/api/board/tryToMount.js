@@ -1,8 +1,6 @@
-import boards from '../boards';
-import mount from './mount';
+import api from '../index';
 import services from '../../../services';
 import slugify from 'slugify';
-import state from '../../../state';
 
 const tryToMount = function ({ title, isPrivate }) {
   if (!title) {
@@ -12,9 +10,9 @@ const tryToMount = function ({ title, isPrivate }) {
   const { overlay } = services;
 
   return new Promise((resolve, reject) => {
-    boards.isSlugAvailable(slugify(title, { lower: true })).
+    api.boards.isSlugAvailable(slugify(title, { lower: true })).
       then(() => {
-        mount({
+        api.board.mount({
           title,
           isPrivate
         }).
@@ -26,8 +24,6 @@ const tryToMount = function ({ title, isPrivate }) {
           });
       }).
       catch(() => {
-        state.newBoardTitle = '';
-
         overlay.alert({
           text: 'A board with that name already exists! Try another one.'
         });

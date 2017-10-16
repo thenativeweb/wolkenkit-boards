@@ -2,48 +2,51 @@ import activeBoard from '../../actions/activeBoard';
 import api from '../../actions/api';
 import { observer } from 'mobx-react';
 import React from 'react';
-import services from '../../services';
 import state from '../../state';
 import styles from './BoardHeader.css';
 import { Form, TextBox } from '../../components';
 
 class BoardHeader extends React.Component {
-  static handleTitleChanged (event) {
-    activeBoard.adjustTitle(event.target.value);
+  static handleTitleFocus () {
+    activeBoard.startEditing(state.activeBoard.title);
   }
 
-  static handleTitleBlur () {
-    api.board.tryToRename({
-      boardId: state.activeBoard.id,
-      title: state.newBoardTitle
-    }).
-      catch(BoardHeader.handleError);
-  }
-
-  static handleError (error) {
-    services.overlay.alert({
-      text: error.message
-    });
+  static handleTitleChange (event) {
+    activeBoard.changeTitle(event.target.value);
   }
 
   constructor (props) {
     super(props);
 
     this.handleInputRefChanged = this.handleInputRefChanged.bind(this);
+    this.handleTitleBlur = this.handleTitleBlur.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleInputRefChanged (input) {
-    this.headerTitleInput = input;
+    this.titleInput = input;
+  }
+
+  handleTitleBlur () {
+    const { history } = this.props;
+
+    api.board.tryToRename({
+      boardId: state.activeBoard.id,
+      title: state.newTitle
+    }).
+      then(event => {
+        history.replace(`/board/${event.data.slug}`);
+        activeBoard.stopEditing();
+      });
   }
 
   handleFormSubmit (event) {
     event.preventDefault();
-    this.headerTitleInput.blur();
+    this.titleInput.blur();
   }
 
   render () {
-    if (state.newBoardTitle === undefined) {
+    if (!state.activeBoard) {
       return null;
     }
 
@@ -54,9 +57,10 @@ class BoardHeader extends React.Component {
           autofocus={ false }
           ref={ this.handleInputRefChanged }
           type='dense'
-          value={ state.newBoardTitle }
-          onChange={ BoardHeader.handleTitleChanged }
-          onBlur={ BoardHeader.handleTitleBlur }
+          value={ state.newTitle !== undefined ? state.newTitle : state.activeBoard.title }
+          onFocus={ BoardHeader.handleTitleFocus }
+          onChange={ BoardHeader.handleTitleChange }
+          onBlur={ this.handleTitleBlur }
         />
       </Form>
     );

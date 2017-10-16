@@ -1,15 +1,22 @@
 import api from '../../actions/api';
 import eventbus from '../../services/eventbus';
-import MountBoardForm from './MountBoardForm.jsx';
+import MountBoardDialog from './MountBoardDialog.jsx';
+import mountBoardDialog from '../../actions/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
 import state from '../../state';
 import styles from './BoardsScreen.css';
-import { Dialog, List, ListItem, NonIdealState } from '../../components';
+import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
+  static handleMountClicked (event) {
+    event.preventDefault();
+
+    mountBoardDialog.show();
+  }
+
   static handleError (error) {
     services.overlay.alert({
       text: error.message
@@ -21,14 +28,6 @@ class BoardsScreen extends React.Component {
 
     this.handleContextMenuClicked = this.handleContextMenuClicked.bind(this);
     this.handleContextMenuItemSelected = this.handleContextMenuItemSelected.bind(this);
-
-    this.handleBoardMounted = this.handleBoardMounted.bind(this);
-    this.handleMountClicked = this.handleMountClicked.bind(this);
-    this.handleMountBoardDialogCanceled = this.handleMountBoardDialogCanceled.bind(this);
-
-    this.state = {
-      mountDialogVisible: false
-    };
 
     this.unsubscribe = undefined;
   }
@@ -44,32 +43,6 @@ class BoardsScreen extends React.Component {
     if (typeof this.unsubscribe === 'function') {
       this.unsubscribe();
     }
-  }
-
-  handleBoardMounted (event) {
-    api.board.tryToMount({
-      title: event.title,
-      isPrivate: event.isPrivate
-    }).
-      then(() => {
-        this.setState({
-          mountDialogVisible: false
-        });
-      });
-  }
-
-  handleMountClicked (event) {
-    event.preventDefault();
-
-    this.setState({
-      mountDialogVisible: true
-    });
-  }
-
-  handleMountBoardDialogCanceled () {
-    this.setState({
-      mountDialogVisible: false
-    });
   }
 
   handleContextMenuItemSelected (id, data) {
@@ -119,8 +92,6 @@ class BoardsScreen extends React.Component {
   }
 
   render () {
-    const { mountDialogVisible } = this.state;
-
     return (
       <div className={ styles.BoardsScreen }>
         <List className={ styles.List }>
@@ -128,7 +99,7 @@ class BoardsScreen extends React.Component {
             <ListItem
               type='add'
               label='Mount new board'
-              onClick={ this.handleMountClicked }
+              onClick={ BoardsScreen.handleMountClicked }
             />
           </List.Header>
           <NonIdealState when={ state.boards.length === 0 }>
@@ -148,15 +119,8 @@ class BoardsScreen extends React.Component {
             ))}
           </ReactTransitionGroup>
         </List>
-        <Dialog
-          isVisible={ mountDialogVisible }
-          onCancel={ this.handleMountBoardDialogCanceled }
-        >
-          <MountBoardForm
-            onMountBoard={ this.handleBoardMounted }
-            onCancel={ this.handleMountBoardDialogCanceled }
-          />
-        </Dialog>
+
+        <MountBoardDialog />
       </div>
     );
   }
