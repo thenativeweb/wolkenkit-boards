@@ -10,7 +10,6 @@
   text-align: center;
   font-size: var(--font-size-small);
   letter-spacing: 0;
-  margin: var(--grid-step-size);
   padding-top: calc(var(--grid-step-size) * 2);
   padding-bottom: calc(var(--grid-step-size) * 1.5);
   font-weight: 300;
