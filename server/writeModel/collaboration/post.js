@@ -37,7 +37,7 @@ const commands = {
         type: { type: 'string', enum: [ 'text', 'image' ]},
         color: { type: 'string', minLength: 1 }
       },
-      required: [ 'boardId', 'content', 'type', 'color' ]
+      required: [ 'boardId', 'content', 'position', 'type', 'color' ]
     }),
     (post, command, services, mark) => {
       post.events.publish('noted', {
@@ -79,6 +79,13 @@ const commands = {
 
   edit: [
     only.ifExists(),
+    only.ifValidatedBy({
+      type: 'object',
+      properties: {
+        content: { type: [ 'string', 'object' ]}
+      },
+      required: [ 'content' ]
+    }),
     (post, command, mark) => {
       post.events.publish('edited', {
         content: command.data.content
@@ -90,6 +97,20 @@ const commands = {
 
   move: [
     only.ifExists(),
+    only.ifValidatedBy({
+      type: 'object',
+      properties: {
+        position: {
+          type: 'object',
+          properties: {
+            left: { type: 'number' },
+            top: { type: 'number' }
+          },
+          required: [ 'left', 'top' ]
+        }
+      },
+      required: [ 'position' ]
+    }),
     (post, command, mark) => {
       post.events.publish('moved', {
         position: command.data.position

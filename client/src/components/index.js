@@ -16,7 +16,6 @@ import MediaViewer from './MediaViewer.jsx';
 import MenuItem from './menu/MenuItem.jsx';
 import NonIdealState from './NonIdealState.jsx';
 import Post from './Post.jsx';
-import Posts from './Posts.jsx';
 import Screen from './Screen.jsx';
 import SidebarMenu from './menu/SidebarMenu.jsx';
 import Symbols from './Symbols.jsx';
@@ -41,7 +40,6 @@ export {
   MenuItem,
   NonIdealState,
   Post,
-  Posts,
   Screen,
   SidebarMenu,
   Symbols,

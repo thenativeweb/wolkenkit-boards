@@ -14,14 +14,11 @@ class Post extends React.PureComponent {
 
     this.handleElementRefChanged = this.handleElementRefChanged.bind(this);
     this.handleImageRefChanged = this.handleImageRefChanged.bind(this);
-
+    this.handleDoubleClick = this.handleDoubleClick.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragMove = this.handleDragMove.bind(this);
     this.handleDragStop = this.handleDragStop.bind(this);
-    this.handleEditingStarted = this.handleEditingStarted.bind(this);
-    this.handleTextEdited = this.handleTextEdited.bind(this);
-    this.handleEditingStopped = this.handleEditingStopped.bind(this);
-    this.handleTextChanged = this.handleTextChanged.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
     this.handleContextMenuButtonClicked = this.handleContextMenuButtonClicked.bind(this);
     this.handleFullscreenButtonPressed = this.handleFullscreenButtonPressed.bind(this);
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
@@ -82,28 +79,22 @@ class Post extends React.PureComponent {
            this.state.previousPosition.top !== newPosition.top;
   }
 
-  handleEditingStarted () {
-    this.setState({
-      isBeingEdited: true
-    });
-  }
+  handleContentChange (event) {
+    const newText = event.target.value;
 
-  handleEditingStopped () {
-    this.setState({
-      isBeingEdited: false
-    });
-  }
+    const { id, color, onRecolor } = this.props;
 
-  handleTextChanged (newText) {
     if (newText.includes(':)') || newText.includes(':-)')) {
-      this.props.onColorChange(this.props.id, 'green');
+      if (color !== 'green') {
+        onRecolor(id, 'green');
+      }
     } else if (newText.includes(':(') || newText.includes(':-(')) {
-      this.props.onColorChange(this.props.id, 'red');
+      if (color !== 'red') {
+        onRecolor(this.props.id, 'red');
+      }
     }
-  }
 
-  handleTextEdited (newText) {
-    this.props.onEdit(this.props.id, newText);
+    this.props.onContentChange(newText);
   }
 
   handleContextMenuButtonClicked (event) {
@@ -123,7 +114,7 @@ class Post extends React.PureComponent {
   }
 
   handleFullscreenButtonPressed () {
-    this.props.onFullscreenRequest({
+    this.props.onRequestFullscreen({
       type: this.props.type,
       content: this.props.content,
       element: this.imageRef
@@ -137,6 +128,18 @@ class Post extends React.PureComponent {
         break;
       case 'throwAway':
         this.props.onThrowAway(this.props.id);
+        break;
+      default:
+        break;
+    }
+  }
+
+  handleDoubleClick () {
+    const { id, content, type, onEditStart } = this.props;
+
+    switch (type) {
+      case 'text':
+        onEditStart({ id, content, type });
         break;
       default:
         break;
@@ -192,11 +195,10 @@ class Post extends React.PureComponent {
     return (
       <EditableText
         className={ styles.Content }
-        initialText={ this.props.content }
-        onEditingStarted={ this.handleEditingStarted }
-        onChange={ this.handleTextChanged }
-        onEditingStopped={ this.handleEditingStopped }
-        onEdited={ this.handleTextEdited }
+        content={ this.props.content }
+        isEditing={ this.props.isEditing }
+        onChange={ this.handleContentChange }
+        onBlur={ this.props.onEditEnd }
       />
     );
   }
@@ -262,11 +264,11 @@ class Post extends React.PureComponent {
   }
 
   render () {
-    const { color, isDone, left, top, type } = this.props;
-    const { dragging, isBeingDragged, isBeingEdited, rotation } = this.state;
+    const { color, isDone, left, top, type, isEditing } = this.props;
+    const { dragging, isBeingDragged, rotation } = this.state;
 
     const postClasses = classNames(styles.Post, {
-      [styles.IsEditing]: isBeingEdited,
+      [styles.IsEditing]: isEditing,
       [styles.IsDragging]: isBeingDragged,
       [styles.IsDone]: isDone,
       [styles.ColorGreen]: color === 'green',
@@ -289,7 +291,7 @@ class Post extends React.PureComponent {
 
     return (
       <DraggableCore
-        disabled={ isBeingEdited }
+        disabled={ isEditing }
         onStart={ this.handleDragStart }
         onDrag={ this.handleDragMove }
         onStop={ this.handleDragStop }
@@ -302,6 +304,7 @@ class Post extends React.PureComponent {
             ref={ this.handleElementRefChanged }
             className={ classNames(postClasses) }
             data-type={ this.props.type }
+            onDoubleClick={ this.handleDoubleClick }
             style={{ transform: rotation }}
           >
             {this.renderContent(type)}
@@ -322,8 +325,12 @@ Post.defaultProps = {
   isDone: false,
   creator: '',
   onMoveEnd () {},
-  onColorChange () {},
-  onEdit () {}
+  onContentChange () {},
+  onEditStart () {},
+  onEditEnd () {},
+  onRecolor () {},
+  onRequestFullscreen () {},
+  onThrowAway () {}
 };
 
 Post.propTypes = {
@@ -336,11 +343,14 @@ Post.propTypes = {
   type: PropTypes.string.isRequired,
   color: PropTypes.string,
   creator: PropTypes.string,
-  onColorChange: PropTypes.func,
-  onEdit: PropTypes.func,
-  onFullscreenRequest: PropTypes.func,
+  isEditing: PropTypes.bool,
+  onContentChange: PropTypes.func,
+  onEditEnd: PropTypes.func,
+  onEditStart: PropTypes.func,
   onMarkAsDone: PropTypes.func,
   onMoveEnd: PropTypes.func,
+  onRecolor: PropTypes.func,
+  onRequestFullscreen: PropTypes.func,
   onThrowAway: PropTypes.func
 };
 

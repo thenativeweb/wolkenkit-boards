@@ -1,15 +1,15 @@
-import changeTitle from './changeTitle';
+import changeContent from './changeContent';
 import startEditing from './startEditing';
 import stopEditing from './stopEditing';
 
 export default {
-  changeTitle,
+  changeContent,
   startEditing,
   stopEditing
 };
 
 export {
-  changeTitle,
+  changeContent,
   startEditing,
   stopEditing
 };

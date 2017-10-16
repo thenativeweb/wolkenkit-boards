@@ -15,6 +15,8 @@ const Button = function (props) {
     [styles.TypeIconOnly]: icon && !children
   }, className);
 
+  const buttonType = type === 'primary' ? 'submit' : 'button';
+
   if (!icon) {
     return (
       <button
@@ -22,6 +24,7 @@ const Button = function (props) {
         data-id={ props['data-id'] }
         onClick={ onClick }
         className={ buttonClassNames }
+        type={ buttonType }
       >
         { children }
       </button>
@@ -34,6 +37,7 @@ const Button = function (props) {
       data-id={ props['data-id'] }
       onClick={ onClick }
       className={ buttonClassNames }
+      type={ buttonType }
     >
       <Icon className={ styles.Icon } name={ props.icon } size={ props.iconSize } />
       { children ? <Label className={ styles.Label }>{ children }</Label> : null }

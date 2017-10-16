@@ -1,17 +1,18 @@
-import activeBoard from '../../actions/activeBoard';
+import activePost from '../../actions/activePost';
+import api from '../../actions/api';
 import menu from '../../actions/menu';
 import { observer } from 'mobx-react';
-import post from '../../actions/post';
 import React from 'react';
+import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
 import state from '../../state';
 import styles from './BoardScreen.css';
-import { ColorToggle, MediaViewer, Posts } from '../../components';
+import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
-const POST_WIDTH = 180;
+const POST_WIDTH = 192;
 
 class BoardScreen extends React.Component {
-  static handleFullscreenRequested (options) {
+  static handleRequestFullscreen (options) {
     services.mediaViewer.show({
       type: options.type,
       media: options.content,
@@ -19,20 +20,18 @@ class BoardScreen extends React.Component {
     });
   }
 
-  static handleError (error) {
-    services.overlay.alert({
-      text: error.message
-    });
-  }
-
   static handleColorToggleChanged (newColor) {
     state.selectedPostColor = newColor;
   }
 
-  static handleTextNoted (event) {
+  static handleDoubleClick (event) {
+    if (!event.target.classList.contains(styles.Posts)) {
+      return;
+    }
+
     const containerPosition = event.target.getBoundingClientRect();
 
-    activeBoard.noteText({
+    api.posts.noteText({
       boardId: state.activeBoard.id,
       content: 'New post',
       color: state.selectedPostColor,
@@ -41,11 +40,18 @@ class BoardScreen extends React.Component {
         top: event.clientY - containerPosition.top - POST_WIDTH / 2
       }
     }).
-      catch(BoardScreen.handleError);
+      then(notedEvent => {
+        setTimeout(() => {
+          activePost.startEditing({
+            postId: notedEvent.aggregate.id,
+            content: notedEvent.data.content
+          });
+        }, 300);
+      });
   }
 
-  static handleImageNoted (images, coords) {
-    activeBoard.noteImage({
+  static handleFileDrop (images, coords) {
+    api.posts.noteImage({
       boardId: state.activeBoard.id,
       content: images[0],
       color: state.selectedPostColor,
@@ -53,47 +59,57 @@ class BoardScreen extends React.Component {
         left: coords.left - POST_WIDTH / 2,
         top: coords.top - POST_WIDTH / 2
       }
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
-  static handlePostMoved (postId, position) {
-    post.move({
+  static handlePostMoveEnd (postId, position) {
+    api.posts.move({
       postId,
       position
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
-  static handlePostColorChanged (postId, color) {
-    post.recolor({
+  static handlePostRecolor (postId, color) {
+    api.posts.recolor({
       postId,
       to: color
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
-  static handlePostEdited (postId, content) {
-    post.edit({
-      postId,
-      content
-    }).
-      catch(BoardScreen.handleError);
+  static handlePostEditStart (editedPost) {
+    activePost.startEditing({
+      postId: editedPost.id,
+      content: editedPost.content
+    });
   }
 
-  static handlePostMarkedAsDone (postId) {
-    post.markAsDone({
+  static handlePostContentChange (newContent) {
+    activePost.changeContent(newContent);
+  }
+
+  static handlePostEditEnd () {
+    api.posts.edit({
+      postId: state.activePost.id,
+      content: state.activePost.content
+    }).
+      then(() => {
+        setTimeout(() => {
+          activePost.stopEditing();
+        }, 100);
+      });
+  }
+
+  static handlePostMarkAsDone (postId) {
+    api.posts.markAsDone({
       postId
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
-  static handlePostThrownAway (postId) {
-    activeBoard.throwAwayPost({
+  static handlePostThrowAway (postId) {
+    api.board.throwAwayPost({
       boardId: state.activeBoard.id,
       postId
-    }).
-      catch(BoardScreen.handleError);
+    });
   }
 
   static handleMainMenuClicked (id) {
@@ -104,11 +120,12 @@ class BoardScreen extends React.Component {
           cancel: 'Cancel',
           confirm: 'Clear all posts!',
           onConfirm: () => {
-            activeBoard.cleanUp().
+            api.board.cleanUp({
+              boardId: state.activeBoard.id
+            }).
               then(() => {
                 menu.collapse();
-              }).
-              catch(BoardScreen.handleError);
+              });
           }
         });
         break;
@@ -120,17 +137,15 @@ class BoardScreen extends React.Component {
   constructor (props) {
     super(props);
 
-    this.handleHeaderRefChange = this.handleHeaderRefChange.bind(this);
-
-    this.subscriptions = [];
+    this.unsubscribe = undefined;
   }
 
   componentDidMount () {
     const { match, history } = this.props;
 
-    activeBoard.readAndObserve(match.params.slug).
+    api.board.readAndObserve(match.params.slug).
       then(cancel => {
-        this.subscriptions.push(cancel);
+        this.unsubscribe = cancel;
 
         services.eventbus.on('main-menu::clicked', BoardScreen.handleMainMenuClicked);
       }).
@@ -144,15 +159,11 @@ class BoardScreen extends React.Component {
   componentWillUnmount () {
     services.eventbus.removeListener('main-menu::clicked', BoardScreen.handleMainMenuClicked);
 
-    this.subscriptions.forEach(cancel => {
-      cancel();
-    });
+    if (typeof this.unsubscribe === 'function') {
+      this.unsubscribe();
+    }
   }
   /* eslint-enable class-methods-use-this */
-
-  handleHeaderRefChange (header) {
-    this.header = header;
-  }
 
   /* eslint-disable class-methods-use-this */
   render () {
@@ -162,17 +173,39 @@ class BoardScreen extends React.Component {
 
     return (
       <div className={ styles.BoardScreen }>
-        <Posts
-          posts={ state.posts }
-          onTextNote={ BoardScreen.handleTextNoted }
-          onImageNote={ BoardScreen.handleImageNoted }
-          onMove={ BoardScreen.handlePostMoved }
-          onColorChange={ BoardScreen.handlePostColorChanged }
-          onEdit={ BoardScreen.handlePostEdited }
-          onMarkAsDone={ BoardScreen.handlePostMarkedAsDone }
-          onThrowAway={ BoardScreen.handlePostThrownAway }
-          onFullscreenRequest={ BoardScreen.handleFullscreenRequested }
-        />
+        <FileDropZone onDrop={ BoardScreen.handleFileDrop }>
+          <div className={ styles.Posts } onDoubleClick={ BoardScreen.handleDoubleClick }>
+            <ReactTransitionGroup>
+              { state.posts.map(post => {
+                const isEditing = state.activePost && state.activePost.id === post.id;
+
+                return (
+                  <Post
+                    id={ post.id }
+                    key={ post.id }
+                    isEditing={ isEditing }
+                    left={ post.position.left }
+                    top={ post.position.top }
+                    color={ post.color }
+                    type={ post.type }
+                    content={ isEditing ? state.activePost.content : post.content }
+                    creator={ post.creator }
+                    isDone={ post.isDone }
+                    onMoveEnd={ BoardScreen.handlePostMoveEnd }
+                    onRecolor={ BoardScreen.handlePostRecolor }
+                    onEditStart={ BoardScreen.handlePostEditStart }
+                    onContentChange={ BoardScreen.handlePostContentChange }
+                    onEditEnd={ BoardScreen.handlePostEditEnd }
+                    onMarkAsDone={ BoardScreen.handlePostMarkAsDone }
+                    onThrowAway={ BoardScreen.handlePostThrowAway }
+                    onRequestFullscreen={ BoardScreen.handleRequestFullscreen }
+                  />
+                );
+              })}
+            </ReactTransitionGroup>
+          </div>
+        </FileDropZone>
+
         <ColorToggle
           className={ styles.ColorToggle }
           colors={ state.postColors }

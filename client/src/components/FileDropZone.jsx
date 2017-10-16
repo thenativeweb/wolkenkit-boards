@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class FileDropZone extends React.Component {
@@ -14,7 +15,7 @@ class FileDropZone extends React.Component {
   }
 
   handleDrop (dropEvent) {
-    const that = this;
+    const { fileTypes, onDrop } = this.props;
 
     const containerPosition = dropEvent.target.getBoundingClientRect(),
           files = dropEvent.dataTransfer.files,
@@ -31,16 +32,14 @@ class FileDropZone extends React.Component {
     const onImageLoaded = event => {
       readFiles.push(event.target.result);
       if (readFiles.length === files.length) {
-        if (this.props.onFileDropped) {
-          this.props.onFileDropped(readFiles, coords);
-        }
+        onDrop(readFiles, coords);
       }
     };
 
     for (let fileCount = 0; fileCount < files.length; fileCount++) {
       const file = files[fileCount];
 
-      if (!file.type.match(that.props.fileTypes)) {
+      if (!file.type.match(fileTypes)) {
         continue;
       }
       const fileReader = new window.FileReader();
@@ -61,6 +60,11 @@ class FileDropZone extends React.Component {
 
 FileDropZone.defaultProps = {
   fileTypes: 'image.*'
+};
+
+FileDropZone.propTypes = {
+  fileTypes: PropTypes.string,
+  onDrop: PropTypes.func
 };
 
 export default FileDropZone;
