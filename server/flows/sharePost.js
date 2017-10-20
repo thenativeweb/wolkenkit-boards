@@ -13,13 +13,15 @@ const when = {
         recolor: { forAuthenticated: true },
         edit: { forAuthenticated: true },
         markAsDone: { forAuthenticated: true },
-        move: { forAuthenticated: true }
+        move: { forAuthenticated: true },
+        throwAway: { forAuthenticated: true }
       },
       events: {
         recolored: { forAuthenticated: true },
         edited: { forAuthenticated: true },
         markedAsDone: { forAuthenticated: true },
-        moved: { forAuthenticated: true }
+        moved: { forAuthenticated: true },
+        thrownAway: { forAuthenticated: true }
       }
     });
 

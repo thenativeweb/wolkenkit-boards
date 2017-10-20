@@ -106,8 +106,7 @@ class BoardScreen extends React.Component {
   }
 
   static handlePostThrowAway (postId) {
-    api.board.throwAwayPost({
-      boardId: state.activeBoard.id,
+    api.posts.throwAway({
       postId
     });
   }

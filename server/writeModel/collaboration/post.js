@@ -7,13 +7,12 @@ const initialState = {
   content: undefined,
   type: undefined,
   isDone: false,
+  isThrownAway: false,
   position: { top: '10', left: '10' },
   creator: undefined,
   color: 'yellow',
   isAuthorized: {
-    commands: {
-      noted: { forAuthenticated: true }
-    },
+    commands: {},
     events: {}
   }
 };
@@ -127,7 +126,18 @@ const commands = {
         return mark.asRejected('Post has already been marked as done.');
       }
 
-      post.events.publish('markedAsDone', {});
+      post.events.publish('markedAsDone');
+      mark.asDone();
+    }
+  ],
+
+  throwAway: [
+    only.ifExists(),
+    (post, command, mark) => {
+      post.events.publish('thrownAway', {
+        boardId: post.state.boardId
+      });
+
       mark.asDone();
     }
   ]
@@ -167,6 +177,12 @@ const events = {
   markedAsDone (post) {
     post.setState({
       isDone: true
+    });
+  },
+
+  thrownAway (post) {
+    post.setState({
+      isThrownAway: true
     });
   }
 };

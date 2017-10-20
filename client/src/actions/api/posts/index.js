@@ -4,6 +4,7 @@ import move from './move';
 import noteImage from './noteImage';
 import noteText from './noteText';
 import recolor from './recolor';
+import throwAway from './throwAway';
 
 export default {
   edit,
@@ -11,7 +12,8 @@ export default {
   move,
   noteImage,
   noteText,
-  recolor
+  recolor,
+  throwAway
 };
 
 export {
@@ -20,5 +22,6 @@ export {
   move,
   noteImage,
   noteText,
-  recolor
+  recolor,
+  throwAway
 };

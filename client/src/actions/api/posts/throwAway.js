@@ -2,7 +2,7 @@ import services from '../../../services';
 
 // import storage from '../storage';
 
-const throwAwayPost = function (options) {
+const removePost = function (options) {
   const { boardsApi, overlay } = services;
 
   if (!options) {
@@ -11,17 +11,12 @@ const throwAwayPost = function (options) {
   if (!options.postId) {
     throw new Error('Post id is missing.');
   }
-  if (!options.boardId) {
-    throw new Error('Board id is missing.');
-  }
 
-  const { boardId, postId } = options;
+  const { postId } = options;
 
   return new Promise(resolve => {
-    boardsApi.collaboration.board(boardId).throwAwayPost({
-      postId
-    }).
-      await('thrownAwayPost', () => resolve()).
+    boardsApi.collaboration.post(postId).throwAway().
+      await('thrownAway', () => resolve()).
       failed(err => {
         overlay.alert({
           text: err.message
@@ -36,4 +31,4 @@ const throwAwayPost = function (options) {
   });
 };
 
-export default throwAwayPost;
+export default removePost;
