@@ -201,7 +201,6 @@ const events = {
 
   discarded (board) {
     board.setState({
-      postIds: [],
       hasBeenDiscarded: true
     });
   }
