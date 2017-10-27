@@ -2,21 +2,19 @@ import services from '../../../services';
 
 // import storage from '../storage';
 
-const removePost = function (options) {
+const removePost = function ({ boardId, postId }) {
   const { boardsApi, overlay } = services;
 
-  if (!options) {
-    throw new Error('Options are missing.');
+  if (!boardId) {
+    throw new Error('Board id is missing.');
   }
-  if (!options.postId) {
+  if (!postId) {
     throw new Error('Post id is missing.');
   }
 
-  const { postId } = options;
-
   return new Promise(resolve => {
-    boardsApi.collaboration.post(postId).throwAway().
-      await('thrownAway', () => resolve()).
+    boardsApi.collaboration.board(boardId).removePost({ postId }).
+      await('removedPost', () => resolve()).
       failed(err => {
         overlay.alert({
           text: err.message

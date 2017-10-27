@@ -1,16 +1,18 @@
 'use strict';
 
+const onlyIfPostHasNotBeenThrownAway = require('../../shared/middleware/onlyIfPostHasNotBeenThrownAway');
+
 const only = require('wolkenkit-command-tools').only;
 
 const initialState = {
   boardId: undefined,
   content: undefined,
   type: undefined,
-  isDone: false,
-  isThrownAway: false,
   position: { top: '10', left: '10' },
   creator: undefined,
   color: 'yellow',
+  isDone: false,
+  isThrownAway: false,
   isAuthorized: {
     commands: {},
     events: {}
@@ -55,6 +57,7 @@ const commands = {
 
   recolor: [
     only.ifExists(),
+    onlyIfPostHasNotBeenThrownAway(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -78,6 +81,7 @@ const commands = {
 
   edit: [
     only.ifExists(),
+    onlyIfPostHasNotBeenThrownAway(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -96,6 +100,7 @@ const commands = {
 
   move: [
     only.ifExists(),
+    onlyIfPostHasNotBeenThrownAway(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -121,6 +126,7 @@ const commands = {
 
   markAsDone: [
     only.ifExists(),
+    onlyIfPostHasNotBeenThrownAway(),
     (post, command, mark) => {
       if (post.state.isDone) {
         return mark.asRejected('Post has already been marked as done.');
@@ -133,6 +139,7 @@ const commands = {
 
   throwAway: [
     only.ifExists(),
+    onlyIfPostHasNotBeenThrownAway(),
     (post, command, mark) => {
       post.events.publish('thrownAway', {
         boardId: post.state.boardId
@@ -182,6 +189,7 @@ const events = {
 
   thrownAway (post) {
     post.setState({
+      boardId: undefined,
       isThrownAway: true
     });
   }

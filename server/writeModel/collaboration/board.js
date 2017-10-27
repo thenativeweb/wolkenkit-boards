@@ -3,14 +3,14 @@
 const only = require('wolkenkit-command-tools').only,
       slugify = require('slugify');
 
-const onlyIfHasNotBeenDiscarded = require('../../shared/middleware/onlyIfHasNotBeenDiscarded');
+const onlyIfBoardHasNotBeenDiscarded = require('../../shared/middleware/onlyIfBoardHasNotBeenDiscarded');
 
 const initialState = {
   title: undefined,
   slug: undefined,
-  isPrivate: true,
   postIds: [],
-  hasBeenDiscarded: false,
+  isPrivate: true,
+  isDiscarded: false,
   isAuthorized: {
     commands: {
       mount: { forAuthenticated: true }
@@ -25,7 +25,7 @@ const initialState = {
 const commands = {
   mount: [
     only.ifNotExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -44,7 +44,7 @@ const commands = {
 
   share: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     (board, command, mark) => {
       board.authorize({
         commands: {
@@ -67,7 +67,7 @@ const commands = {
 
   rename: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -87,7 +87,7 @@ const commands = {
 
   pinPost: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -111,7 +111,7 @@ const commands = {
 
   removePost: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -134,7 +134,7 @@ const commands = {
 
   cleanUp: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     (board, command, mark) => {
       if (board.state.postIds.length === 0) {
         return mark.asRejected('Board is already empty.');
@@ -150,7 +150,7 @@ const commands = {
 
   discard: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded(),
+    onlyIfBoardHasNotBeenDiscarded(),
     (board, command, mark) => {
       board.events.publish('discarded', {
         postIds: board.state.postIds
@@ -201,7 +201,7 @@ const events = {
 
   discarded (board) {
     board.setState({
-      hasBeenDiscarded: true
+      isDiscarded: true
     });
   }
 };

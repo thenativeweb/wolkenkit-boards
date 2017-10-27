@@ -18,7 +18,7 @@ const tryToRename = function ({ boardId, title }) {
     }
 
     boards.isSlugAvailable(slugify(title, { lower: true })).
-      then(() => rename(title)).
+      then(() => rename({ boardId, title })).
       then(event => resolve(event)).
       catch(() => {
         state.newTitle = state.activeBoard.title;

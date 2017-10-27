@@ -1,8 +1,8 @@
 'use strict';
 
-const onlyIfHasNotBeenDiscarded = function () {
+const onlyIfBoardHasNotBeenDiscarded = function () {
   return function (board, command, mark) {
-    if (board.state.hasBeenDiscarded) {
+    if (board.state.isDiscarded) {
       return mark.asRejected('Board has already been discarded.');
     }
 
@@ -10,4 +10,4 @@ const onlyIfHasNotBeenDiscarded = function () {
   };
 };
 
-module.exports = onlyIfHasNotBeenDiscarded;
+module.exports = onlyIfBoardHasNotBeenDiscarded;
