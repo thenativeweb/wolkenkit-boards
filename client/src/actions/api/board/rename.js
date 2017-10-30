@@ -1,20 +1,19 @@
 import services from '../../../services';
-import state from '../../../state';
 
-const rename = function (newTitle) {
+const rename = function ({ boardId, title }) {
   const { boardsApi } = services;
 
-  if (!newTitle) {
+  if (!boardId) {
+    throw new Error('Board id is missing.');
+  }
+
+  if (!title) {
     throw new Error('New title is missing.');
   }
 
-  if (!state.activeBoard || !state.activeBoard.id) {
-    throw new Error('No board activated yet.');
-  }
-
   return new Promise((resolve, reject) => {
-    boardsApi.collaboration.board(state.activeBoard.id).rename({
-      title: newTitle
+    boardsApi.collaboration.board(boardId).rename({
+      title
     }).
       await('renamed', event => resolve(event)).
       failed(error => reject(error));

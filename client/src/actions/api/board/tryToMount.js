@@ -19,7 +19,6 @@ const tryToMount = function ({ title, isPrivate }) {
           then(resolve).
           catch(err => {
             overlay.alert(err.message);
-
             reject(err);
           });
       }).

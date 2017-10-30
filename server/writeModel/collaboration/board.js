@@ -3,20 +3,14 @@
 const only = require('wolkenkit-command-tools').only,
       slugify = require('slugify');
 
-const onlyIfHasNotBeenDiscarded = function (board, command, mark) {
-  if (board.state.hasBeenDiscarded) {
-    return mark.asRejected('Board has already been discarded.');
-  }
-
-  mark.asReadyForNext();
-};
+const onlyIfBoardHasNotBeenDiscarded = require('../../shared/middleware/onlyIfBoardHasNotBeenDiscarded');
 
 const initialState = {
   title: undefined,
   slug: undefined,
-  isPrivate: true,
   postIds: [],
-  hasBeenDiscarded: false,
+  isPrivate: true,
+  isDiscarded: false,
   isAuthorized: {
     commands: {
       mount: { forAuthenticated: true }
@@ -31,7 +25,7 @@ const initialState = {
 const commands = {
   mount: [
     only.ifNotExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -50,18 +44,18 @@ const commands = {
 
   share: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     (board, command, mark) => {
       board.authorize({
         commands: {
           rename: { forAuthenticated: true },
           pinPost: { forAuthenticated: true },
-          throwAwayPost: { forAuthenticated: true }
+          removePost: { forAuthenticated: true }
         },
         events: {
           renamed: { forAuthenticated: true },
           pinnedPost: { forAuthenticated: true },
-          thrownAwayPost: { forAuthenticated: true }
+          removedPost: { forAuthenticated: true }
         }
       });
 
@@ -73,7 +67,7 @@ const commands = {
 
   rename: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -93,7 +87,7 @@ const commands = {
 
   pinPost: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -115,9 +109,9 @@ const commands = {
     }
   ],
 
-  throwAwayPost: [
+  removePost: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     only.ifValidatedBy({
       type: 'object',
       properties: {
@@ -130,7 +124,7 @@ const commands = {
         return mark.asRejected('Post has not been pinned to this board.');
       }
 
-      board.events.publish('thrownAwayPost', {
+      board.events.publish('removedPost', {
         postId: command.data.postId
       });
 
@@ -140,7 +134,7 @@ const commands = {
 
   cleanUp: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     (board, command, mark) => {
       if (board.state.postIds.length === 0) {
         return mark.asRejected('Board is already empty.');
@@ -156,7 +150,7 @@ const commands = {
 
   discard: [
     only.ifExists(),
-    onlyIfHasNotBeenDiscarded,
+    onlyIfBoardHasNotBeenDiscarded(),
     (board, command, mark) => {
       board.events.publish('discarded', {
         postIds: board.state.postIds
@@ -193,7 +187,7 @@ const events = {
     });
   },
 
-  thrownAwayPost (board, event) {
+  removedPost (board, event) {
     board.setState({
       postIds: board.state.postIds.filter(id => id !== event.data.postId)
     });
@@ -207,8 +201,7 @@ const events = {
 
   discarded (board) {
     board.setState({
-      postIds: [],
-      hasBeenDiscarded: true
+      isDiscarded: true
     });
   }
 };

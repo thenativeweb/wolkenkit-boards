@@ -35,20 +35,6 @@ const when = {
     mark.asDone();
   },
 
-  'collaboration.board.thrownAwayPost': (posts, event, mark) => {
-    posts.remove({
-      where: { id: event.data.postId }
-    });
-    mark.asDone();
-  },
-
-  'collaboration.board.cleanedUp': (posts, event, mark) => {
-    posts.remove({
-      where: { boardId: event.aggregate.id }
-    });
-    mark.asDone();
-  },
-
   'collaboration.board.discarded': (posts, event, mark) => {
     posts.remove({
       where: { boardId: event.aggregate.id }
@@ -84,6 +70,13 @@ const when = {
     posts.update({
       where: { id: event.aggregate.id },
       set: { isDone: true }
+    });
+    mark.asDone();
+  },
+
+  'collaboration.post.thrownAway': (posts, event, mark) => {
+    posts.remove({
+      where: { id: event.aggregate.id }
     });
     mark.asDone();
   }
