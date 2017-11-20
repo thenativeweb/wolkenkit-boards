@@ -55,19 +55,23 @@ const getStyleLoadersFor = function (environment) {
   }
 };
 
+const getEnvironmentVariables = function () {
+  return {
+    'process.env.NODE_ENV': 'production',
+    'process.env.API_HOST': processenv('API_HOST') && JSON.stringify(processenv('API_HOST')),
+    'process.env.API_PORT': processenv('API_PORT'),
+    'process.env.STORAGE_HOST': processenv('STORAGE_HOST') && JSON.stringify(processenv('STORAGE_HOST')),
+    'process.env.STORAGE_PORT': processenv('STORAGE_PORT'),
+    'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
+    'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
+  };
+};
+
 const getPluginsFor = function (environment) {
   switch (environment) {
     case 'production':
       return [
-        new webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify('production'),
-          'process.env.API_HOST': processenv('API_HOST') && JSON.stringify(processenv('API_HOST')),
-          'process.env.API_PORT': processenv('API_PORT'),
-          'process.env.STORAGE_HOST': processenv('STORAGE_HOST') && JSON.stringify(processenv('STORAGE_HOST')),
-          'process.env.STORAGE_PORT': processenv('STORAGE_PORT'),
-          'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
-          'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
-        }),
+        new webpack.DefinePlugin(getEnvironmentVariables()),
         new CompressionPlugin({
           asset: '[path].gz[query]',
           algorithm: 'gzip',
@@ -86,6 +90,7 @@ const getPluginsFor = function (environment) {
       ];
     default:
       return [
+        new webpack.DefinePlugin(getEnvironmentVariables()),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
           template: path.join(paths.src, 'template.ejs')
