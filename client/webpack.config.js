@@ -57,7 +57,7 @@ const getStyleLoadersFor = function (environment) {
 
 const getEnvironmentVariables = function () {
   return {
-    'process.env.NODE_ENV': 'production',
+    'process.env.NODE_ENV': JSON.stringify('production'),
     'process.env.API_HOST': processenv('API_HOST') && JSON.stringify(processenv('API_HOST')),
     'process.env.API_PORT': processenv('API_PORT'),
     'process.env.STORAGE_HOST': processenv('STORAGE_HOST') && JSON.stringify(processenv('STORAGE_HOST')),
