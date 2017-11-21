@@ -68,6 +68,12 @@ $ cd ./client
 $ npm install
 ```
 
+As roboter is used for build automation it is recommended to install roboter-cli globally. This way you can easily run roboter by simply typing bot. To install roboter-cli, run the following command.
+
+```shell
+$ npm install -g roboter-cli
+```
+
 Then, run `bot` and set the environment variables `AUTH_IDENTITY_PROVIDER_URL` and `AUTH_CLIENT_ID` accordingly:
 
 ```shell
