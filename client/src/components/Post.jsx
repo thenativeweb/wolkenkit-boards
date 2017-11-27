@@ -168,7 +168,7 @@ class Post extends React.PureComponent {
     const { deltaX, deltaY } = data;
 
     this.setState({
-      rotation: `rotate(${(deltaX * 0.2)}deg)`,
+      rotation: deltaX * 0.2,
       dragging: {
         left: this.state.dragging.left + deltaX,
         top: this.state.dragging.top + deltaY
@@ -305,7 +305,7 @@ class Post extends React.PureComponent {
             className={ classNames(postClasses) }
             data-type={ this.props.type }
             onDoubleClick={ this.handleDoubleClick }
-            style={{ transform: rotation }}
+            style={{ transform: `rotate(${(rotation)}deg)` }}
           >
             {this.renderContent(type)}
             {this.renderMetaActions(type)}
