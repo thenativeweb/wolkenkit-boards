@@ -1,7 +1,8 @@
-import api from '../../actions/api';
+import backend from '../../state/backend';
 import mountBoardDialog from '../../actions/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
+import services from '../../services';
 import state from '../../state';
 import { Button, Dialog, Form, TextBox } from '../../components';
 
@@ -17,16 +18,39 @@ const handleCancelClicked = function () {
   mountBoardDialog.hide();
 };
 
-const handleSubmit = function (event) {
+// const handleSubmit = function (event) {
+//   event.preventDefault();
+//
+//   api.board.tryToMount({
+//     title: state.mountBoardDialog.title,
+//     isPrivate: state.mountBoardDialog.isPrivate
+//   }).
+//     then(() => {
+//       mountBoardDialog.hide();
+//     });
+// };
+
+const handleFormSubmitted = async function (event) {
   event.preventDefault();
 
-  api.board.tryToMount({
-    title: state.mountBoardDialog.title,
-    isPrivate: state.mountBoardDialog.isPrivate
-  }).
-    then(() => {
-      mountBoardDialog.hide();
+  const { title, isPrivate } = state.mountBoardDialog;
+
+  try {
+    const mountedEvent = await backend.collaboration.board.mount({
+      title,
+      isPrivate
     });
+
+    if (!isPrivate) {
+      await backend.collaboration.board.share({ id: mountedEvent.aggregate.id });
+    }
+
+    mountBoardDialog.hide();
+  } catch (ex) {
+    services.overlay.alert({
+      text: ex.message
+    });
+  }
 };
 
 const MountBoardDialog = () => (
@@ -34,7 +58,7 @@ const MountBoardDialog = () => (
     isVisible={ state.mountBoardDialog.isVisible }
     onCancel={ handleCancelClicked }
   >
-    <Form onSubmit={ handleSubmit }>
+    <Form onSubmit={ handleFormSubmitted }>
       <Form.Row type='message'>
         Mount new board
       </Form.Row>
