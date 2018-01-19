@@ -1,16 +1,12 @@
 import changeTitle from './changeTitle';
 import hide from './hide';
 import show from './show';
+import state from './state';
 import togglePrivacy from './togglePrivacy';
 
 export default {
-  changeTitle,
-  hide,
-  show,
-  togglePrivacy
-};
+  state,
 
-export {
   changeTitle,
   hide,
   show,

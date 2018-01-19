@@ -1,39 +1,19 @@
 import backend from '../../state/backend';
-import mountBoardDialog from '../../actions/mountBoardDialog';
+import mountBoardDialog from '../../state/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import services from '../../services';
 import state from '../../state';
 import { Button, Dialog, Form, TextBox } from '../../components';
 
-const handleTitleChanged = function (event) {
-  mountBoardDialog.changeTitle(event.currentTarget.value);
-};
-
-const handleIsPrivateClicked = function () {
-  mountBoardDialog.togglePrivacy();
-};
-
-const handleCancelClicked = function () {
+const handleDialogCanceled = function () {
   mountBoardDialog.hide();
 };
-
-// const handleSubmit = function (event) {
-//   event.preventDefault();
-//
-//   api.board.tryToMount({
-//     title: state.mountBoardDialog.title,
-//     isPrivate: state.mountBoardDialog.isPrivate
-//   }).
-//     then(() => {
-//       mountBoardDialog.hide();
-//     });
-// };
 
 const handleFormSubmitted = async function (event) {
   event.preventDefault();
 
-  const { title, isPrivate } = state.mountBoardDialog;
+  const { title, isPrivate } = mountBoardDialog.state;
 
   try {
     const mountedEvent = await backend.collaboration.board.mount({
@@ -55,8 +35,8 @@ const handleFormSubmitted = async function (event) {
 
 const MountBoardDialog = () => (
   <Dialog
-    isVisible={ state.mountBoardDialog.isVisible }
-    onCancel={ handleCancelClicked }
+    isVisible={ mountBoardDialog.state.isVisible }
+    onCancel={ handleDialogCanceled }
   >
     <Form onSubmit={ handleFormSubmitted }>
       <Form.Row type='message'>
@@ -65,23 +45,23 @@ const MountBoardDialog = () => (
       <Form.Row>
         <TextBox
           className='add-boards-title'
-          onChange={ handleTitleChanged }
-          value={ state.mountBoardDialog.title || '' }
+          onChange={ event => mountBoardDialog.changeTitle(event.currentTarget.value) }
+          value={ mountBoardDialog.state.title || '' }
           placeholder='Pick a title'
         />
       </Form.Row>
       <Form.Row horizontalContentAlign='left' verticalContentAlign='center'>
         <input
-          checked={ state.mountBoardDialog.isPrivate }
+          checked={ mountBoardDialog.state.isPrivate }
           type='checkbox'
           id='just-for-myself'
-          onChange={ handleIsPrivateClicked }
+          onChange={ () => mountBoardDialog.togglePrivacy() }
         />
         <label htmlFor='just-for-myself'>Just for myself</label>
       </Form.Row>
       <Form.Row type='action-buttons'>
         <Button type='primary' disabled={ state.mountBoardDialog.title === '' }>Mount it!</Button>
-        <Button onClick={ handleCancelClicked }>Cancel</Button>
+        <Button onClick={ handleDialogCanceled }>Cancel</Button>
       </Form.Row>
     </Form>
   </Dialog>

@@ -1,7 +1,7 @@
 import backend from '../../state/backend';
 import eventbus from '../../services/eventbus';
+import mountBoardDialog from '../../state/mountBoardDialog';
 import MountBoardDialog from './MountBoardDialog.jsx';
-import mountBoardDialog from '../../actions/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
@@ -42,7 +42,7 @@ class BoardsScreen extends React.Component {
                 id: data
               });
             } catch (ex) {
-              BoardsScreen.handleError(ex.message);
+              BoardsScreen.handleError(ex);
             }
           }
         });
@@ -53,12 +53,6 @@ class BoardsScreen extends React.Component {
     }
   }
 
-  static handleMountClicked (event) {
-    event.preventDefault();
-
-    mountBoardDialog.show();
-  }
-
   static handleError (error) {
     services.overlay.alert({
       text: error.message
@@ -66,13 +60,12 @@ class BoardsScreen extends React.Component {
   }
 
   /* eslint-disable class-methods-use-this */
-  componentDidMount () {
-    backend.lists.boards.startReading().
-      catch(err => {
-        services.overlay.alert({
-          text: err.message
-        });
-      });
+  async componentDidMount () {
+    try {
+      await backend.lists.boards.startReading();
+    } catch (ex) {
+      BoardsScreen.handleError(ex);
+    }
   }
   /* eslint-enable class-methods-use-this */
 
@@ -91,7 +84,7 @@ class BoardsScreen extends React.Component {
             <ListItem
               type='add'
               label='Mount new board'
-              onClick={ BoardsScreen.handleMountClicked }
+              onClick={ () => mountBoardDialog.show() }
             />
           </List.Header>
           <NonIdealState when={ backend.state.lists === 0 }>
