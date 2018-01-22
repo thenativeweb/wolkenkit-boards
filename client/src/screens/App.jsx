@@ -1,6 +1,6 @@
+import ActivBoardScreen from './activeBoard/ActivBoardScreen.jsx';
 import backend from '../state/backend';
-import BoardHeader from './board/BoardHeader.jsx';
-import BoardScreen from './board/BoardScreen.jsx';
+import BoardHeader from './activeBoard/BoardHeader.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
 import MainMenu from './MainMenu.jsx';
 import { Overlays } from '../components/overlay';
@@ -22,7 +22,7 @@ const App = () => (
       <Switch>
         <Route exact={ true } location={ location } path='/' component={ BoardsScreen } />
         <Route exact={ true } location={ location } path='/boards' component={ BoardsScreen } />
-        <Route exact={ true } location={ location } path='/board/:slug' component={ BoardScreen } />
+        <Route exact={ true } location={ location } path='/board/:slug' component={ ActivBoardScreen } />
       </Switch>
       <ContextMenu />
       <Overlays />

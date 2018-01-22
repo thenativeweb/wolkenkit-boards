@@ -1,14 +1,15 @@
-import activeBoard from '../../actions/activeBoard';
-import api from '../../actions/api';
+import activeBoard from '../../state/activeBoard';
+import backend from '../../state/backend';
 import { observer } from 'mobx-react';
 import React from 'react';
+import services from '../../services';
 import state from '../../state';
 import styles from './BoardHeader.css';
 import { Form, TextBox } from '../../components';
 
 class BoardHeader extends React.Component {
   static handleTitleFocus () {
-    activeBoard.startEditing(state.activeBoard.title);
+    activeBoard.startEditingTitle(state.activeBoard.title);
   }
 
   static handleTitleChange (event) {
@@ -27,17 +28,26 @@ class BoardHeader extends React.Component {
     this.titleInput = input;
   }
 
-  handleTitleBlur () {
+  async handleTitleBlur () {
     const { history } = this.props;
 
-    api.board.tryToRename({
-      boardId: state.activeBoard.id,
-      title: state.newTitle
-    }).
-      then(event => {
-        history.replace(`/board/${event.data.slug}`);
-        activeBoard.stopEditing();
+    if (activeBoard.state.newTitle === activeBoard.state.title) {
+      return;
+    }
+
+    try {
+      const renamedEvent = await backend.collaboration.board.rename({
+        id: activeBoard.state.id,
+        title: activeBoard.state.newTitle
       });
+
+      activeBoard.stopEditingTitle();
+      history.replace(`/board/${renamedEvent.data.slug}`);
+    } catch (ex) {
+      services.overlay.alert({
+        text: ex.message
+      });
+    }
   }
 
   handleFormSubmit (event) {
@@ -46,9 +56,11 @@ class BoardHeader extends React.Component {
   }
 
   render () {
-    if (!state.activeBoard) {
+    if (!activeBoard.state.id) {
       return null;
     }
+
+    const isEditingTitle = activeBoard.state.newTitle !== undefined;
 
     return (
       <Form className={ styles.Form } onSubmit={ this.handleFormSubmit }>
@@ -57,7 +69,7 @@ class BoardHeader extends React.Component {
           autofocus={ false }
           ref={ this.handleInputRefChanged }
           type='dense'
-          value={ state.newTitle !== undefined ? state.newTitle : state.activeBoard.title }
+          value={ isEditingTitle ? activeBoard.state.newTitle || '' : activeBoard.state.title || '' }
           onFocus={ BoardHeader.handleTitleFocus }
           onChange={ BoardHeader.handleTitleChange }
           onBlur={ this.handleTitleBlur }

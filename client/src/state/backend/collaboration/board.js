@@ -123,7 +123,7 @@ const board = {
 
       isTitleAvailable(title).
         then(() => {
-          api.collaboration.board().rename({ title }).
+          api.collaboration.board(id).rename({ title }).
             await('renamed', resolve).
             failed(reject);
         }).

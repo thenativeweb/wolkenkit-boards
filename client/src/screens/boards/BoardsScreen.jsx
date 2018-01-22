@@ -25,38 +25,34 @@ class BoardsScreen extends React.Component {
     });
   }
 
-  static handleContextMenuItemSelected (id, data) {
+  static async handleContextMenuItemSelected (id, data) {
     switch (id) {
-      case 'discard-board':
+      case 'discard-board': {
         if (!data) {
           return;
         }
 
-        services.dialog.confirm({
+        const didConfirm = await services.dialog.confirm({
           title: 'Do you really want to discard this board?',
-          cancel: 'Cancel',
-          confirm: 'Discard it!',
-          onConfirm: async () => {
-            try {
-              await backend.collaboration.board.discard({
-                id: data
-              });
-            } catch (ex) {
-              BoardsScreen.handleError(ex);
-            }
-          }
+          confirm: 'Discard it!'
         });
 
+        if (!didConfirm) {
+          return;
+        }
+
+        try {
+          await backend.collaboration.board.discard({
+            id: data
+          });
+        } catch (ex) {
+          services.overlay.alert({ text: ex.message });
+        }
         break;
+      }
       default:
         break;
     }
-  }
-
-  static handleError (error) {
-    services.overlay.alert({
-      text: error.message
-    });
   }
 
   /* eslint-disable class-methods-use-this */
@@ -64,7 +60,7 @@ class BoardsScreen extends React.Component {
     try {
       await backend.lists.boards.startReading();
     } catch (ex) {
-      BoardsScreen.handleError(ex);
+      services.overlay.alert({ text: ex.message });
     }
   }
   /* eslint-enable class-methods-use-this */
