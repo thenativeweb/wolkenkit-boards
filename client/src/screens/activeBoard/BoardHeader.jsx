@@ -3,13 +3,12 @@ import backend from '../../state/backend';
 import { observer } from 'mobx-react';
 import React from 'react';
 import services from '../../services';
-import state from '../../state';
 import styles from './BoardHeader.css';
 import { Form, TextBox } from '../../components';
 
 class BoardHeader extends React.Component {
   static handleTitleFocus () {
-    activeBoard.startEditingTitle(state.activeBoard.title);
+    activeBoard.startEditingTitle(activeBoard.state.title);
   }
 
   static handleTitleChange (event) {

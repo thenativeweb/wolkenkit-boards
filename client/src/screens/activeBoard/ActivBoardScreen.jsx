@@ -1,11 +1,10 @@
 import activeBoard from '../../state/activeBoard';
 import backend from '../../state/backend';
-import menu from '../../actions/menu';
+import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
-import state from '../../state';
 import styles from './ActivBoardScreen.css';
 import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
@@ -18,10 +17,6 @@ class ActivBoardScreen extends React.Component {
       media: options.content,
       element: options.element
     });
-  }
-
-  static handleColorToggleChanged (newColor) {
-    state.selectedPostColor = newColor;
   }
 
   static async handleDoubleClick (event) {
@@ -173,20 +168,23 @@ class ActivBoardScreen extends React.Component {
 
     try {
       this.stopReading = await activeBoard.startReading(match.params.slug);
-      services.eventbus.on('main-menu::clicked', ActivBoardScreen.handleMainMenuClicked);
     } catch (ex) {
       /* No board has been found so we redirect to root screen. */
       history.push('/');
     }
+
+    menu.registerItems([
+      { label: 'Clean up board', id: 'board-clean-up', onSelect: ActivBoardScreen.handleMainMenuClicked }
+    ]);
   }
 
   /* eslint-disable class-methods-use-this */
   componentWillUnmount () {
-    services.eventbus.removeListener('main-menu::clicked', ActivBoardScreen.handleMainMenuClicked);
-
     if (typeof this.stopReading === 'function') {
       this.stopReading();
     }
+
+    menu.clearItems();
   }
   /* eslint-enable class-methods-use-this */
 

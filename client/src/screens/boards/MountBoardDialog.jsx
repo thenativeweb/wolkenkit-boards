@@ -3,7 +3,6 @@ import mountBoardDialog from '../../state/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import services from '../../services';
-import state from '../../state';
 import { Button, Dialog, Form, TextBox } from '../../components';
 
 const handleDialogCanceled = function () {
@@ -58,7 +57,7 @@ const MountBoardDialog = () => (
         <label htmlFor='just-for-myself'>Just for myself</label>
       </Form.Row>
       <Form.Row type='action-buttons'>
-        <Button type='primary' disabled={ state.mountBoardDialog.title === '' }>Mount it!</Button>
+        <Button type='primary' disabled={ mountBoardDialog.state.title === '' }>Mount it!</Button>
         <Button onClick={ handleDialogCanceled }>Cancel</Button>
       </Form.Row>
     </Form>

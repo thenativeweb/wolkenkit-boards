@@ -9,9 +9,7 @@ const disconnect = async function () {
 
   api.auth.logout();
 
-  const { hostname, port, protocol } = window.location;
-
-  window.location.href = `https://auth.thenativeweb.io/auth/realms/porsche/protocol/openid-connect/logout?redirect_uri=${protocol}//${hostname}${port ? `:${port}` : ''}`;
+  window.location.reload();
 };
 
 export default disconnect;
