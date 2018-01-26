@@ -13,11 +13,10 @@ class ContextMenu extends React.Component {
     this.handleItemClicked = this.handleItemClicked.bind(this);
     this.handleDocumentClicked = this.handleDocumentClicked.bind(this);
 
-    this.onItemSelected = undefined;
-
     this.state = {
-      target: null,
-      items: null
+      target: undefined,
+      items: undefined,
+      onItemSelected: undefined
     };
   }
 
@@ -32,24 +31,17 @@ class ContextMenu extends React.Component {
   }
 
   open (options) {
-    this.onItemSelected = options.onItemSelected;
-
-    this.setState({
-      target: options.target,
-      items: options.items
-    });
+    this.setState(options);
 
     window.document.addEventListener('mouseup', this.handleDocumentClicked, true);
   }
 
   close () {
-    if (this.onItemSelected) {
-      this.setState({
-        target: null,
-        items: null,
-        onItemSelected: null
-      });
-    }
+    this.setState({
+      target: undefined,
+      items: undefined,
+      onItemSelected: undefined
+    });
 
     window.document.removeEventListener('mouseup', this.handleDocumentClicked, true);
   }
@@ -59,6 +51,16 @@ class ContextMenu extends React.Component {
   }
 
   handleOpenEvent (options) {
+    if (!options.target) {
+      throw new Error('Target is missing.');
+    }
+    if (!options.items) {
+      throw new Error('Items are missing.');
+    }
+    if (!options.onItemSelected) {
+      throw new Error('onItemSelected is missing.');
+    }
+
     this.open(options);
   }
 
@@ -67,8 +69,8 @@ class ContextMenu extends React.Component {
   }
 
   handleItemClicked (id, data) {
-    if (this.onItemSelected) {
-      this.onItemSelected(id, data);
+    if (typeof this.state.onItemSelected === 'function') {
+      this.state.onItemSelected(id, data);
       this.close();
     }
   }
@@ -83,12 +85,11 @@ class ContextMenu extends React.Component {
     if (!this.state.items) {
       return <div />;
     }
+    const targetRect = this.state.target.getBoundingClientRect();
 
     const style = {
-      left: this.state.target.getBoundingClientRect().left +
-        (window.pageXOffset || window.scrollX),
-      top: this.state.target.getBoundingClientRect().top +
-        (window.pageYOffset || window.scrollY),
+      left: targetRect.left + (window.pageXOffset || window.scrollX),
+      top: targetRect.top + (window.pageYOffset || window.scrollY),
       position: 'absolute'
     };
 

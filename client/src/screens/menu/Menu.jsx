@@ -1,11 +1,11 @@
-import backend from '../state/backend';
-import menu from '../state/menu';
+import backend from '../../state/backend';
+import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
-import styles from './MainMenu.css';
+import styles from './Menu.css';
 import { withRouter } from 'react-router-dom';
 import { Brand, Icon } from 'wolkenkit-ux';
-import { MenuItem, SidebarMenu } from '../components';
+import { MenuItem, SidebarMenu } from '../../components';
 
 const handleMenuItemClicked = function (id) {
   switch (id) {

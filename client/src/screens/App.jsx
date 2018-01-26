@@ -2,7 +2,7 @@ import ActivBoardScreen from './activeBoard/ActivBoardScreen.jsx';
 import backend from '../state/backend';
 import BoardHeader from './activeBoard/BoardHeader.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
-import MainMenu from './MainMenu.jsx';
+import Menu from './menu/Menu.jsx';
 import { Overlays } from '../components/overlay';
 import React from 'react';
 import styles from './App.css';
@@ -14,7 +14,7 @@ const App = () => (
     <div className={ styles.App }>
       <Symbols />
       <AppBar>
-        <MainMenu />
+        <Menu />
         <Breadcrumbs>
           <Route exact={ true } path='/board/:slug' component={ BoardHeader } />
         </Breadcrumbs>

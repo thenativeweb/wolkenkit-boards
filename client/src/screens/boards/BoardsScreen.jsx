@@ -1,7 +1,6 @@
 import backend from '../../state/backend';
-import eventbus from '../../services/eventbus';
 import mountBoardDialog from '../../state/mountBoardDialog';
-import MountBoardDialog from './MountBoardDialog.jsx';
+import MountBoardDialog from '../mountBoardDialog/MountBoardDialog.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
@@ -10,21 +9,6 @@ import styles from './BoardsScreen.css';
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
-  static handleContextMenuClicked (event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const items = [
-      { id: 'discard-board', label: 'Discard board', data: event.currentTarget.getAttribute('data-id') }
-    ];
-
-    eventbus.emit('context-menu-open', {
-      target: event.currentTarget,
-      items,
-      onItemSelected: BoardsScreen.handleContextMenuItemSelected
-    });
-  }
-
   static async handleContextMenuItemSelected (id, data) {
     switch (id) {
       case 'discard-board': {
@@ -83,7 +67,7 @@ class BoardsScreen extends React.Component {
               onClick={ () => mountBoardDialog.show() }
             />
           </List.Header>
-          <NonIdealState when={ backend.state.lists === 0 }>
+          <NonIdealState when={ backend.state.lists.boards.length === 0 }>
             You haven&lsquo;t created any board yet, go ahead and do so!
           </NonIdealState>
           <ReactTransitionGroup>
@@ -95,7 +79,8 @@ class BoardsScreen extends React.Component {
                 icon={ board.isPrivate ? 'lock' : null }
                 to={ `/board/${board.slug}` }
                 label={ board.title }
-                onContextMenu={ BoardsScreen.handleContextMenuClicked }
+                secondaryActions={ [{ id: 'discard-board', label: 'Discard board', data: board.id }] }
+                onSecondaryAction={ BoardsScreen.handleContextMenuItemSelected }
               />
             ))}
           </ReactTransitionGroup>
