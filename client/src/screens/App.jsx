@@ -1,4 +1,4 @@
-import ActivBoardScreen from './activeBoard/ActivBoardScreen.jsx';
+import ActiveBoardScreen from './activeBoard/ActiveBoardScreen.jsx';
 import backend from '../state/backend';
 import BoardHeader from './activeBoard/BoardHeader.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
@@ -22,7 +22,7 @@ const App = () => (
       <Switch>
         <Route exact={ true } location={ location } path='/' component={ BoardsScreen } />
         <Route exact={ true } location={ location } path='/boards' component={ BoardsScreen } />
-        <Route exact={ true } location={ location } path='/board/:slug' component={ ActivBoardScreen } />
+        <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoardScreen } />
       </Switch>
       <ContextMenu />
       <Overlays />

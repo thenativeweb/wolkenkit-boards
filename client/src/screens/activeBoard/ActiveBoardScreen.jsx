@@ -5,12 +5,12 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
-import styles from './ActivBoardScreen.css';
+import styles from './ActiveBoardScreen.css';
 import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
 const POST_WIDTH = 192;
 
-class ActivBoardScreen extends React.Component {
+class ActiveBoardScreen extends React.Component {
   static handleRequestFullscreen (options) {
     services.mediaViewer.show({
       type: options.type,
@@ -174,7 +174,7 @@ class ActivBoardScreen extends React.Component {
     }
 
     menu.registerItems([
-      { label: 'Clean up board', id: 'board-clean-up', onSelect: ActivBoardScreen.handleMainMenuClicked }
+      { label: 'Clean up board', id: 'board-clean-up', onSelect: ActiveBoardScreen.handleMainMenuClicked }
     ]);
   }
 
@@ -197,9 +197,9 @@ class ActivBoardScreen extends React.Component {
     const activePostId = activeBoard.state.activePost && activeBoard.state.activePost.id;
 
     return (
-      <div className={ styles.ActivBoardScreen }>
-        <FileDropZone onDrop={ ActivBoardScreen.handleFileDrop }>
-          <div className={ styles.Posts } onDoubleClick={ ActivBoardScreen.handleDoubleClick }>
+      <div className={ styles.ActiveBoardScreen }>
+        <FileDropZone onDrop={ ActiveBoardScreen.handleFileDrop }>
+          <div className={ styles.Posts } onDoubleClick={ ActiveBoardScreen.handleDoubleClick }>
             <ReactTransitionGroup>
               { activeBoard.state.posts.map(post => {
                 const isEditing = activePostId === post.id;
@@ -216,14 +216,14 @@ class ActivBoardScreen extends React.Component {
                     content={ !isEditing ? post.content : activeBoard.state.activePost.content }
                     creator={ post.creator }
                     isDone={ post.isDone }
-                    onMoveEnd={ ActivBoardScreen.handlePostMoveEnd }
-                    onRecolor={ ActivBoardScreen.handlePostRecolor }
-                    onEditStart={ ActivBoardScreen.handlePostEditStart }
-                    onContentChange={ ActivBoardScreen.handlePostContentChange }
-                    onEditEnd={ ActivBoardScreen.handlePostEditEnd }
-                    onMarkAsDone={ ActivBoardScreen.handlePostMarkAsDone }
-                    onThrowAway={ ActivBoardScreen.handlePostThrowAway }
-                    onRequestFullscreen={ ActivBoardScreen.handleRequestFullscreen }
+                    onMoveEnd={ ActiveBoardScreen.handlePostMoveEnd }
+                    onRecolor={ ActiveBoardScreen.handlePostRecolor }
+                    onEditStart={ ActiveBoardScreen.handlePostEditStart }
+                    onContentChange={ ActiveBoardScreen.handlePostContentChange }
+                    onEditEnd={ ActiveBoardScreen.handlePostEditEnd }
+                    onMarkAsDone={ ActiveBoardScreen.handlePostMarkAsDone }
+                    onThrowAway={ ActiveBoardScreen.handlePostThrowAway }
+                    onRequestFullscreen={ ActiveBoardScreen.handleRequestFullscreen }
                   />
                 );
               })}
@@ -244,4 +244,4 @@ class ActivBoardScreen extends React.Component {
   /* eslint-enable class-methods-use-this */
 }
 
-export default observer(ActivBoardScreen);
+export default observer(ActiveBoardScreen);
