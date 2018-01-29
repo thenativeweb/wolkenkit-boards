@@ -1,6 +1,6 @@
 import state from './state';
 
-const stopEditinPost = function () {
+const stopEditingPost = function () {
   if (!state.activePost) {
     return;
   }
@@ -8,4 +8,4 @@ const stopEditinPost = function () {
   state.activePost = undefined;
 };
 
-export default stopEditinPost;
+export default stopEditingPost;

@@ -22,7 +22,7 @@ const startReading = function (slug) {
           where: { id: board.id },
           take: 1
         }).
-        started((_, cancel) => {
+        started((boards, cancel) => {
           subscriptions.push(cancel);
         }).
         updated(boards => {
@@ -40,7 +40,7 @@ const startReading = function (slug) {
         api.lists.posts.readAndObserve({
           where: { boardId: board.id }
         }).
-        started((_, cancel) => {
+        started((posts, cancel) => {
           subscriptions.push(cancel);
         }).
         updated(posts => {

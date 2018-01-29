@@ -8,7 +8,7 @@ import services from '../../services';
 import styles from './ActiveBoardScreen.css';
 import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
-const POST_WIDTH = 192;
+const postWidth = 192;
 
 class ActiveBoardScreen extends React.Component {
   static handleRequestFullscreen (options) {
@@ -32,8 +32,8 @@ class ActiveBoardScreen extends React.Component {
         content: 'New post',
         color: activeBoard.state.selectedPostColor,
         position: {
-          left: event.clientX - containerPosition.left - POST_WIDTH / 2,
-          top: event.clientY - containerPosition.top - POST_WIDTH / 2
+          left: event.clientX - containerPosition.left - postWidth / 2,
+          top: event.clientY - containerPosition.top - postWidth / 2
         }
       });
 
@@ -54,8 +54,8 @@ class ActiveBoardScreen extends React.Component {
         color: activeBoard.state.selectedPostColor,
         content: images[0],
         position: {
-          left: coords.left - POST_WIDTH / 2,
-          top: coords.top - POST_WIDTH / 2
+          left: coords.left - postWidth / 2,
+          top: coords.top - postWidth / 2
         }
       });
     } catch (ex) {
@@ -169,7 +169,7 @@ class ActiveBoardScreen extends React.Component {
     try {
       this.stopReading = await activeBoard.startReading(match.params.slug);
     } catch (ex) {
-      /* No board has been found so we redirect to root screen. */
+      // No board has been found so we redirect to root screen.
       history.push('/');
     }
 

@@ -6,19 +6,20 @@ const DialogService = function () {
 };
 
 DialogService.prototype.confirm = function (options) {
+  if (!options.title) {
+    throw new Error('Title is missing.');
+  }
+  if (!options.confirm) {
+    throw new Error('Confirm is missing.');
+  }
   if (!options.onConfirm) {
     throw new Error('onConfirm is missing.');
   }
 
   if (!this.isVisible) {
     const confirmOptions = merge({}, {
-      title: 'Do you really?',
-      confirm: 'Yes, make it so!',
       cancel: 'Cancel',
       onCancel () {
-        //
-      },
-      onConfirm () {
         //
       }
     }, options);
