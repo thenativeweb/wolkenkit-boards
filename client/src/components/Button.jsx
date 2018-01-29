@@ -6,7 +6,7 @@ import React from 'react';
 import styles from './Button.css';
 
 const Button = function (props) {
-  const { children, className, icon, id, onClick, type } = props;
+  const { children, className, disabled, icon, id, onClick, type } = props;
 
   const buttonClassNames = classNames(styles.Button, {
     [styles.TypeContextMenu]: type === 'context-menu',
@@ -20,11 +20,12 @@ const Button = function (props) {
   if (!icon) {
     return (
       <button
-        id={ id }
-        data-id={ props['data-id'] }
-        onClick={ onClick }
         className={ buttonClassNames }
+        data-id={ props['data-id'] }
+        disabled={ disabled }
+        id={ id }
         type={ buttonType }
+        onClick={ onClick }
       >
         { children }
       </button>
@@ -33,11 +34,12 @@ const Button = function (props) {
 
   return (
     <button
-      id={ id }
-      data-id={ props['data-id'] }
-      onClick={ onClick }
       className={ buttonClassNames }
+      data-id={ props['data-id'] }
+      disabled={ disabled }
+      id={ id }
       type={ buttonType }
+      onClick={ onClick }
     >
       <Icon className={ styles.Icon } name={ props.icon } size={ props.iconSize } />
       { children ? <Label className={ styles.Label }>{ children }</Label> : null }

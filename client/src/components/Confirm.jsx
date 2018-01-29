@@ -42,7 +42,6 @@ class Confirm extends React.PureComponent {
   handleCancel () {
     if (typeof this.state.onCancel === 'function') {
       this.state.onCancel();
-      eventbus.emit('dialog::confirm::canceled');
     }
 
     this.setState({
@@ -58,7 +57,6 @@ class Confirm extends React.PureComponent {
   handleConfirm () {
     if (typeof this.state.onConfirm === 'function') {
       this.state.onConfirm();
-      eventbus.emit('dialog::confirm::confirmed');
     }
 
     this.setState({

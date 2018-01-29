@@ -8,7 +8,7 @@ class Dialog extends React.PureComponent {
   constructor (props) {
     super(props);
 
-    this.handleOverlayClicked = this.handleOverlayClicked.bind(this);
+    this.handleBackDropClicked = this.handleBackDropClicked.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -32,7 +32,7 @@ class Dialog extends React.PureComponent {
     }
   }
 
-  handleOverlayClicked () {
+  handleBackDropClicked () {
     this.props.onCancel();
   }
 
@@ -55,7 +55,7 @@ class Dialog extends React.PureComponent {
 
     return (
       <div className={ styles.Dialog }>
-        <div className={ backdropClasseNames } onClick={ this.handleOverlayClicked } />
+        <div className={ backdropClasseNames } onClick={ this.handleBackDropClicked } />
         <ReactTransitionGroup>
           {content}
         </ReactTransitionGroup>

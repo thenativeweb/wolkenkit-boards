@@ -1,96 +1,61 @@
-import api from '../../actions/api';
-import eventbus from '../../services/eventbus';
-import MountBoardDialog from './MountBoardDialog.jsx';
-import mountBoardDialog from '../../actions/mountBoardDialog';
+import backend from '../../state/backend';
+import mountBoardDialog from '../../state/mountBoardDialog';
+import MountBoardDialog from '../mountBoardDialog/MountBoardDialog.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
-import state from '../../state';
 import styles from './BoardsScreen.css';
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
-  static handleMountClicked (event) {
-    event.preventDefault();
-
-    mountBoardDialog.show();
-  }
-
-  static handleError (error) {
-    services.overlay.alert({
-      text: error.message
-    });
-  }
-
-  constructor (props) {
-    super(props);
-
-    this.handleContextMenuClicked = this.handleContextMenuClicked.bind(this);
-    this.handleContextMenuItemSelected = this.handleContextMenuItemSelected.bind(this);
-
-    this.unsubscribe = undefined;
-  }
-
-  componentDidMount () {
-    api.boards.readAndObserve().
-      then(cancel => {
-        this.unsubscribe = cancel;
-      });
-  }
-
-  componentWillUnmount () {
-    if (typeof this.unsubscribe === 'function') {
-      this.unsubscribe();
-    }
-  }
-
-  handleContextMenuItemSelected (id, data) {
+  static async handleContextMenuItemSelected (id, data) {
     switch (id) {
-      case 'discard-board':
+      case 'discard-board': {
         if (!data) {
           return;
         }
 
-        services.dialog.confirm({
+        const didConfirm = await services.dialog.confirm({
           title: 'Do you really want to discard this board?',
-          cancel: 'Cancel',
-          confirm: 'Discard it!',
-          onConfirm: () => {
-            api.board.discard({
-              boardId: data
-            }).
-              then(() => {
-                this.setState({
-                  boardToBeDiscarded: undefined,
-                  discardDialogVisible: false
-                });
-              }).
-              catch(BoardsScreen.handleError);
-          }
+          confirm: 'Discard it!'
         });
 
+        if (!didConfirm) {
+          return;
+        }
+
+        try {
+          await backend.collaboration.board.discard({
+            id: data
+          });
+        } catch (ex) {
+          services.overlay.alert({ text: ex.message });
+        }
         break;
+      }
       default:
         break;
     }
   }
 
-  handleContextMenuClicked (event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const items = [
-      { id: 'discard-board', label: 'Discard board', data: event.currentTarget.getAttribute('data-id') }
-    ];
-
-    eventbus.emit('context-menu-open', {
-      target: event.currentTarget,
-      items,
-      onItemSelected: this.handleContextMenuItemSelected
-    });
+  /* eslint-disable class-methods-use-this */
+  async componentDidMount () {
+    try {
+      await backend.lists.boards.startReading();
+    } catch (ex) {
+      services.overlay.alert({ text: ex.message });
+    }
   }
+  /* eslint-enable class-methods-use-this */
 
+  /* eslint-disable class-methods-use-this */
+  componentWillUnmount () {
+    backend.lists.boards.stopReading();
+  }
+  /* eslint-enable class-methods-use-this */
+
+  /* eslint-disable class-methods-use-this */
   render () {
     return (
       <div className={ styles.BoardsScreen }>
@@ -99,14 +64,14 @@ class BoardsScreen extends React.Component {
             <ListItem
               type='add'
               label='Mount new board'
-              onClick={ BoardsScreen.handleMountClicked }
+              onClick={ () => mountBoardDialog.show() }
             />
           </List.Header>
-          <NonIdealState when={ state.boards.length === 0 }>
+          <NonIdealState when={ backend.state.lists.boards.length === 0 }>
             You haven&lsquo;t created any board yet, go ahead and do so!
           </NonIdealState>
           <ReactTransitionGroup>
-            { state.boards.map(board => (
+            { backend.state.lists.boards.map(board => (
               <ListItem
                 type='link'
                 data-id={ board.id }
@@ -114,7 +79,8 @@ class BoardsScreen extends React.Component {
                 icon={ board.isPrivate ? 'lock' : null }
                 to={ `/board/${board.slug}` }
                 label={ board.title }
-                onContextMenu={ this.handleContextMenuClicked }
+                secondaryActions={ [{ id: 'discard-board', label: 'Discard board', data: board.id }] }
+                onSecondaryAction={ BoardsScreen.handleContextMenuItemSelected }
               />
             ))}
           </ReactTransitionGroup>
@@ -124,6 +90,7 @@ class BoardsScreen extends React.Component {
       </div>
     );
   }
+  /* eslint-enable class-methods-use-this */
 }
 
 export default observer(BoardsScreen);

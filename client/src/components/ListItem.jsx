@@ -1,11 +1,19 @@
 import anime from 'animejs';
 import classNames from 'classnames';
+import eventbus from '../services/eventbus';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './ListItem.css';
 import { Button, Icon, Label } from './index';
 
 class ListItem extends React.PureComponent {
+  constructor (props) {
+    super(props);
+
+    this.handleContextMenuClicked = this.handleContextMenuClicked.bind(this);
+  }
+
   componentWillEnter (done) {
     anime({
       targets: this.element,
@@ -27,8 +35,21 @@ class ListItem extends React.PureComponent {
     });
   }
 
+  handleContextMenuClicked (event) {
+    const { secondaryActions, onSecondaryAction } = this.props;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    eventbus.emit('context-menu-open', {
+      target: event.currentTarget,
+      items: secondaryActions,
+      onItemSelected: onSecondaryAction
+    });
+  }
+
   render () {
-    const { className, icon, label, onContextMenu, onClick, type } = this.props;
+    const { className, icon, label, onClick, type } = this.props;
 
     const itemClassNames = classNames(styles.ListItem, {
       [styles.TypeAdd]: type === 'add',
@@ -50,8 +71,7 @@ class ListItem extends React.PureComponent {
                 type='context-menu'
                 icon='context-menu'
                 iconSize='m'
-                data-id={ this.props['data-id'] }
-                onClick={ onContextMenu }
+                onClick={ this.handleContextMenuClicked }
               />
 
               <Icon className={ styles.IconRight } name='arrow-east' size='s' />
@@ -78,5 +98,15 @@ class ListItem extends React.PureComponent {
     /* eslint-enable no-return-assign */
   }
 }
+
+ListItem.propTypes = {
+  type: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  icon: PropTypes.string,
+  label: PropTypes.string,
+  secondaryActions: PropTypes.array,
+  onClick: PropTypes.func,
+  onSecondaryAction: PropTypes.func
+};
 
 export default ListItem;
