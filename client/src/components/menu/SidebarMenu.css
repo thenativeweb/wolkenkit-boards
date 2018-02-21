@@ -1,4 +1,4 @@
-@import '../../theme/variables.css';
+@import 'variables.css';
 
 .SidebarMenu {
   height: calc(var(--grid-step-size) * 4);
@@ -53,12 +53,12 @@
   }
 
   & .ToggleCollapse {
-    display: block;
+    display: flex;
   }
 }
 
 .IsCollapsed {
   & .ToggleExpand {
-    display: block;
+    display: flex;
   }
 }

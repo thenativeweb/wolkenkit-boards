@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 .Form {
   /* Left blank intentionally */
@@ -6,8 +6,8 @@
 
 .Row {
   text-align: left;
-  padding: var(--grid-step-size) calc(var(--grid-step-size) * 3);
-  font-size: var(--font-size-large);
+  padding: var(--grid-step-size) 0;
+  font-size: var(--font-size-default);
   line-height: 28px;
 
   &:first-child {

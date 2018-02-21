@@ -1,19 +1,15 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 .List {
   background: var(--color-panel-background);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  color: var(--color-brand-dark);
   border-radius: var(--panel-border-radius);
   line-height: 30px;
-  font-size: var(--font-size-xlarge);
   overflow: hidden;
 
   & .Header {
-    display: flex;
-    justify-content: space-between;
+    font-size: var(--font-size-xlarge);
     align-items: center;
-    font-size: inherit;
     border-bottom: 1px solid var(--color-brand-light-grey);
     font-weight: 700;
   }

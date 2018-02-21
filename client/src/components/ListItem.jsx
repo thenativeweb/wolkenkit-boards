@@ -46,9 +46,9 @@ class ListItem extends React.PureComponent {
 
               <Button
                 className={ styles.ContextMenuButton }
-                type='context-menu'
                 icon='context-menu'
                 iconSize='m'
+                adjust='auto'
                 onClick={ this.handleContextMenuClicked }
               />
 
@@ -63,6 +63,7 @@ class ListItem extends React.PureComponent {
               className={ styles.Button }
               icon='add'
               iconSize='m'
+              isSubtle={ true }
               onClick={ onClick }
             >
               { label }

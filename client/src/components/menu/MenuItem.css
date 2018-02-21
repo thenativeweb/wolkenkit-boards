@@ -1,4 +1,4 @@
-@import '../../theme/variables.css';
+@import 'variables.css';
 
 .MenuItem {
   display: block;
@@ -28,8 +28,8 @@
   }
 
   &:hover {
-    color: var(--color-brand-highlight);
-    background: var(--color-brand-featured);
+    color: var(--color-brand-white);
+    background: var(--color-brand-highlight);
   }
 }
 
@@ -40,7 +40,7 @@
 }
 
 .SizeM {
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-medium);
   line-height: calc(var(--grid-step-size) * 5);
   padding: 0 calc(var(--grid-step-size) * 3);
 }

@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 :root {
   --post-width: 186px;
@@ -180,7 +180,7 @@
 }
 
 .PostTypeImage {
-  background: var(--color-brand-highlight) !important;
+  background: var(--color-brand-white) !important;
   border: 0;
   padding: 0;
   margin: 0;

@@ -2,10 +2,12 @@ import ActiveBoardScreen from './activeBoard/ActiveBoardScreen.jsx';
 import backend from '../state/backend';
 import BoardHeader from './activeBoard/BoardHeader.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
+import Dialogs from '../components/Dialogs';
 import Menu from './menu/Menu.jsx';
+import { observer } from 'mobx-react';
 import React from 'react';
 import styles from './App.css';
-import { AppBar, Breadcrumbs, Button, Confirm, ContextMenu, Dialog, Form, Notifications, Symbols } from '../components';
+import { AppBar, Breadcrumbs, Button, ContextMenu, Form, Headline, Modal, Notifications, Symbols } from '../components';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 const App = () => (
@@ -25,22 +27,25 @@ const App = () => (
       </Switch>
       <ContextMenu />
       <Notifications />
-      <Confirm />
-      <Dialog isVisible={ !backend.state.isConnected }>
-        <Form.Row type='message'>
+      <Dialogs />
+      <Modal isVisible={ !backend.state.isConnected }>
+        <Headline>
+          Disconnected
+        </Headline>
+        <Form.Row>
           { backend.state.error }
         </Form.Row>
         <Form.Row type='action-buttons'>
           <Button
-            className='primary'
+            isPrimary={ true }
             onClick={ () => backend.reconnect() }
           >
             Reconnect me!
           </Button>
         </Form.Row>
-      </Dialog>
+      </Modal>
     </div>
   </HashRouter>
 );
 
-export default App;
+export default observer(App);

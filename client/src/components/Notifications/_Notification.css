@@ -8,12 +8,12 @@
   font-family: var(--font-family-default);
 
   &.TypeError {
-    color: var(--color-brand-highlight);
+    color: var(--color-brand-white);
     background: #e7415d;
   }
 
   &.TypeSuccess {
-    color: var(--color-brand-highlight);
+    color: var(--color-brand-white);
     background: #27ae60;
   }
 }

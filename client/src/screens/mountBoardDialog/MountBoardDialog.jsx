@@ -3,7 +3,8 @@ import mountBoardDialog from '../../state/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import services from '../../services';
-import { Button, Dialog, Form, TextBox } from '../../components';
+import styles from './MountBoardDialog.css';
+import { Button, Form, Headline, Modal, TextBox } from '../../components';
 
 const handleDialogCanceled = function () {
   mountBoardDialog.hide();
@@ -31,20 +32,19 @@ const handleFormSubmitted = async function (event) {
 };
 
 const MountBoardDialog = () => (
-  <Dialog
+  <Modal
     isVisible={ mountBoardDialog.state.isVisible }
     onCancel={ handleDialogCanceled }
   >
     <Form onSubmit={ handleFormSubmitted }>
-      <Form.Row type='message'>
-        Mount new board
-      </Form.Row>
+      <Headline>Mount new board</Headline>
       <Form.Row>
         <TextBox
           className='add-boards-title'
           onChange={ event => mountBoardDialog.changeTitle(event.currentTarget.value) }
           value={ mountBoardDialog.state.title || '' }
           placeholder='Pick a title'
+          autoFocus={ true }
         />
       </Form.Row>
       <Form.Row horizontalContentAlign='left' verticalContentAlign='center'>
@@ -57,11 +57,11 @@ const MountBoardDialog = () => (
         <label htmlFor='just-for-myself'>Just for myself</label>
       </Form.Row>
       <Form.Row type='action-buttons'>
-        <Button type='primary' disabled={ mountBoardDialog.state.title === '' }>Mount it!</Button>
+        <Button className={ styles.MountButton } isPrimary={ true } adjust='flex' disabled={ mountBoardDialog.state.title === '' }>Mount it!</Button>
         <Button onClick={ handleDialogCanceled }>Cancel</Button>
       </Form.Row>
     </Form>
-  </Dialog>
+  </Modal>
 );
 
 export default observer(MountBoardDialog);

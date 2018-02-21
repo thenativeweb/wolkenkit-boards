@@ -132,12 +132,20 @@ class ActiveBoardScreen extends React.Component {
   static async handleMainMenuClicked (id) {
     switch (id) {
       case 'board-clean-up': {
-        const didConfirm = await services.dialog.confirm({
+        // const didConfirm = await services.dialog.confirm({
+        //   title: 'Remove all posts from this board?',
+        //   confirm: 'Clear all posts!'
+        // });
+
+        const chosenAction = await services.dialogs.confirm({
           title: 'Remove all posts from this board?',
-          confirm: 'Clear all posts!'
+          actions: {
+            confirm: 'Clear all posts!',
+            cancel: 'Cancel'
+          }
         });
 
-        if (!didConfirm) {
+        if (chosenAction === 'cancel') {
           return;
         }
 

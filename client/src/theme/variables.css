@@ -1,20 +1,23 @@
 :root {
-  --color-brand-featured: #51adee;
-  --color-brand-highlight: #fff;
+  --color-brand-dark: #23232c;
+  --color-brand-highlight: #51adee;
+  --color-brand-dark-grey: #354247;
   --color-brand-light-grey: #ddd;
-  --color-brand-grey: #8a9699;
-  --color-brand-dark: #354247;
-  --color-brand-darker: #000203;
-  --color-text-default: #354247;
+  --color-brand-white: #fff;
+
+  /* Semantic colors */
+  --color-interaction-focus: var(--color-brand-dark);
+  --color-content-border: var(--color-brand-light-grey);
+  --color-text-default: var(--color-brand-dark-grey);
   --color-backdrop: rgba(0, 0, 0, 0.5);
   --color-panel-background: rgba(255, 255, 255, 0.95);
 
   /* Typography */
   --font-size-tiny: 12px;
-  --font-size-default: 14px;
   --font-size-small: 14px;
+  --font-size-default: 16px;
   --font-size-medium: 16px;
-  --font-size-large: 20px;
+  --font-size-large: 18px;
   --font-size-xlarge: 22px;
   --font-family-default: 'Source Sans Pro', Arial, Helvetica, sans-serif;
 
@@ -27,10 +30,14 @@
   --zindex-overlay: 4000;
   --zindex-transfer: 5000;
 
-  /* Icons */
-  --icon-dimension-xsmall: 14px;
-  --icon-dimension-small: 16px;
-  --icon-dimension-medium: 20px;
+  /* Components */
+  --components-border-radius-default: 1px;
+  --icon-size-xsmall: 14px;
+  --icon-size-small: 16px;
+  --icon-size-medium: 24px;
+  --icon-size-large: 32px;
+  --icon-size-xlarge: 48px;
+  --icon-size-xxlarge: 64px;
 
   /* Components */
   --grid-step-size: 10px;

@@ -1,4 +1,4 @@
-import Button from '../Button.jsx';
+import Button from '../Button/Button.jsx';
 import classNames from 'classnames';
 import FadeInRight from '../transitions/FadeInRight.jsx';
 import React from 'react';

@@ -1,4 +1,4 @@
-@import '../../theme/variables.css';
+@import 'variables.css';
 
 .Notifications {
   position: fixed;

@@ -1,0 +1,14 @@
+@import 'variables.css';
+
+.Headline {
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-xlarge);
+  font-weight: 600;
+  opacity: 0.95;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid var(--color-content-border);
+  padding-bottom: calc(var(--grid-step-size) * 2);
+  margin-bottom: calc(var(--grid-step-size) * 2);
+}

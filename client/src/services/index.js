@@ -1,10 +1,10 @@
-import dialog from './dialog';
+import dialogs from './dialogs';
 import eventbus from './eventbus';
 import mediaViewer from './mediaViewer';
 import notifications from './notifications';
 
 export default {
-  dialog,
+  dialogs,
   eventbus,
   mediaViewer,
   notifications

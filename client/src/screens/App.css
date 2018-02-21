@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 :global body {
   background: #333 url('../theme/images/background.png') left top repeat;

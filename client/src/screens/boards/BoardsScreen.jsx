@@ -16,12 +16,15 @@ class BoardsScreen extends React.Component {
           return;
         }
 
-        const didConfirm = await services.dialog.confirm({
+        const chosenAction = await services.dialogs.confirm({
           title: 'Do you really want to discard this board?',
-          confirm: 'Discard it!'
+          actions: {
+            confirm: 'Discard it!',
+            cancel: 'Cancel'
+          }
         });
 
-        if (!didConfirm) {
+        if (chosenAction === 'cancel') {
           return;
         }
 

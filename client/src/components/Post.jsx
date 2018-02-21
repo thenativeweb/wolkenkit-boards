@@ -1,5 +1,5 @@
 import anime from 'animejs';
-import Button from './Button.jsx';
+import Button from './Button/Button.jsx';
 import classNames from 'classnames';
 import { DraggableCore } from 'react-draggable';
 import EditableText from './EditableText.jsx';
@@ -252,9 +252,9 @@ class Post extends React.PureComponent {
     const menuButton = (
       <div className={ styles.MetaButton }>
         <Button
-          type='context-menu'
           icon='context-menu'
           iconSize='s'
+          adjust='auto'
           onClick={ this.handleContextMenuButtonClicked }
         />
       </div>
@@ -268,6 +268,7 @@ class Post extends React.PureComponent {
           <Button
             icon='fullscreen'
             iconSize='s'
+            adjust='auto'
             onClick={ this.handleFullscreenButtonPressed }
           />
         </div>

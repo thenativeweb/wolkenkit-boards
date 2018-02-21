@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 .ListItem {
   & .IconLeft {
@@ -22,6 +22,12 @@
     padding: calc(var(--grid-step-size) * 3) calc(var(--grid-step-size) * 3.5);
     font-size: inherit;
     font-weight: inherit;
+    flex-grow: 1;
+    text-align: left;
+
+    & svg {
+      margin-right: calc(var(--grid-step-size) * 2);
+    }
   }
 }
 

@@ -69,7 +69,6 @@ class BoardHeader extends React.Component {
           className={ styles.TextBox }
           autofocus={ false }
           ref={ this.handleInputRefChanged }
-          type='dense'
           value={ isEditingTitle ? activeBoard.state.newTitle || '' : activeBoard.state.title || '' }
           onFocus={ BoardHeader.handleTitleFocus }
           onChange={ BoardHeader.handleTitleChange }
