@@ -3,10 +3,9 @@ import backend from '../state/backend';
 import BoardHeader from './activeBoard/BoardHeader.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
 import Menu from './menu/Menu.jsx';
-import { Overlays } from '../components/overlay';
 import React from 'react';
 import styles from './App.css';
-import { AppBar, Breadcrumbs, Button, Confirm, ContextMenu, Dialog, Form, Symbols } from '../components';
+import { AppBar, Breadcrumbs, Button, Confirm, ContextMenu, Dialog, Form, Notifications, Symbols } from '../components';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 const App = () => (
@@ -25,7 +24,7 @@ const App = () => (
         <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoardScreen } />
       </Switch>
       <ContextMenu />
-      <Overlays />
+      <Notifications />
       <Confirm />
       <Dialog isVisible={ !backend.state.isConnected }>
         <Form.Row type='message'>

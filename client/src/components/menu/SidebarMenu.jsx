@@ -1,5 +1,6 @@
 import Button from '../Button.jsx';
 import classNames from 'classnames';
+import FadeInRight from '../transitions/FadeInRight.jsx';
 import React from 'react';
 import styles from './SidebarMenu.css';
 
@@ -33,9 +34,11 @@ class SidebarMenu extends React.Component {
       <div className={ menuClasses }>
         <div className={ styles.Container }>
           <div className={ styles.Backdrop } onClick={ this.handleCollapseRessed } />
-          <div className={ styles.Menu }>
-            {this.props.children}
-          </div>
+          <FadeInRight in={ this.props.isExpanded }>
+            <div className={ styles.Menu }>
+              {this.props.children}
+            </div>
+          </FadeInRight>
         </div>
         <div className={ styles.Toggles }>
           <Button

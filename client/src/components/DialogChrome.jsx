@@ -1,30 +1,7 @@
-import anime from 'animejs';
 import React from 'react';
 import styles from './DialogChrome.css';
 
 class DialogChrome extends React.PureComponent {
-  componentWillEnter (done) {
-    anime({
-      targets: this.element,
-      opacity: [ 0, 1 ],
-      translateX: [ '-25%', 0 ],
-      duration: DialogChrome.transitionDuration,
-      easing: 'easeOutExpo',
-      complete: done
-    });
-  }
-
-  componentWillLeave (done) {
-    anime({
-      targets: this.element,
-      opacity: [ 1, 0 ],
-      translateX: [ 0, '-25%' ],
-      duration: DialogChrome.transitionDuration,
-      easing: 'easeOutExpo',
-      complete: done
-    });
-  }
-
   render () {
     /* eslint-disable no-return-assign */
     return (

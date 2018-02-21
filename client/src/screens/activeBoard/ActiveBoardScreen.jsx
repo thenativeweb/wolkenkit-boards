@@ -3,9 +3,9 @@ import backend from '../../state/backend';
 import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
-import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
 import styles from './ActiveBoardScreen.css';
+import { TransitionGroup } from 'react-transition-group';
 import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
 const postWidth = 192;
@@ -39,7 +39,7 @@ class ActiveBoardScreen extends React.Component {
 
       await activeBoard.startEditingPost(notedEvent.aggregate.id);
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -59,7 +59,7 @@ class ActiveBoardScreen extends React.Component {
         }
       });
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -70,7 +70,7 @@ class ActiveBoardScreen extends React.Component {
         position
       });
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -81,7 +81,7 @@ class ActiveBoardScreen extends React.Component {
         to
       });
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -99,12 +99,12 @@ class ActiveBoardScreen extends React.Component {
         id: activeBoard.state.activePost.id,
         content: activeBoard.state.activePost.content
       });
-
+    } catch (ex) {
+      services.notifications.show({ type: 'error', text: ex.message });
+    } finally {
       setTimeout(() => {
         activeBoard.stopEditingPost();
       }, 100);
-    } catch (ex) {
-      services.overlay.alert({ text: ex.message });
     }
   }
 
@@ -114,7 +114,7 @@ class ActiveBoardScreen extends React.Component {
         id
       });
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -125,7 +125,7 @@ class ActiveBoardScreen extends React.Component {
         postId
       });
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -146,7 +146,7 @@ class ActiveBoardScreen extends React.Component {
             id: activeBoard.state.id
           });
         } catch (ex) {
-          services.overlay.alert({ text: ex.message });
+          services.notifications.show({ type: 'error', text: ex.message });
         }
 
         menu.collapse();
@@ -200,7 +200,7 @@ class ActiveBoardScreen extends React.Component {
       <div className={ styles.ActiveBoardScreen }>
         <FileDropZone onDrop={ ActiveBoardScreen.handleFileDrop }>
           <div className={ styles.Posts } onDoubleClick={ ActiveBoardScreen.handleDoubleClick }>
-            <ReactTransitionGroup>
+            <TransitionGroup>
               { activeBoard.state.posts.map(post => {
                 const isEditing = activePostId === post.id;
 
@@ -227,7 +227,7 @@ class ActiveBoardScreen extends React.Component {
                   />
                 );
               })}
-            </ReactTransitionGroup>
+            </TransitionGroup>
           </div>
         </FileDropZone>
 

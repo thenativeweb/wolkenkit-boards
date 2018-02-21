@@ -38,7 +38,7 @@ class TextBox extends React.PureComponent {
   }
 
   render () {
-    const { className, placeholder, type, value, onChange, onBlur } = this.props;
+    const { className, placeholder, type, value, onChange, onBlur, onFocus } = this.props;
 
     const textBoxClassNames = classNames(styles.TextBox, {
       [styles.TypeDense]: type === 'dense'
@@ -48,6 +48,7 @@ class TextBox extends React.PureComponent {
       <input
         className={ textBoxClassNames }
         ref={ this.handleRefChanged }
+        onFocus={ onFocus }
         onChange={ onChange }
         onBlur={ onBlur }
         value={ value }

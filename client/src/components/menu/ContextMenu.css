@@ -5,7 +5,7 @@
   background: var(--color-panel-background);
   border-radius: var(--panel-border-radius);
   min-width: calc(var(--grid-step-size) * 15);
-  z-index: var(--z-index-menu);
+  z-index: var(--zindex-menu);
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
 }
 

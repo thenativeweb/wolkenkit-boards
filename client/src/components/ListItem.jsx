@@ -1,4 +1,3 @@
-import anime from 'animejs';
 import classNames from 'classnames';
 import eventbus from '../services/eventbus';
 import { Link } from 'react-router-dom';
@@ -12,27 +11,6 @@ class ListItem extends React.PureComponent {
     super(props);
 
     this.handleContextMenuClicked = this.handleContextMenuClicked.bind(this);
-  }
-
-  componentWillEnter (done) {
-    anime({
-      targets: this.element,
-      opacity: [ 0, 1 ],
-      duration: 400,
-      easing: 'easeOutBack',
-      complete: done
-    });
-  }
-
-  componentWillLeave (done) {
-    anime({
-      targets: this.element,
-      opacity: [ 1, 0 ],
-      scaleY: [ 1, 0 ],
-      duration: 300,
-      easing: 'easeOutExpo',
-      complete: done
-    });
   }
 
   handleContextMenuClicked (event) {

@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import DialogChrome from './DialogChrome.jsx';
+import FadeInRight from './transitions/FadeInRight.jsx';
 import React from 'react';
-import ReactTransitionGroup from 'react-addons-transition-group';
 import styles from './Dialog.css';
+import { TransitionGroup } from 'react-transition-group';
 
 class Dialog extends React.PureComponent {
   constructor (props) {
@@ -47,18 +48,20 @@ class Dialog extends React.PureComponent {
       content = null;
     } else {
       content = (
-        <DialogChrome type={ this.props.type }>
-          {this.props.children}
-        </DialogChrome>
+        <FadeInRight>
+          <DialogChrome type={ this.props.type }>
+            {this.props.children}
+          </DialogChrome>
+        </FadeInRight>
       );
     }
 
     return (
       <div className={ styles.Dialog }>
         <div className={ backdropClasseNames } onClick={ this.handleBackDropClicked } />
-        <ReactTransitionGroup>
+        <TransitionGroup>
           {content}
-        </ReactTransitionGroup>
+        </TransitionGroup>
       </div>
     );
   }

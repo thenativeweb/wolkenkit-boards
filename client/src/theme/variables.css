@@ -19,13 +19,13 @@
   --font-family-default: 'Source Sans Pro', Arial, Helvetica, sans-serif;
 
   /* Z-Index */
-  --z-index-content: 100;
-  --z-index-content-overlay: 100;
-  --z-index-navigation: 1000;
-  --z-index-menu: 2000;
-  --z-index-modal: 3000;
-  --z-index-overlay: 4000;
-  --z-index-transfer: 5000;
+  --zindex-content: 100;
+  --zindex-content-overlay: 100;
+  --zindex-navigation: 1000;
+  --zindex-menu: 2000;
+  --zindex-modal: 3000;
+  --zindex-overlay: 4000;
+  --zindex-transfer: 5000;
 
   /* Icons */
   --icon-dimension-xsmall: 14px;

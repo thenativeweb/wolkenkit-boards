@@ -16,7 +16,7 @@
     right: 0;
     bottom: 0;
     overflow: hidden;
-    z-index: var(--z-index-modal);
+    z-index: var(--zindex-modal);
     pointer-events: all;
     opacity: 1;
     transition: opacity 300ms;

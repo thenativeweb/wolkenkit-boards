@@ -15,6 +15,7 @@ import ListItem from './ListItem.jsx';
 import MediaViewer from './MediaViewer.jsx';
 import MenuItem from './menu/MenuItem.jsx';
 import NonIdealState from './NonIdealState.jsx';
+import Notifications from './notifications/Notifications.jsx';
 import Post from './Post.jsx';
 import Screen from './Screen.jsx';
 import SidebarMenu from './menu/SidebarMenu.jsx';
@@ -39,6 +40,7 @@ export {
   MediaViewer,
   MenuItem,
   NonIdealState,
+  Notifications,
   Post,
   Screen,
   SidebarMenu,

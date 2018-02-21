@@ -1,7 +1,8 @@
-import anime from 'animejs';
 import classNames from 'classnames';
+import Grow from './transitions/Grow.jsx';
 import React from 'react';
 import styles from './List.css';
+import { TransitionGroup } from 'react-transition-group';
 
 const Header = function (props) {
   const { className, children } = props;
@@ -13,45 +14,13 @@ const Header = function (props) {
   );
 };
 
-class Item extends React.PureComponent {
-  componentWillEnter (done) {
-    anime({
-      targets: this.element,
-      opacity: [ 0, 1 ],
-      duration: 400,
-      easing: 'easeOutBack',
-      complete: done
-    });
-  }
-
-  componentWillLeave (done) {
-    anime({
-      targets: this.element,
-      opacity: [ 1, 0 ],
-      scaleY: [ 1, 0 ],
-      duration: 300,
-      easing: 'easeOutExpo',
-      complete: done
-    });
-  }
-
-  render () {
-    const { className, children, type } = this.props;
-
-    const itemClassNames = classNames(styles.Item, {
-      [styles.ItemTypeAdd]: type === 'add',
-      [styles.ItemTypeLink]: type === 'link'
-    }, className);
-
-    /* eslint-disable no-return-assign */
-    return (
-      <div ref={ ref => this.element = ref } className={ itemClassNames }>
-        { children }
-      </div>
-    );
-    /* eslint-enable no-return-assign */
-  }
-}
+const Body = function ({ children }) {
+  return (
+    <TransitionGroup>
+      { React.Children.map(children, child => <Grow>{ child }</Grow>)}
+    </TransitionGroup>
+  );
+};
 
 const List = function (props) {
   const { className, children } = props;
@@ -64,6 +33,6 @@ const List = function (props) {
 };
 
 List.Header = Header;
-List.Item = Item;
+List.Body = Body;
 
 export default List;

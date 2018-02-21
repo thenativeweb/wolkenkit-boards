@@ -26,7 +26,7 @@ const handleFormSubmitted = async function (event) {
 
     mountBoardDialog.hide();
   } catch (ex) {
-    services.overlay.alert({ text: ex.message });
+    services.notifications.show({ type: 'error', text: ex.message });
   }
 };
 

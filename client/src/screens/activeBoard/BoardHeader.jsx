@@ -43,9 +43,11 @@ class BoardHeader extends React.Component {
       activeBoard.stopEditingTitle();
       history.replace(`/board/${renamedEvent.data.slug}`);
     } catch (ex) {
-      services.overlay.alert({
-        text: ex.message
-      });
+      if (ex.message === 'A board with this title already exists.') {
+        activeBoard.changeTitle(activeBoard.state.title);
+      }
+
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 

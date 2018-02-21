@@ -26,12 +26,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   border: var(--post-border-width) solid transparent;
-  opacity: 0;
   will-change: transform, opacity;
   backface-visibility: hidden;
 
   &.IsDragging {
-    transition: transform 50ms !important;
+    transition: transform 0ms !important;
     cursor: move !important;
     user-select: none !important;
   }

@@ -2,7 +2,7 @@
 
 .MediaViewer {
   position: fixed;
-  z-index: var(--z-index-modal);
+  z-index: var(--zindex-modal);
   left: 0;
   top: 0;
   right: 0;
@@ -36,7 +36,7 @@
     position: fixed;
     opacity: 0;
     pointer-events: none;
-    z-index: var(--z-index-transfer);
+    z-index: var(--zindex-transfer);
   }
 
   & .CloseButton {
@@ -48,7 +48,7 @@
     opacity: 0;
     transition: opacity 200ms;
     will-change: opacity;
-    z-index: calc(var(--z-index-transfer) + 10);
+    z-index: calc(var(--zindex-transfer) + 10);
   }
 }
 

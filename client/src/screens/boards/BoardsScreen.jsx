@@ -3,9 +3,9 @@ import mountBoardDialog from '../../state/mountBoardDialog';
 import MountBoardDialog from '../mountBoardDialog/MountBoardDialog.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import ReactTransitionGroup from 'react-addons-transition-group';
 import services from '../../services';
 import styles from './BoardsScreen.css';
+
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
@@ -30,7 +30,7 @@ class BoardsScreen extends React.Component {
             id: data
           });
         } catch (ex) {
-          services.overlay.alert({ text: ex.message });
+          services.notifications.show({ type: 'error', text: ex.message });
         }
         break;
       }
@@ -44,7 +44,7 @@ class BoardsScreen extends React.Component {
     try {
       await backend.lists.boards.startReading();
     } catch (ex) {
-      services.overlay.alert({ text: ex.message });
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
   /* eslint-enable class-methods-use-this */
@@ -70,12 +70,12 @@ class BoardsScreen extends React.Component {
           <NonIdealState when={ backend.state.lists.boards.length === 0 }>
             You haven&lsquo;t created any board yet, go ahead and do so!
           </NonIdealState>
-          <ReactTransitionGroup>
+          <List.Body>
             { backend.state.lists.boards.map(board => (
               <ListItem
                 type='link'
-                data-id={ board.id }
                 key={ board.slug }
+                data-id={ board.id }
                 icon={ board.isPrivate ? 'lock' : null }
                 to={ `/board/${board.slug}` }
                 label={ board.title }
@@ -83,7 +83,7 @@ class BoardsScreen extends React.Component {
                 onSecondaryAction={ BoardsScreen.handleContextMenuItemSelected }
               />
             ))}
-          </ReactTransitionGroup>
+          </List.Body>
         </List>
 
         <MountBoardDialog />
