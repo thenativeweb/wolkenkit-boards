@@ -30,7 +30,7 @@ class BoardHeader extends React.Component {
   async handleTitleBlur () {
     const { history } = this.props;
 
-    if (activeBoard.state.newTitle === activeBoard.state.title) {
+    if (activeBoard.state.newTitle === undefined || activeBoard.state.newTitle === activeBoard.state.title) {
       return;
     }
 

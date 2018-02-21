@@ -8,7 +8,7 @@ import FileDropZone from './FileDropZone.jsx';
 import Form from './Form.jsx';
 import Headline from './Headline/Headline.jsx';
 import Icon from './Icon/Icon.jsx';
-import Label from './Label.jsx';
+import Label from './Label/Label.jsx';
 import List from './List.jsx';
 import ListItem from './ListItem.jsx';
 import MediaViewer from './MediaViewer.jsx';

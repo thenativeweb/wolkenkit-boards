@@ -1,9 +1,8 @@
 import classNames from 'classnames';
-import { Icon } from '../index';
-import Label from '../Label.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.css';
+import { Icon, Label } from '../index';
 
 const Hint = ({ children }) => (
   <span className={ styles.Hint }>

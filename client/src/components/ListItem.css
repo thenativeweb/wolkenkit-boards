@@ -19,7 +19,7 @@
   display: flex;
 
   & .Button {
-    padding: calc(var(--grid-step-size) * 3) calc(var(--grid-step-size) * 3.5);
+    padding: calc(var(--grid-step-size) * 2) calc(var(--grid-step-size) * 3);
     font-size: inherit;
     font-weight: inherit;
     flex-grow: 1;
