@@ -26,6 +26,7 @@ const handleFormSubmitted = async function (event) {
     }
 
     mountBoardDialog.hide();
+    services.notifications.show({ type: 'success', text: `Board "${mountedEvent.data.title}" has been mounted!` });
   } catch (ex) {
     services.notifications.show({ type: 'error', text: ex.message });
   }

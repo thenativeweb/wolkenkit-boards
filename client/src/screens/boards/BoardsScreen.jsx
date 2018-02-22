@@ -32,6 +32,8 @@ class BoardsScreen extends React.Component {
           await backend.collaboration.board.discard({
             id: data
           });
+
+          services.notifications.show({ type: 'success', text: `Board has been discarded!` });
         } catch (ex) {
           services.notifications.show({ type: 'error', text: ex.message });
         }
