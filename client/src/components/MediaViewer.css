@@ -28,8 +28,10 @@
   }
 
   & .Destination {
-    height: 100%;
     width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   & .Transfer {
@@ -41,8 +43,8 @@
 
   & .CloseButton {
     position: fixed;
-    top: var(--grid-step-size);
-    right: var(--grid-step-size);
+    top: calc(var(--grid-step-size) * 0.75);
+    right: calc(var(--grid-step-size) * 0.75);
     fill: var(--color-brand-dark);
     cursor: pointer;
     opacity: 0;

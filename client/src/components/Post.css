@@ -192,6 +192,7 @@
 
   & .Content {
     max-height: var(--post-width);
+    overflow: hidden;
 
     & img {
       pointer-events: none;
