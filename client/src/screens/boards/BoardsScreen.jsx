@@ -9,7 +9,7 @@ import styles from './BoardsScreen.css';
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
-  static async handleContextMenuItemSelected (id, data) {
+  static async handleSecondaryAction (id, data) {
     switch (id) {
       case 'discard-board': {
         if (!data) {
@@ -85,7 +85,7 @@ class BoardsScreen extends React.Component {
                 to={ `/board/${board.slug}` }
                 label={ board.title }
                 secondaryActions={ [{ id: 'discard-board', label: 'Discard board', data: board.id }] }
-                onSecondaryAction={ BoardsScreen.handleContextMenuItemSelected }
+                onSecondaryAction={ BoardsScreen.handleSecondaryAction }
               />
             ))}
           </List.Body>
