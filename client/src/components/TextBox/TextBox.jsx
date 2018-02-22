@@ -44,6 +44,7 @@ class TextBox extends React.Component {
       this.element.blur();
     }
   }
+
   render () {
     const { className, disabled, id, name, value, onChange, onBlur, placeholder, required, type } = this.props;
 

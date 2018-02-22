@@ -101,8 +101,9 @@ class ContextMenu extends React.Component {
         style={ style }
       >
         <div className={ styles.ContextMenu }>
-          {this.state.items.map((item, i) =>
-            <MenuItem key={ i } id={ item.id } data={ item.data } onClick={ this.handleItemClicked }>{item.label}</MenuItem>
+          {this.state.items.map(
+            (item, i) =>
+              <MenuItem key={ i } id={ item.id } data={ item.data } onClick={ this.handleItemClicked }>{item.label}</MenuItem>
           )}
         </div>
       </div>

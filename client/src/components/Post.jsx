@@ -55,10 +55,8 @@ class Post extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    /*
-    * If the backend has save the new values after a move, a new position
-    * will be passed down. Then it's time to remove the dragging values.
-    */
+    // If the backend has save the new values after a move, a new position
+    // will be passed down. Then it's time to remove the dragging values.
     if (prevProps.left !== this.props.left || prevProps.top !== this.props.top) {
       this.setState({
         dragging: null

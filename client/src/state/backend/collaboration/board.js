@@ -18,7 +18,7 @@ const isTitleAvailable = function (title) {
     api.lists.boards.read({ where: { slug }}).
       finished(boards => {
         if (boards.length !== 0) {
-          return reject(new Error('A board with this title already exists.'));
+          return reject(new Error(`Board with title "${title}" already exists.`));
         }
 
         resolve(true);

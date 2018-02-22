@@ -139,18 +139,20 @@
     background: none;
   }
 
+  /* stylelint-disable no-descending-specificity */
+  & .Icon {
+    color: var(--color-brand-dark);
+    fill: var(--color-brand-dark);
+    margin-right: 0;
+  }
+  /* stylelint-enable no-descending-specificity */
+
   &.IsPressed {
     & .Icon {
       color: var(--color-brand-highlight);
       fill: var(--color-brand-highlight);
       margin-right: 0;
     }
-  }
-
-  & .Icon {
-    color: var(--color-brand-dark);
-    fill: var(--color-brand-dark);
-    margin-right: 0;
   }
 
   & .Label {
