@@ -30,7 +30,7 @@ class BoardHeader extends React.Component {
   async handleTitleBlur () {
     const { history } = this.props;
 
-    if (activeBoard.state.newTitle === activeBoard.state.title) {
+    if (activeBoard.state.newTitle === undefined || activeBoard.state.newTitle === activeBoard.state.title) {
       return;
     }
 
@@ -43,9 +43,11 @@ class BoardHeader extends React.Component {
       activeBoard.stopEditingTitle();
       history.replace(`/board/${renamedEvent.data.slug}`);
     } catch (ex) {
-      services.overlay.alert({
-        text: ex.message
-      });
+      if (ex.message === 'A board with this title already exists.') {
+        activeBoard.changeTitle(activeBoard.state.title);
+      }
+
+      services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -67,7 +69,6 @@ class BoardHeader extends React.Component {
           className={ styles.TextBox }
           autofocus={ false }
           ref={ this.handleInputRefChanged }
-          type='dense'
           value={ isEditingTitle ? activeBoard.state.newTitle || '' : activeBoard.state.title || '' }
           onFocus={ BoardHeader.handleTitleFocus }
           onChange={ BoardHeader.handleTitleChange }

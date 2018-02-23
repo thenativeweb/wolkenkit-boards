@@ -1,0 +1,32 @@
+@import 'variables.css';
+
+.TextBox {
+  padding: 9px 12px;
+  font-size: var(--font-size-default);
+  font-family: var(--font-family-default);
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--color-content-border);
+
+  &:focus {
+    border: 1px solid var(--color-brand-dark);
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--color-brand-dark);
+    font-family: var(--font-family-default);
+    font-size: inherit;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  &.TypePort {
+    width: 4em;
+  }
+
+  &.IsDisabled {
+    color: var(--color-brand-dark);
+    background: var(--color-brand-dark);
+  }
+}

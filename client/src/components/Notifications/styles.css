@@ -1,0 +1,10 @@
+@import 'variables.css';
+
+.Notifications {
+  position: fixed;
+  top: calc(var(--grid-step-size) * 2);
+  right: calc(var(--grid-step-size) * 2);
+  width: 300px;
+  z-index: var(--zindex-overlay);
+  pointer-events: none;
+}

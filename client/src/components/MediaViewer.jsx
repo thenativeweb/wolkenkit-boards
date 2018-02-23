@@ -1,6 +1,6 @@
 import anime from 'animejs';
 import bus from '../services/eventbus';
-import Button from './Button.jsx';
+import Button from './Button/Button.jsx';
 import classNames from 'classnames';
 import React from 'react';
 import styles from './MediaViewer.css';

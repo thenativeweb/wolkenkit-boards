@@ -1,0 +1,167 @@
+@import 'variables.css';
+
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+  border-width: 1px;
+  border-style: solid;
+  color: var(--color-brand-white);
+  font-family: var(--font-family-default);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: var(--components-border-radius-default);
+  outline: none;
+  transition: background-color 300ms;
+  will-change: background-color;
+
+  &:focus {
+    background-color: var(--color-brand-highlight);
+    border-color: var(--color-interaction-focus);
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.IsPressed {
+    background-color: var(--color-brand-dark);
+    border: 1px solid var(--color-brand-dark);
+    opacity: 0.9;
+  }
+}
+
+.AdjustFlex {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 100%;
+}
+
+.AdjustAuto {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.SizeDefault {
+  padding: 7px 11px;
+  margin: var(--grid-step-size);
+  margin-left: 0;
+  font-size: var(--font-size-default);
+}
+
+.SizeS {
+  padding: 7px 11px;
+  font-size: var(--font-size-medium);
+  margin: var(--grid-step-size);
+  margin-left: 0;
+}
+
+.SizeL {
+  padding: 8px 12px;
+  font-size: var(--font-size-large);
+  margin: var(--grid-step-size);
+  margin-left: 0;
+}
+
+.TypeLink {
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 16px;
+  margin: 0;
+  color: var(--color-brand-highlight);
+  background: none;
+  outline: none;
+  border: none;
+
+  &:focus {
+    border: none;
+    text-decoration: underline;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.TypePrimary {
+  background-color: var(--color-brand-highlight);
+  border-color: var(--color-brand-highlight);
+}
+
+.TypeSubtle {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-brand-dark);
+
+  & .Icon {
+    fill: var(--color-brand-dark);
+  }
+
+  &:hover {
+    color: var(--color-brand-highlight);
+
+    & .Icon {
+      fill: var(--color-brand-highlight);
+    }
+  }
+
+  &:focus {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  &.IsPressed {
+    color: var(--color-brand-highlight);
+
+    & .Icon {
+      fill: var(--color-brand-highlight);
+    }
+  }
+}
+
+.TypeIconOnly {
+  border-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background: transparent;
+  padding: 0;
+
+  &:focus {
+    border-color: transparent;
+    text-decoration: underline;
+    background: none;
+  }
+
+  /* stylelint-disable no-descending-specificity */
+  & .Icon {
+    color: var(--color-brand-dark);
+    fill: var(--color-brand-dark);
+    margin-right: 0;
+  }
+  /* stylelint-enable no-descending-specificity */
+
+  &.IsPressed {
+    & .Icon {
+      color: var(--color-brand-highlight);
+      fill: var(--color-brand-highlight);
+      margin-right: 0;
+    }
+  }
+
+  & .Label {
+    display: none;
+  }
+}
+
+.Hint {
+  opacity: 0.5;
+  font-size: var(--font-size-medium);
+  padding-left: 0.75em;
+}

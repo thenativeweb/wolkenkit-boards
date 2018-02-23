@@ -1,7 +1,7 @@
 import state from './state';
 
 const changeActivePost = function (content) {
-  if (!content) {
+  if (content === undefined) {
     throw new Error('Content is missing.');
   }
 

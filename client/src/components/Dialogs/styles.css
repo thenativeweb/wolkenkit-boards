@@ -1,0 +1,14 @@
+@import 'variables.css';
+
+.Dialogs {
+  & .Actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  & .Actions * {
+    flex-grow: 0;
+    max-width: 200px;
+  }
+}

@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 .Breadcrumbs {
   flex-grow: 1;
@@ -25,7 +25,7 @@
   }
 
   & .BackLink:hover {
-    color: var(--color-brand-featured);
+    color: var(--color-brand-highlight);
   }
 
   & .BackLink::after {
@@ -33,7 +33,7 @@
     position: absolute;
     height: 20px;
     width: 1px;
-    background: var(--color-brand-grey);
+    background: var(--color-brand-dark);
     top: calc(50% - 10px);
     right: calc(var(--grid-step-size) * 0.5);
   }

@@ -1,5 +1,5 @@
 import anime from 'animejs';
-import Button from './Button.jsx';
+import Button from './Button/Button.jsx';
 import classNames from 'classnames';
 import { DraggableCore } from 'react-draggable';
 import EditableText from './EditableText.jsx';
@@ -7,10 +7,32 @@ import eventbus from '../services/eventbus';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './Post.css';
+import { Transition } from 'react-transition-group';
+
+const constrain = function (num, low, high) {
+  return Math.max(Math.min(num, high), low);
+};
+
+const translateToRange = function (num, start1, stop1, start2, stop2, withinBounds) {
+  const newval = (num - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+
+  if (!withinBounds) {
+    return newval;
+  }
+
+  if (start2 < stop2) {
+    return constrain(newval, start2, stop2);
+  }
+
+  return constrain(newval, stop2, start2);
+};
 
 class Post extends React.PureComponent {
   constructor (props) {
     super(props);
+
+    this.handleEnter = this.handleEnter.bind(this);
+    this.handleExit = this.handleExit.bind(this);
 
     this.handleElementRefChanged = this.handleElementRefChanged.bind(this);
     this.handleImageRefChanged = this.handleImageRefChanged.bind(this);
@@ -33,10 +55,8 @@ class Post extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    /*
-    * If the backend has save the new values after a move, a new position
-    * will be passed down. Then it's time to remove the dragging values.
-    */
+    // If the backend has save the new values after a move, a new position
+    // will be passed down. Then it's time to remove the dragging values.
     if (prevProps.left !== this.props.left || prevProps.top !== this.props.top) {
       this.setState({
         dragging: null
@@ -44,25 +64,23 @@ class Post extends React.PureComponent {
     }
   }
 
-  componentWillEnter (done) {
+  handleEnter () {
     anime({
       targets: this.element,
       opacity: [ 0, 1 ],
       scale: [ 1.4, 1 ],
-      duration: () => anime.random(300, 400),
-      easing: 'easeOutBack',
-      complete: done
+      duration: 300,
+      easing: 'easeOutBack'
     });
   }
 
-  componentWillLeave (done) {
+  handleExit () {
     anime({
       targets: this.element,
       opacity: [ 1, 0 ],
       translateY: [ 0, 40 ],
-      duration: () => anime.random(300, 600),
-      easing: 'easeOutExpo',
-      complete: done
+      duration: 300,
+      easing: 'easeOutExpo'
     });
   }
 
@@ -168,7 +186,7 @@ class Post extends React.PureComponent {
     const { deltaX, deltaY } = data;
 
     this.setState({
-      rotation: deltaX * 0.2,
+      rotation: translateToRange(deltaX, -120, 120, -20, 20),
       dragging: {
         left: this.state.dragging.left + deltaX,
         top: this.state.dragging.top + deltaY
@@ -185,7 +203,7 @@ class Post extends React.PureComponent {
     }
 
     this.setState({
-      rotation: null,
+      rotation: 0,
       isBeingDragged: false,
       previousPosition: null
     });
@@ -232,9 +250,9 @@ class Post extends React.PureComponent {
     const menuButton = (
       <div className={ styles.MetaButton }>
         <Button
-          type='context-menu'
           icon='context-menu'
           iconSize='s'
+          adjust='auto'
           onClick={ this.handleContextMenuButtonClicked }
         />
       </div>
@@ -248,6 +266,7 @@ class Post extends React.PureComponent {
           <Button
             icon='fullscreen'
             iconSize='s'
+            adjust='auto'
             onClick={ this.handleFullscreenButtonPressed }
           />
         </div>
@@ -290,28 +309,38 @@ class Post extends React.PureComponent {
     }
 
     return (
-      <DraggableCore
-        disabled={ isEditing }
-        onStart={ this.handleDragStart }
-        onDrag={ this.handleDragMove }
-        onStop={ this.handleDragStop }
+      <Transition
+        key={ this.props.key }
+        in={ this.props.in }
+        mountOnEnter={ true }
+        unmountOnExit={ true }
+        onEnter={ this.handleEnter }
+        onExit={ this.handleExit }
+        timeout={ 400 }
       >
-        <div
-          className={ styles.Container }
-          style={{ transform: `translate(${position.left}px, ${position.top}px)` }}
+        <DraggableCore
+          disabled={ isEditing }
+          onStart={ this.handleDragStart }
+          onDrag={ this.handleDragMove }
+          onStop={ this.handleDragStop }
         >
           <div
-            ref={ this.handleElementRefChanged }
-            className={ classNames(postClasses) }
-            data-type={ this.props.type }
-            onDoubleClick={ this.handleDoubleClick }
-            style={{ transform: `rotate(${(rotation)}deg)` }}
+            className={ styles.Container }
+            style={{ transform: `translate(${position.left}px, ${position.top}px)` }}
           >
-            {this.renderContent(type)}
-            {this.renderMetaActions(type)}
+            <div
+              ref={ this.handleElementRefChanged }
+              className={ classNames(postClasses) }
+              data-type={ this.props.type }
+              onDoubleClick={ this.handleDoubleClick }
+              style={{ transform: `rotate(${(rotation)}deg)` }}
+            >
+              {this.renderContent(type)}
+              {this.renderMetaActions(type)}
+            </div>
           </div>
-        </div>
-      </DraggableCore>
+        </DraggableCore>
+      </Transition>
     );
   }
 }

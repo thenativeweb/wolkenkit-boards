@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 :root {
   --post-width: 186px;
@@ -26,12 +26,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   border: var(--post-border-width) solid transparent;
-  opacity: 0;
   will-change: transform, opacity;
   backface-visibility: hidden;
 
   &.IsDragging {
-    transition: transform 50ms !important;
+    transition: transform 0ms !important;
     cursor: move !important;
     user-select: none !important;
   }
@@ -104,106 +103,107 @@
     transition: opacity 0.25s ease-out;
     opacity: 0.2 !important;
   }
-}
 
-.PostTypeText {
-  & .Content {
-    outline: 0;
-    background: none;
-    color: inherit;
-    width: 100%;
-    min-height: 150px;
-    max-height: calc(2 * var(--post-content-padding-top) + 9 * var(--post-line-height));
-    box-sizing: border-box;
-    margin: 0;
-    font-weight: inherit;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    position: relative;
-    pointer-events: none;
-    overflow: hidden;
-
-    & div,
-    & textarea {
-      display: block;
-      -webkit-appearance: none;
-      outline: inherit;
-      background: transparent;
-      border: 0;
+  &.PostTypeText {
+    & .Content {
+      outline: 0;
+      background: none;
       color: inherit;
       width: 100%;
-      resize: none;
+      min-height: 150px;
+      max-height: calc(2 * var(--post-content-padding-top) + 9 * var(--post-line-height));
       box-sizing: border-box;
-      padding: var(--post-content-padding-top) 10px;
       margin: 0;
-      line-height: inherit;
-      font-size: var(--font-size-medium);
-      font-family: var(--font-family-default);
-      font-weight: 400;
-      letter-spacing: -0.02em;
+      font-weight: inherit;
       white-space: pre-wrap;
       word-wrap: break-word;
       position: relative;
-      cursor: pointer;
       pointer-events: none;
+      overflow: hidden;
+
+      & div,
+      & textarea {
+        display: block;
+        -webkit-appearance: none;
+        outline: inherit;
+        background: transparent;
+        border: 0;
+        color: inherit;
+        width: 100%;
+        resize: none;
+        box-sizing: border-box;
+        padding: var(--post-content-padding-top) 10px;
+        margin: 0;
+        line-height: inherit;
+        font-size: var(--font-size-medium);
+        font-family: var(--font-family-default);
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        position: relative;
+        cursor: pointer;
+        pointer-events: none;
+      }
+
+      & a {
+        white-space: inherit;
+        word-wrap: break-word;
+        color: inherit;
+        text-decoration: underline;
+        pointer-events: all;
+      }
     }
 
-    & a {
-      white-space: inherit;
-      word-wrap: break-word;
-      color: inherit;
-      text-decoration: underline;
+    &.IsEditing .Content textarea {
+      cursor: text;
+      user-select: text;
       pointer-events: all;
     }
-  }
 
-  &.IsEditing .Content textarea {
-    cursor: text;
-    user-select: text;
-    pointer-events: all;
-  }
+    &.ColorGreen.IsEditing {
+      border-color: #396f12;
+    }
 
-  &.ColorGreen.IsEditing {
-    border-color: #396f12;
-  }
+    &.ColorPaperLined.IsEditing {
+      border-color: #6b89a2;
+    }
 
-  &.ColorPaperLined.IsEditing {
-    border-color: #6b89a2;
-  }
+    &.ColorRed.IsEditing {
+      border-color: #ab1c02;
+    }
 
-  &.ColorRed.IsEditing {
-    border-color: #ab1c02;
-  }
-
-  &.ColorYellow.IsEditing {
-    border-color: #7a7a00;
-  }
-}
-
-.PostTypeImage {
-  background: var(--color-brand-highlight) !important;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  height: auto;
-  overflow: hidden;
-  white-space: normal;
-  display: flex;
-  flex-direction: column;
-
-  & .Content {
-    max-height: var(--post-width);
-
-    & img {
-      pointer-events: none;
-      width: 100%;
-      flex: 1 1 auto;
+    &.ColorYellow.IsEditing {
+      border-color: #7a7a00;
     }
   }
 
-  & .Meta {
-    &::after {
-      display: none;
+  &.PostTypeImage {
+    background: var(--color-brand-white) !important;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    overflow: hidden;
+    white-space: normal;
+    display: flex;
+    flex-direction: column;
+
+    & .Content {
+      max-height: var(--post-width);
+      overflow: hidden;
+
+      & img {
+        pointer-events: none;
+        width: 100%;
+        flex: 1 1 auto;
+      }
+    }
+
+    & .Meta {
+      &::after {
+        display: none;
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-@import '../../theme/variables.css';
+@import 'variables.css';
 
 .Form {
   margin-left: var(--grid-step-size);
@@ -6,6 +6,7 @@
   margin-bottom: 1px;
 
   & .TextBox {
+    padding: 0.1em 0.5em 0.2em;
     min-width: 250px;
     background: transparent;
     border: 1px transparent solid;
@@ -14,8 +15,8 @@
 
     &:hover,
     &:focus {
-      background: var(--color-brand-highlight);
-      border: 1px solid var(--color-brand-grey);
+      background: var(--color-brand-white);
+      border: 1px solid var(--color-brand-dark);
       color: var(--color-text-default);
     }
   }

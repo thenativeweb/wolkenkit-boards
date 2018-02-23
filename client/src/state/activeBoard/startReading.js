@@ -22,32 +22,32 @@ const startReading = function (slug) {
           where: { id: board.id },
           take: 1
         }).
-        started((boards, cancel) => {
-          subscriptions.push(cancel);
-        }).
-        updated(boards => {
-          const activeBoard = boards[0];
+          started((boards, cancel) => {
+            subscriptions.push(cancel);
+          }).
+          updated(boards => {
+            const activeBoard = boards[0];
 
-          if (activeBoard) {
-            extendObservable(state, {
-              id: activeBoard.id,
-              title: activeBoard.title,
-              slug: activeBoard.slug
-            });
-          }
-        });
+            if (activeBoard) {
+              extendObservable(state, {
+                id: activeBoard.id,
+                title: activeBoard.title,
+                slug: activeBoard.slug
+              });
+            }
+          });
 
         api.lists.posts.readAndObserve({
           where: { boardId: board.id }
         }).
-        started((posts, cancel) => {
-          subscriptions.push(cancel);
-        }).
-        updated(posts => {
-          extendObservable(state, {
-            posts
+          started((posts, cancel) => {
+            subscriptions.push(cancel);
+          }).
+          updated(posts => {
+            extendObservable(state, {
+              posts
+            });
           });
-        });
 
         const stopReading = () => {
           subscriptions.forEach(cancel => cancel());

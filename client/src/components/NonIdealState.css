@@ -1,4 +1,4 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 .NonIdealState {
   display: flex;
@@ -10,6 +10,6 @@
     text-align: center;
     max-width: 50%;
     font-size: var(--font-size-large);
-    color: var(--color-brand-grey);
+    color: var(--color-brand-dark);
   }
 }

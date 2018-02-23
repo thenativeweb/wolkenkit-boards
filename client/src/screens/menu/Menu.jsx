@@ -3,7 +3,6 @@ import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
 import styles from './Menu.css';
-import { withRouter } from 'react-router-dom';
 import { Brand, Icon } from 'wolkenkit-ux';
 import { MenuItem, SidebarMenu } from '../../components';
 
@@ -48,4 +47,4 @@ const MainMenu = () => (
   </SidebarMenu>
 );
 
-export default withRouter(observer(MainMenu));
+export default observer(MainMenu);

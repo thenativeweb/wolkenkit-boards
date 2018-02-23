@@ -1,8 +1,8 @@
-@import '../theme/variables.css';
+@import 'variables.css';
 
 .MediaViewer {
   position: fixed;
-  z-index: var(--z-index-modal);
+  z-index: var(--zindex-modal);
   left: 0;
   top: 0;
   right: 0;
@@ -28,27 +28,29 @@
   }
 
   & .Destination {
-    height: 100%;
     width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   & .Transfer {
     position: fixed;
     opacity: 0;
     pointer-events: none;
-    z-index: var(--z-index-transfer);
+    z-index: var(--zindex-transfer);
   }
 
   & .CloseButton {
     position: fixed;
-    top: var(--grid-step-size);
-    right: var(--grid-step-size);
+    top: calc(var(--grid-step-size) * 0.75);
+    right: calc(var(--grid-step-size) * 0.75);
     fill: var(--color-brand-dark);
     cursor: pointer;
     opacity: 0;
     transition: opacity 200ms;
     will-change: opacity;
-    z-index: calc(var(--z-index-transfer) + 10);
+    z-index: calc(var(--zindex-transfer) + 10);
   }
 }
 

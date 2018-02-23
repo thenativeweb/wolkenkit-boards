@@ -1,8 +1,8 @@
-@import '../../theme/variables.css';
+@import 'variables.css';
 
 .Footer {
   background: #2f333b;
-  color: color(var(--color-brand-highlight) shade(15%));
+  color: color(var(--color-brand-white) shade(15%));
   position: absolute;
   left: 0;
   bottom: 0;
@@ -29,7 +29,7 @@
 
     & .Sponsor {
       text-decoration: none;
-      color: var(--color-brand-featured);
+      color: var(--color-brand-highlight);
       font-weight: 400;
     }
   }

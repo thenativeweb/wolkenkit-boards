@@ -1,10 +1,6 @@
 {
   "extends": "eslint-config-es/2015/client",
 
-  "rules": {
-    "no-extra-parens": 0
-  },
-
   "parserOptions": {
     "sourceType": "module"
   },
