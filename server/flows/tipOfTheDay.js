@@ -28,9 +28,7 @@ const transitions = {
 
 const when = {
   pristine: {
-    counting (flow, event, services, mark) {
-      const app = services.get('app');
-
+    counting (flow, event, { app }) {
       app.collaboration.post().note({
         boardId: event.aggregate.id,
         content: 'Just double-click on a board to pin a post.',
@@ -41,35 +39,31 @@ const when = {
         type: 'text',
         color: 'green'
       });
-
-      mark.asDone();
     }
   },
 
   counting: {
-    counting (flow, event, services, mark) {
-      const app = services.get('app');
-
+    counting (flow, event, { app }) {
       const messages = {
         5: 'Did you know that you can also drop images to the board? Simply drag and drop them from your desktop.'
       };
 
       const message = messages[flow.state.postCount];
 
-      if (message) {
-        app.collaboration.post().note({
-          boardId: event.aggregate.id,
-          content: message,
-          position: {
-            left: 120,
-            top: 120
-          },
-          type: 'text',
-          color: 'green'
-        });
+      if (!message) {
+        return;
       }
 
-      mark.asDone();
+      app.collaboration.post().note({
+        boardId: event.aggregate.id,
+        content: message,
+        position: {
+          left: 120,
+          top: 120
+        },
+        type: 'text',
+        color: 'green'
+      });
     }
   }
 };

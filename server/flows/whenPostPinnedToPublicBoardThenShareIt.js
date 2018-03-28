@@ -1,12 +1,10 @@
 'use strict';
 
 const when = {
-  'collaboration.board.pinnedPost': (event, services, mark) => {
+  'collaboration.board.pinnedPost' (event, { app }) {
     if (event.data.isPrivate) {
-      return mark.asDone();
+      return;
     }
-
-    const app = services.get('app');
 
     app.collaboration.post(event.data.postId).authorize({
       commands: {
@@ -24,8 +22,6 @@ const when = {
         thrownAway: { forAuthenticated: true }
       }
     });
-
-    mark.asDone();
   }
 };
 

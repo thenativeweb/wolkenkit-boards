@@ -84,7 +84,7 @@ After a short time, the frontend is running at `http://local.wolkenkit.io:8080/`
 
 ## License
 
-Copyright (c) 2015-2017 the native web.
+Copyright (c) 2015-2018 the native web.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 

@@ -1,14 +1,10 @@
 'use strict';
 
 const when = {
-  'collaboration.board.removedPost': (event, services, mark) => {
-    const app = services.get('app');
-
+  'collaboration.board.removedPost' (event, { app }) {
     app.collaboration.post(event.data.postId).throwAway({
       postId: event.aggregate.id
     });
-
-    mark.asDone();
   }
 };
 

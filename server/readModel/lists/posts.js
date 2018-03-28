@@ -11,7 +11,7 @@ const fields = {
 };
 
 const when = {
-  'collaboration.post.noted': (posts, event, mark) => {
+  'collaboration.post.noted': (posts, event) => {
     posts.add({
       boardId: event.data.boardId,
       content: event.data.content,
@@ -21,64 +21,57 @@ const when = {
       creator: event.data.creator,
       isDone: false
     });
-    mark.asDone();
   },
 
-  'collaboration.board.pinnedPost': (posts, event, mark) => {
-    if (!event.data.isPrivate) {
-      posts.authorize({
-        where: { id: event.data.postId },
-        forAuthenticated: true
-      });
+  'collaboration.board.pinnedPost': (posts, event) => {
+    if (event.data.isPrivate) {
+      return;
     }
 
-    mark.asDone();
+    posts.authorize({
+      where: { id: event.data.postId },
+      forAuthenticated: true
+    });
   },
 
-  'collaboration.board.discarded': (posts, event, mark) => {
+  'collaboration.board.discarded': (posts, event) => {
     posts.remove({
       where: { boardId: event.aggregate.id }
     });
-    mark.asDone();
   },
 
-  'collaboration.post.recolored': (posts, event, mark) => {
+  'collaboration.post.recolored': (posts, event) => {
     posts.update({
       where: { id: event.aggregate.id },
       set: { color: event.data.to }
     });
-    mark.asDone();
   },
 
-  'collaboration.post.edited': (posts, event, mark) => {
+  'collaboration.post.edited': (posts, event) => {
     posts.update({
       where: { id: event.aggregate.id },
       set: { content: event.data.content }
     });
-    mark.asDone();
   },
 
-  'collaboration.post.moved': (posts, event, mark) => {
+  'collaboration.post.moved': (posts, event) => {
     posts.update({
       where: { id: event.aggregate.id },
       set: { position: event.data.position }
     });
-    mark.asDone();
   },
 
-  'collaboration.post.markedAsDone': (posts, event, mark) => {
+  'collaboration.post.markedAsDone': (posts, event) => {
     posts.update({
       where: { id: event.aggregate.id },
       set: { isDone: true }
     });
-    mark.asDone();
   },
 
-  'collaboration.post.thrownAway': (posts, event, mark) => {
+  'collaboration.post.thrownAway': (posts, event) => {
     posts.remove({
       where: { id: event.aggregate.id }
     });
-    mark.asDone();
   }
 };
 
