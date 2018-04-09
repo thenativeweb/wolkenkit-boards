@@ -1,9 +1,9 @@
 'use strict';
 
-const only = require('wolkenkit-command-tools').only,
-      slugify = require('slugify');
+const only = require('wolkenkit-command-tools').only;
 
-const onlyIfBoardHasNotBeenDiscarded = require('../../shared/middleware/onlyIfBoardHasNotBeenDiscarded');
+const createUniqueSlug = require('../../shared/createUniqueSlug'),
+      onlyIfBoardHasNotBeenDiscarded = require('../../shared/middleware/onlyIfBoardHasNotBeenDiscarded');
 
 const initialState = {
   title: undefined,
@@ -36,7 +36,7 @@ const commands = {
     (board, command, mark) => {
       board.events.publish('mounted', {
         title: command.data.title,
-        slug: slugify(command.data.title, { lower: true })
+        slug: createUniqueSlug(command.data.title)
       });
       mark.asDone();
     }
@@ -78,7 +78,7 @@ const commands = {
     (board, command, mark) => {
       board.events.publish('renamed', {
         title: command.data.title,
-        slug: slugify(command.data.title)
+        slug: createUniqueSlug(command.data.title)
       });
 
       mark.asDone();

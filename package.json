@@ -46,6 +46,7 @@
   "dependencies": {
     "request": "2.81.0",
     "slugify": "1.2.1",
+    "uuid": "3.2.1",
     "wolkenkit-command-tools": "1.0.0"
   },
   "devDependencies": {
