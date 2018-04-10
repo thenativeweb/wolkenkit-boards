@@ -8,7 +8,7 @@ const createUniqueSlug = function (title) {
     throw new Error('Title is missing');
   }
 
-  return `${uuid()}-${slugify(title, { lower: true })}`;
+  return `${slugify(title, { lower: true })}-${uuid().substring(0, 8)}`;
 };
 
 module.exports = createUniqueSlug;
