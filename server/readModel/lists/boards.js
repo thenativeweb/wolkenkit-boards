@@ -2,7 +2,7 @@
 
 const fields = {
   title: { initialState: '' },
-  slug: { initialState: '', fastLookup: true, isUnique: true },
+  slug: { initialState: '', fastLookup: true },
   isPrivate: { initialState: true },
   timestamp: { initialState: 0 }
 };

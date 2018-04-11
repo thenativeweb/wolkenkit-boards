@@ -27,7 +27,7 @@ class BoardHeader extends React.Component {
     this.titleInput = input;
   }
 
-  async handleTitleBlur () {
+  async changeTitle () {
     const { history } = this.props;
 
     if (activeBoard.state.newTitle === undefined || activeBoard.state.newTitle === activeBoard.state.title) {
@@ -40,20 +40,21 @@ class BoardHeader extends React.Component {
         title: activeBoard.state.newTitle
       });
 
-      activeBoard.stopEditingTitle();
       history.replace(`/board/${renamedEvent.data.slug}`);
+      activeBoard.stopEditingTitle();
     } catch (ex) {
-      if (ex.message === 'A board with this title already exists.') {
-        activeBoard.changeTitle(activeBoard.state.title);
-      }
-
       services.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
-  handleFormSubmit (event) {
+  async handleTitleBlur () {
+    await this.changeTitle();
+  }
+
+  async handleFormSubmit (event) {
     event.preventDefault();
-    this.titleInput.blur();
+
+    await this.changeTitle();
   }
 
   render () {
