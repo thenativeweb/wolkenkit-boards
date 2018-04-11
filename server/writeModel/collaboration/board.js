@@ -1,6 +1,6 @@
 'use strict';
 
-const only = require('wolkenkit-command-tools').only;
+const { only } = require('wolkenkit-command-tools');
 
 const createUniqueSlug = require('../../shared/createUniqueSlug'),
       onlyIfBoardHasNotBeenDiscarded = require('../../shared/middleware/onlyIfBoardHasNotBeenDiscarded');
