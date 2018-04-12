@@ -14,7 +14,7 @@ roboter.
     });
 
     task('universal/shell', {
-      'analyze-styles': './node_modules/.bin/stylelint "src/**/*.css"',
+      'analyze-styles': 'stylelint "src/**/*.css"',
       build: 'NODE_ENV=production ./node_modules/.bin/webpack',
       serve: './node_modules/.bin/webpack-dev-server'
     });
