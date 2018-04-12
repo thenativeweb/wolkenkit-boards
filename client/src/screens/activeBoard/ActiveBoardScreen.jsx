@@ -172,29 +172,52 @@ class ActiveBoardScreen extends React.Component {
   }
 
   async componentDidMount () {
-    const { match, history } = this.props;
+    const { match } = this.props;
 
-    try {
-      this.stopReading = await activeBoard.startReading(match.params.slug);
-    } catch (ex) {
-      // No board has been found so we redirect to root screen.
-      history.push('/');
-    }
+    await this.startReadingBoard(match.params.slug);
 
     menu.registerItems([
       { label: 'Clean up board', id: 'board-clean-up', onSelect: ActiveBoardScreen.handleMainMenuClicked }
     ]);
   }
 
-  /* eslint-disable class-methods-use-this */
-  componentWillUnmount () {
-    if (typeof this.stopReading === 'function') {
-      this.stopReading();
+  async componentDidUpdate (prevProps) {
+    const { match } = this.props;
+    const newSlug = match.params.slug;
+
+    if (newSlug !== prevProps.match.params.slug) {
+      this.stopReadingBoard();
+
+      await this.startReadingBoard(newSlug);
     }
+  }
+
+  componentWillUnmount () {
+    this.stopReadingBoard();
 
     menu.clearItems();
   }
-  /* eslint-enable class-methods-use-this */
+
+  async startReadingBoard (slug) {
+    if (!slug) {
+      throw new Error('Slug is missing.');
+    }
+
+    const { history } = this.props;
+
+    try {
+      this.stopReading = await activeBoard.startReading(slug);
+    } catch (ex) {
+      // No board has been found so we redirect to root screen.
+      history.push('/');
+    }
+  }
+
+  stopReadingBoard () {
+    if (typeof this.stopReading === 'function') {
+      this.stopReading();
+    }
+  }
 
   /* eslint-disable class-methods-use-this */
   render () {

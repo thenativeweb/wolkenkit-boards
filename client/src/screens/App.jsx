@@ -8,7 +8,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import styles from './App.css';
 import { AppBar, Breadcrumbs, Button, ContextMenu, Form, Headline, Modal, Notifications, Symbols } from '../components';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 const App = () => (
   <HashRouter>
@@ -22,8 +22,8 @@ const App = () => (
       </AppBar>
       <Switch>
         <Route exact={ true } location={ location } path='/' component={ BoardsScreen } />
-        <Route exact={ true } location={ location } path='/boards' component={ BoardsScreen } />
         <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoardScreen } />
+        <Redirect to='/' />
       </Switch>
       <ContextMenu />
       <Notifications />
