@@ -68,17 +68,17 @@ $ cd ./client
 $ npm install
 ```
 
-[roboter](https://github.com/thenativeweb/roboter) is used for build automation. Then, run `npx bot serve` and set the environment variables `AUTH_IDENTITY_PROVIDER_URL` and `AUTH_CLIENT_ID` accordingly:
+[roboter](https://github.com/thenativeweb/roboter) is used for build automation. Set the environment variables `AUTH_IDENTITY_PROVIDER_URL` and `AUTH_CLIENT_ID` accordingly, and then run `npx roboter serve`:
 
 ```shell
-$ AUTH_IDENTITY_PROVIDER_URL=https://<username>.eu.auth0.com/authorize AUTH_CLIENT_ID=<clientid> npx bot serve
+$ AUTH_IDENTITY_PROVIDER_URL=https://<username>.eu.auth0.com/authorize AUTH_CLIENT_ID=<clientid> npx roboter serve
 ```
 
 After a short time, the frontend is running at `http://local.wolkenkit.io:8080/`. Point your browser to this url, identify yourself, and start to mount boards and pin some posts!
 
 ## License
 
-Copyright (c) 2015-2017 the native web.
+Copyright (c) 2015-2018 the native web.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
