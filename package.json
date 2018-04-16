@@ -50,8 +50,7 @@
   },
   "devDependencies": {
     "eslint-plugin-wolkenkit": "1.0.0",
-    "roboter": "0.15.4",
-    "roboter-server": "0.15.4"
+    "roboter": "thenativeweb/roboter#vnext"
   },
   "license": "AGPL-3.0"
 }
