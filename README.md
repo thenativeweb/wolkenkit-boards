@@ -68,16 +68,10 @@ $ cd ./client
 $ npm install
 ```
 
-As roboter is used for build automation it is recommended to install roboter-cli globally. This way you can easily run roboter by simply typing `bot`. To install roboter-cli, run the following command:
+[roboter](https://github.com/thenativeweb/roboter) is used for build automation. Set the environment variables `AUTH_IDENTITY_PROVIDER_URL` and `AUTH_CLIENT_ID` accordingly, and then run `npx roboter serve`:
 
 ```shell
-$ npm install -g roboter-cli
-```
-
-Then, run `bot` and set the environment variables `AUTH_IDENTITY_PROVIDER_URL` and `AUTH_CLIENT_ID` accordingly:
-
-```shell
-$ AUTH_IDENTITY_PROVIDER_URL=https://<username>.eu.auth0.com/authorize AUTH_CLIENT_ID=<clientid> bot serve
+$ AUTH_IDENTITY_PROVIDER_URL=https://<username>.eu.auth0.com/authorize AUTH_CLIENT_ID=<clientid> npx roboter serve
 ```
 
 After a short time, the frontend is running at `http://local.wolkenkit.io:8080/`. Point your browser to this url, identify yourself, and start to mount boards and pin some posts!

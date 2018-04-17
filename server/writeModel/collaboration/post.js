@@ -1,8 +1,8 @@
 'use strict';
 
-const onlyIfPostHasNotBeenThrownAway = require('../../shared/middleware/onlyIfPostHasNotBeenThrownAway');
-
 const { only } = require('wolkenkit-command-tools');
+
+const onlyIfPostHasNotBeenThrownAway = require('../../shared/middleware/onlyIfPostHasNotBeenThrownAway');
 
 const initialState = {
   boardId: undefined,

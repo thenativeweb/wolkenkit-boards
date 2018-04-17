@@ -1,30 +1,4 @@
-import slugify from 'slugify';
 import state from '../state';
-
-const isTitleAvailable = function (title) {
-  return new Promise((resolve, reject) => {
-    if (!title) {
-      return reject(new Error('Title is missing.'));
-    }
-
-    const api = state.api;
-
-    if (!api) {
-      return reject(new Error('Not connected to backend.'));
-    }
-
-    const slug = slugify(title, { lower: true });
-
-    api.lists.boards.read({ where: { slug }}).
-      finished(boards => {
-        if (boards.length !== 0) {
-          return reject(new Error(`Board with title "${title}" already exists.`));
-        }
-
-        resolve(true);
-      });
-  });
-};
 
 const board = {
   cleanUp ({ id }) {
@@ -75,13 +49,9 @@ const board = {
         return reject(new Error('Not connected to backend.'));
       }
 
-      isTitleAvailable(title).
-        then(() => {
-          api.collaboration.board().mount({ title }).
-            await('mounted', resolve).
-            failed(reject);
-        }).
-        catch(reject);
+      api.collaboration.board().mount({ title }).
+        await('mounted', resolve).
+        failed(reject);
     });
   },
 
@@ -121,13 +91,9 @@ const board = {
         return reject(new Error('Not connected to backend.'));
       }
 
-      isTitleAvailable(title).
-        then(() => {
-          api.collaboration.board(id).rename({ title }).
-            await('renamed', resolve).
-            failed(reject);
-        }).
-        catch(reject);
+      api.collaboration.board(id).rename({ title }).
+        await('renamed', resolve).
+        failed(reject);
     });
   },
 

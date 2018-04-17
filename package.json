@@ -44,13 +44,12 @@
     "postinstall": "cd client && npm install"
   },
   "dependencies": {
-    "request": "2.85.0",
     "slugify": "1.2.9",
+    "uuidv4": "1.0.0",
     "wolkenkit-command-tools": "3.0.0"
   },
   "devDependencies": {
-    "roboter": "0.15.4",
-    "roboter-server": "0.15.4"
+    "roboter": "1.0.1"
   },
   "license": "AGPL-3.0"
 }
