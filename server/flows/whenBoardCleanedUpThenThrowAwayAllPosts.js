@@ -1,6 +1,6 @@
 'use strict';
 
-const when = {
+const reactions = {
   'collaboration.board.cleanedUp' (event, { app }) {
     event.data.postIds.forEach(postId => {
       app.collaboration.post(postId).throwAway();
@@ -8,4 +8,4 @@ const when = {
   }
 };
 
-module.exports = { when };
+module.exports = { reactions };

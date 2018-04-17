@@ -26,7 +26,7 @@ const transitions = {
   }
 };
 
-const when = {
+const reactions = {
   pristine: {
     counting (flow, event, { app }) {
       app.collaboration.post().note({
@@ -68,4 +68,4 @@ const when = {
   }
 };
 
-module.exports = { identity, initialState, transitions, when };
+module.exports = { identity, initialState, transitions, reactions };

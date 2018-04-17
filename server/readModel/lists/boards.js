@@ -7,7 +7,7 @@ const fields = {
   timestamp: { initialState: 0 }
 };
 
-const when = {
+const projections = {
   'collaboration.board.mounted': (boards, event) => {
     boards.add({
       title: event.data.title,
@@ -46,4 +46,4 @@ const when = {
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };

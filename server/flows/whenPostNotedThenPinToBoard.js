@@ -1,6 +1,6 @@
 'use strict';
 
-const when = {
+const reactions = {
   'collaboration.post.noted' (event, { app }) {
     app.collaboration.board(event.data.boardId).pinPost({
       postId: event.aggregate.id
@@ -8,4 +8,4 @@ const when = {
   }
 };
 
-module.exports = { when };
+module.exports = { reactions };

@@ -10,7 +10,7 @@ const fields = {
   isDone: { initialState: false }
 };
 
-const when = {
+const projections = {
   'collaboration.post.noted': (posts, event) => {
     posts.add({
       boardId: event.data.boardId,
@@ -75,4 +75,4 @@ const when = {
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };

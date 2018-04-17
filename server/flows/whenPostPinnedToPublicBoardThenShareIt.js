@@ -1,6 +1,6 @@
 'use strict';
 
-const when = {
+const reactions = {
   'collaboration.board.pinnedPost' (event, { app }) {
     if (event.data.isPrivate) {
       return;
@@ -25,4 +25,4 @@ const when = {
   }
 };
 
-module.exports = { when };
+module.exports = { reactions };
