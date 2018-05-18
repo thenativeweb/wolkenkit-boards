@@ -2,9 +2,7 @@ import backend from '../../state/backend';
 import mountBoardDialog from '../../state/mountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
-import services from '../../services';
-import styles from './MountBoardDialog.css';
-import { Button, Form, Headline, Modal, TextBox } from '../../components';
+import { Button, CheckBox, ControlGroup, Form, Headline, Modal, services, TextBox } from 'thenativeweb-ux';
 
 const handleDialogCanceled = function () {
   mountBoardDialog.hide();
@@ -39,28 +37,30 @@ const MountBoardDialog = () => (
   >
     <Form onSubmit={ handleFormSubmitted }>
       <Headline>Mount new board</Headline>
-      <Form.Row>
-        <TextBox
-          className='add-boards-title'
-          onChange={ event => mountBoardDialog.changeTitle(event.currentTarget.value) }
-          value={ mountBoardDialog.state.title || '' }
-          placeholder='Pick a title'
-          autoFocus={ true }
-        />
-      </Form.Row>
-      <Form.Row horizontalContentAlign='left' verticalContentAlign='center'>
-        <input
-          checked={ mountBoardDialog.state.isPrivate }
-          type='checkbox'
-          id='just-for-myself'
-          onChange={ () => mountBoardDialog.togglePrivacy() }
-        />
-        <label htmlFor='just-for-myself'>Just for myself</label>
-      </Form.Row>
-      <Form.Row type='action-buttons'>
-        <Button className={ styles.MountButton } isPrimary={ true } adjust='flex' disabled={ mountBoardDialog.state.title === '' }>Mount it!</Button>
+      <ControlGroup>
+        <ControlGroup.Item>
+          <TextBox
+            className='add-boards-title'
+            onChange={ event => mountBoardDialog.changeTitle(event.currentTarget.value) }
+            value={ mountBoardDialog.state.title || '' }
+            placeholder='Pick a title'
+            autoFocus={ true }
+          />
+        </ControlGroup.Item>
+      </ControlGroup>
+      <ControlGroup>
+        <ControlGroup.Item label='Just for myself'>
+          <CheckBox
+            checked={ mountBoardDialog.state.isPrivate }
+            id='just-for-myself'
+            onChange={ () => mountBoardDialog.togglePrivacy() }
+          />
+        </ControlGroup.Item>
+      </ControlGroup>
+      <Form.Actions type='stacked'>
+        <Button isPrimary={ true } disabled={ mountBoardDialog.state.title === '' }>Mount it!</Button>
         <Button onClick={ handleDialogCanceled }>Cancel</Button>
-      </Form.Row>
+      </Form.Actions>
     </Form>
   </Modal>
 );

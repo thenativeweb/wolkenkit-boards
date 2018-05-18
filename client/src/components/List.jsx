@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import Grow from './transitions/Grow.jsx';
 import React from 'react';
 import styles from './List.css';
-import { TransitionGroup } from 'react-transition-group';
+import { Transition } from 'thenativeweb-ux';
 
 const Header = function (props) {
   const { className, children } = props;
@@ -16,9 +15,9 @@ const Header = function (props) {
 
 const Body = function ({ children }) {
   return (
-    <TransitionGroup>
-      { React.Children.map(children, child => <Grow>{ child }</Grow>)}
-    </TransitionGroup>
+    <Transition.Group type='Grow'>
+      { children }
+    </Transition.Group>
   );
 };
 

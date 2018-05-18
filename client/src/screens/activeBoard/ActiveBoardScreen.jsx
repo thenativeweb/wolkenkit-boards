@@ -6,6 +6,7 @@ import React from 'react';
 import services from '../../services';
 import styles from './ActiveBoardScreen.css';
 import { TransitionGroup } from 'react-transition-group';
+import { services as uxServices } from 'thenativeweb-ux';
 import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
 
 const postWidth = 192;
@@ -39,7 +40,7 @@ class ActiveBoardScreen extends React.Component {
 
       await activeBoard.startEditingPost(notedEvent.aggregate.id);
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -59,7 +60,7 @@ class ActiveBoardScreen extends React.Component {
         }
       });
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -70,7 +71,7 @@ class ActiveBoardScreen extends React.Component {
         position
       });
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -81,7 +82,7 @@ class ActiveBoardScreen extends React.Component {
         to
       });
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -100,7 +101,7 @@ class ActiveBoardScreen extends React.Component {
         content: activeBoard.state.activePost.content
       });
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     } finally {
       setTimeout(() => {
         activeBoard.stopEditingPost();
@@ -114,7 +115,7 @@ class ActiveBoardScreen extends React.Component {
         id
       });
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
@@ -125,19 +126,14 @@ class ActiveBoardScreen extends React.Component {
         postId
       });
     } catch (ex) {
-      services.notifications.show({ type: 'error', text: ex.message });
+      uxServices.notifications.show({ type: 'error', text: ex.message });
     }
   }
 
   static async handleMainMenuClicked (id) {
     switch (id) {
       case 'board-clean-up': {
-        // const didConfirm = await services.dialog.confirm({
-        //   title: 'Remove all posts from this board?',
-        //   confirm: 'Clear all posts!'
-        // });
-
-        const chosenAction = await services.dialogs.confirm({
+        const chosenAction = await uxServices.dialogs.confirm({
           title: 'Remove all posts from this board?',
           actions: {
             confirm: 'Clear all posts!',
@@ -154,7 +150,7 @@ class ActiveBoardScreen extends React.Component {
             id: activeBoard.state.id
           });
         } catch (ex) {
-          services.notifications.show({ type: 'error', text: ex.message });
+          uxServices.notifications.show({ type: 'error', text: ex.message });
         }
 
         menu.collapse();

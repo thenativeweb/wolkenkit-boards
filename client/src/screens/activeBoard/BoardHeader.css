@@ -10,7 +10,6 @@
     min-width: 250px;
     background: transparent;
     border: 1px transparent solid;
-    color: inherit;
     transition: border 400ms, background 400ms;
 
     &:hover,

@@ -3,9 +3,8 @@ import mountBoardDialog from '../../state/mountBoardDialog';
 import MountBoardDialog from '../mountBoardDialog/MountBoardDialog.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import services from '../../services';
+import { services } from 'thenativeweb-ux';
 import styles from './BoardsScreen.css';
-
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {

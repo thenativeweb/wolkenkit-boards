@@ -2,9 +2,8 @@ import activeBoard from '../../state/activeBoard';
 import backend from '../../state/backend';
 import { observer } from 'mobx-react';
 import React from 'react';
-import services from '../../services';
 import styles from './BoardHeader.css';
-import { Form, TextBox } from '../../components';
+import { Form, services, TextBox } from 'thenativeweb-ux';
 
 class BoardHeader extends React.Component {
   static handleTitleFocus () {

@@ -1,5 +1,5 @@
 import anime from 'animejs';
-import Button from './Button/Button.jsx';
+import { Button } from 'thenativeweb-ux';
 import classNames from 'classnames';
 import { DraggableCore } from 'react-draggable';
 import EditableText from './EditableText.jsx';

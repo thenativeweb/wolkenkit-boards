@@ -1,6 +1,7 @@
+import { Icon } from 'thenativeweb-ux';
+import { Label } from './index';
 import React from 'react';
 import styles from './Breadcrumbs.css';
-import { Icon, Label } from './index';
 import { Link, Route, Switch } from 'react-router-dom';
 
 const Breadcrumbs = ({ children }) => (

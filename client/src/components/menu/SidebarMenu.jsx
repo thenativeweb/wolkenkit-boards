@@ -1,8 +1,7 @@
-import Button from '../Button/Button.jsx';
 import classNames from 'classnames';
-import FadeInRight from '../transitions/FadeInRight.jsx';
 import React from 'react';
 import styles from './SidebarMenu.css';
+import { Button, Transition } from 'thenativeweb-ux';
 
 class SidebarMenu extends React.Component {
   constructor (props) {
@@ -34,11 +33,11 @@ class SidebarMenu extends React.Component {
       <div className={ menuClasses }>
         <div className={ styles.Container }>
           <div className={ styles.Backdrop } onClick={ this.handleCollapseRessed } />
-          <FadeInRight in={ this.props.isExpanded }>
+          <Transition type='FadeInRight' in={ this.props.isExpanded }>
             <div className={ styles.Menu }>
               {this.props.children}
             </div>
-          </FadeInRight>
+          </Transition>
         </div>
         <div className={ styles.Toggles }>
           <Button

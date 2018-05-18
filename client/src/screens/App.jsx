@@ -2,50 +2,48 @@ import ActiveBoardScreen from './activeBoard/ActiveBoardScreen.jsx';
 import backend from '../state/backend';
 import BoardHeader from './activeBoard/BoardHeader.jsx';
 import BoardsScreen from './boards/BoardsScreen.jsx';
-import Dialogs from '../components/Dialogs';
 import Menu from './menu/Menu.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import styles from './App.css';
-import { AppBar, Breadcrumbs, Button, ContextMenu, Form, Headline, Modal, Notifications, Symbols } from '../components';
+import { AppBar, Breadcrumbs, ContextMenu, Symbols } from '../components';
+import { Application, Button, Headline, Message, Modal, ThemeProvider } from 'thenativeweb-ux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 const App = () => (
-  <HashRouter>
-    <div className={ styles.App }>
-      <Symbols />
-      <AppBar>
-        <Menu />
-        <Breadcrumbs>
-          <Route exact={ true } path='/board/:slug' component={ BoardHeader } />
-        </Breadcrumbs>
-      </AppBar>
-      <Switch>
-        <Route exact={ true } location={ location } path='/' component={ BoardsScreen } />
-        <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoardScreen } />
-        <Redirect to='/' />
-      </Switch>
-      <ContextMenu />
-      <Notifications />
-      <Dialogs />
-      <Modal isVisible={ !backend.state.isConnected }>
-        <Headline>
-          Disconnected
-        </Headline>
-        <Form.Row>
-          { backend.state.error }
-        </Form.Row>
-        <Form.Row type='action-buttons'>
+  <ThemeProvider theme='wolkenkit'>
+    <HashRouter>
+      <Application orientation='vertical'>
+        <Application.Services />
+        <Symbols />
+        <AppBar>
+          <Menu />
+          <Breadcrumbs>
+            <Route exact={ true } path='/board/:slug' component={ BoardHeader } />
+          </Breadcrumbs>
+        </AppBar>
+        <Switch>
+          <Route exact={ true } location={ location } path='/' component={ BoardsScreen } />
+          <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoardScreen } />
+          <Redirect to='/' />
+        </Switch>
+        <ContextMenu />
+        <Modal isVisible={ !backend.state.isConnected }>
+          <Headline>
+            Disconnected
+          </Headline>
+          <Message type='error'>
+            { backend.state.error }
+          </Message>
           <Button
             isPrimary={ true }
             onClick={ () => backend.reconnect() }
           >
             Reconnect me!
           </Button>
-        </Form.Row>
-      </Modal>
-    </div>
-  </HashRouter>
+        </Modal>
+      </Application>
+    </HashRouter>
+  </ThemeProvider>
 );
 
 export default observer(App);

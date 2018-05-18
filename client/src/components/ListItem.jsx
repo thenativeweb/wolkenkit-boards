@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import eventbus from '../services/eventbus';
+import { Label } from './index';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './ListItem.css';
-import { Button, Icon, Label } from './index';
+import { Button, Icon } from 'thenativeweb-ux';
 
 class ListItem extends React.PureComponent {
   constructor (props) {
