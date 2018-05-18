@@ -12,7 +12,7 @@ const Symbols = function () {
       </symbol>
 
       <symbol id='icon-arrow-west' viewBox='0 0 24 24'>
-        <path d='M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z' />
+        <path d='M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z' style={{ transform: 'rotate(180deg)', transformOrigin: '50% 50%' }} />
       </symbol>
 
       <symbol id='icon-close' viewBox='0 0 24 24'>

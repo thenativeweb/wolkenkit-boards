@@ -5,27 +5,24 @@
   flex-shrink: 1;
   display: flex;
   margin-left: calc(var(--grid-step-size) * 2);
-  font-size: var(--font-size-medium);
+  align-items: center;
 
   & .BackLink {
     position: relative;
-    display: flex;
-    align-items: center;
-    color: var(--color-brand-dark);
     text-decoration: none;
-    padding-right: calc(var(--grid-step-size) * 3);
+    margin-right: calc(var(--grid-step-size) * 3);
 
-    & .BackLinkIcon {
-      transform: scaleX(-1);
-    }
-
-    & > div {
-      padding-bottom: 2px;
+    & .BackButton {
+      margin: 0;
     }
   }
 
   & .BackLink:hover {
     color: var(--color-brand-highlight);
+
+    & .BackLinkIcon {
+      fill: var(--color-brand-highlight);
+    }
   }
 
   & .BackLink::after {
@@ -35,7 +32,8 @@
     width: 1px;
     background: var(--color-brand-dark);
     top: calc(50% - 10px);
-    right: calc(var(--grid-step-size) * 0.5);
+    right: 0;
+    margin-right: -15px;
   }
 
   &.disabled {

@@ -14,7 +14,6 @@ import Post from './Post.jsx';
 import Screen from './Screen.jsx';
 import SidebarMenu from './menu/SidebarMenu.jsx';
 import Symbols from './Symbols.jsx';
-import TextBox from './TextBox/TextBox.jsx';
 
 export {
   AppBar,
@@ -32,6 +31,5 @@ export {
   Post,
   Screen,
   SidebarMenu,
-  Symbols,
-  TextBox
+  Symbols
 };

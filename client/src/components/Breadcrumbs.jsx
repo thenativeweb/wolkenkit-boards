@@ -1,5 +1,4 @@
-import { Icon } from 'thenativeweb-ux';
-import { Label } from './index';
+import { Button } from 'thenativeweb-ux';
 import React from 'react';
 import styles from './Breadcrumbs.css';
 import { Link, Route, Switch } from 'react-router-dom';
@@ -9,8 +8,7 @@ const Breadcrumbs = ({ children }) => (
     <Switch>
       <Route path='/board/:slug'>
         <Link to='/' className={ styles.BackLink }>
-          <Icon className={ styles.BackLinkIcon } name='arrow-west' size='xs' style={{ marginRight: 8 }} />
-          <Label>Boards</Label>
+          <Button icon='arrow-west' iconSize='s' isSubtle={ true } className={ styles.BackButton }>Boards</Button>
         </Link>
       </Route>
     </Switch>
