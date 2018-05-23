@@ -47,8 +47,7 @@
     "thenativeweb-ux": "git+ssh://git@github.com/thenativeweb/thenativeweb-ux.git#master",
     "webpack": "3.11.0",
     "webpack-dev-server": "2.11.1",
-    "wolkenkit-client": "1.2.0",
-    "wolkenkit-ux": "0.2.3"
+    "wolkenkit-client": "1.2.0"
   },
   "license": "AGPL-3.0",
   "dependencies": {

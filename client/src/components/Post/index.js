@@ -2,11 +2,12 @@ import anime from 'animejs';
 import { Button } from 'thenativeweb-ux';
 import classNames from 'classnames';
 import { DraggableCore } from 'react-draggable';
-import EditableText from './EditableText.jsx';
-import eventbus from '../services/eventbus';
+import EditableText from '../EditableText';
+import eventbus from '../../services/eventbus';
+import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styles from './Post.css';
+import styles from './styles.js';
 import { Transition } from 'react-transition-group';
 
 const constrain = function (num, low, high) {
@@ -210,9 +211,11 @@ class Post extends React.PureComponent {
   }
 
   renderTextContent () {
+    const { classes } = this.props;
+
     return (
       <EditableText
-        className={ styles.Content }
+        className={ classes.Content }
         content={ this.props.content }
         isEditing={ this.props.isEditing }
         onChange={ this.handleContentChange }
@@ -222,8 +225,10 @@ class Post extends React.PureComponent {
   }
 
   renderImageContent () {
+    const { classes } = this.props;
+
     return (
-      <div className={ styles.Content }>
+      <div className={ classes.Content }>
         <img ref={ this.handleImageRefChanged } src={ this.props.content.url } />
       </div>
     );
@@ -247,8 +252,10 @@ class Post extends React.PureComponent {
   }
 
   renderMetaActions (type) {
+    const { classes } = this.props;
+
     const menuButton = (
-      <div className={ styles.MetaButton }>
+      <div className={ classes.MetaButton }>
         <Button
           icon='context-menu'
           iconSize='s'
@@ -262,7 +269,7 @@ class Post extends React.PureComponent {
 
     if (type === 'image') {
       fullScreenButton = (
-        <div className={ styles.MetaButton }>
+        <div className={ classes.MetaButton }>
           <Button
             icon='fullscreen'
             iconSize='s'
@@ -274,8 +281,8 @@ class Post extends React.PureComponent {
     }
 
     return (
-      <div className={ styles.Meta }>
-        <div className={ styles.Author }><span>by</span> {this.props.creator}</div>
+      <div className={ classes.Meta }>
+        <div className={ classes.Author }><span>by</span> {this.props.creator}</div>
         {fullScreenButton}
         {menuButton}
       </div>
@@ -283,19 +290,19 @@ class Post extends React.PureComponent {
   }
 
   render () {
-    const { color, isDone, left, top, type, isEditing } = this.props;
+    const { classes, color, isDone, left, top, type, isEditing } = this.props;
     const { dragging, isBeingDragged, rotation } = this.state;
 
-    const postClasses = classNames(styles.Post, {
-      [styles.IsEditing]: isEditing,
-      [styles.IsDragging]: isBeingDragged,
-      [styles.IsDone]: isDone,
-      [styles.ColorGreen]: color === 'green',
-      [styles.ColorPaperLined]: color === 'paper-lined',
-      [styles.ColorRed]: color === 'red',
-      [styles.ColorYellow]: color === 'yellow',
-      [styles.PostTypeImage]: type === 'image',
-      [styles.PostTypeText]: type === 'text'
+    const postClasses = classNames(classes.Post, {
+      [classes.IsBeingEdited]: isEditing,
+      [classes.IsDragging]: isBeingDragged,
+      [classes.IsDone]: isDone,
+      [classes.ColorGreen]: color === 'green',
+      [classes.ColorPaperLined]: color === 'paper-lined',
+      [classes.ColorRed]: color === 'red',
+      [classes.ColorYellow]: color === 'yellow',
+      [classes.TypeImage]: type === 'image',
+      [classes.TypeText]: type === 'text'
     });
 
     const position = {
@@ -325,7 +332,7 @@ class Post extends React.PureComponent {
           onStop={ this.handleDragStop }
         >
           <div
-            className={ styles.Container }
+            className={ classes.Container }
             style={{ transform: `translate(${position.left}px, ${position.top}px)` }}
           >
             <div
@@ -383,4 +390,4 @@ Post.propTypes = {
   onThrowAway: PropTypes.func
 };
 
-export default Post;
+export default injectSheet(styles)(Post);

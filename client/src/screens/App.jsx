@@ -5,16 +5,22 @@ import BoardsScreen from './boards/BoardsScreen.jsx';
 import Menu from './menu/Menu.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
+import theme from '../theme/boards';
 import { AppBar, Breadcrumbs, ContextMenu, Symbols } from '../components';
 import { Application, Button, Headline, Message, Modal, ThemeProvider } from 'thenativeweb-ux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 const App = () => (
-  <ThemeProvider theme='wolkenkit'>
+  <ThemeProvider theme={ theme }>
     <HashRouter>
       <Application orientation='vertical'>
         <Application.Services />
         <Symbols />
+{/* {        <Sidebar>
+          <Sidebar.Item>
+
+          </Sidebar.Item>
+        </Sidebar>} */}
         <AppBar>
           <Menu />
           <Breadcrumbs>

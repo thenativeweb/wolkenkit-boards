@@ -1,9 +1,79 @@
 import anime from 'animejs';
-import bus from '../services/eventbus';
+import bus from '../../services/eventbus';
 import { Button } from 'thenativeweb-ux';
 import classNames from 'classnames';
+import injectSheet from 'react-jss';
 import React from 'react';
-import styles from './MediaViewer.css';
+
+const styles = theme => ({
+  MediaViewer: {
+    position: 'fixed',
+    'z-index': theme.zIndex.modal,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden',
+    display: 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    padding: 0,
+    margin: 0,
+    'pointer-events': 'none'
+  },
+
+  Backdrop: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    background: theme.color.backdrop,
+    opacity: 0,
+    transition: 'opacity 200ms',
+    'will-change': 'opacity'
+  },
+
+  Destination: {
+    width: 'auto',
+    height: 'auto',
+    'max-width': '100%',
+    'max-height': '100%',
+    'z-index': theme.zIndex.transfer
+  },
+
+  Transfer: {
+    position: 'fixed',
+    opacity: 0,
+    'pointer-events': 'none',
+    'z-index': theme.zIndex.transfer + 1
+  },
+
+  CloseButton: {
+    position: 'fixed',
+    top: theme.grid.stepSize * 0.75,
+    right: theme.grid.stepSize * 0.75,
+    fill: theme.color.brand.dark,
+    cursor: 'pointer',
+    opacity: 0,
+    transition: 'opacity 200ms',
+    'will-change': 'opacity',
+    zIndex: theme.zIndex.transfer + 10
+  },
+
+  MediaViewerVisible: {
+    'pointer-events': 'all',
+
+    '& $Backdrop': {
+      opacity: 1,
+      cursor: 'pointer'
+    },
+
+    '& $CloseButton': {
+      opacity: 1
+    }
+  }
+});
 
 class MediaViewer extends React.Component {
   constructor (props) {
@@ -163,16 +233,18 @@ class MediaViewer extends React.Component {
       return null;
     }
 
+    const { classes } = this.props;
+
     return [
       <img
         key='transfer'
-        className={ styles.Transfer }
+        className={ classes.Transfer }
         ref={ this.handleTransferRefChanged }
         src={ this.state.content.url }
       />,
       <img
         key='destination'
-        className={ styles.Destination }
+        className={ classes.Destination }
         ref={ this.handleImageRefChanged }
         src={ this.state.content.url }
       />
@@ -180,12 +252,14 @@ class MediaViewer extends React.Component {
   }
 
   render () {
+    const { classes } = this.props;
+
     return (
       <div
-        className={ classNames(styles.MediaViewer, { [styles.MediaViewerVisible]: this.state.isVisible }) }
+        className={ classNames(classes.MediaViewer, { [classes.MediaViewerVisible]: this.state.isVisible }) }
       >
         <div
-          className={ styles.Backdrop }
+          className={ classes.Backdrop }
           onClick={ this.handleCloseClicked }
         />
         { this.renderImage() }
@@ -194,11 +268,11 @@ class MediaViewer extends React.Component {
           icon='close'
           iconSize='m'
           onClick={ this.handleCloseClicked }
-          className={ styles.CloseButton }
+          className={ classes.CloseButton }
         />
       </div>
     );
   }
 }
 
-export default MediaViewer;
+export default injectSheet(styles)(MediaViewer);

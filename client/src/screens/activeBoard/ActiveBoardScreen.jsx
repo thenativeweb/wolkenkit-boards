@@ -1,13 +1,15 @@
 import activeBoard from '../../state/activeBoard';
 import backend from '../../state/backend';
+import classNames from 'classnames';
+import injectSheet from 'react-jss';
 import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
 import services from '../../services';
-import styles from './ActiveBoardScreen.css';
+import styles from './ActiveBoardScreen.styles';
 import { TransitionGroup } from 'react-transition-group';
-import { services as uxServices } from 'thenativeweb-ux';
-import { ColorToggle, FileDropZone, MediaViewer, Post } from '../../components';
+import { Button, services as uxServices } from 'thenativeweb-ux';
+import { FileDropZone, MediaViewer, Post, Toggle } from '../../components';
 
 const postWidth = 192;
 
@@ -18,30 +20,6 @@ class ActiveBoardScreen extends React.Component {
       media: options.content,
       element: options.element
     });
-  }
-
-  static async handleDoubleClick (event) {
-    if (!event.target.classList.contains(styles.Posts)) {
-      return;
-    }
-
-    const containerPosition = event.target.getBoundingClientRect();
-
-    try {
-      const notedEvent = await backend.collaboration.post.noteText({
-        boardId: activeBoard.state.id,
-        content: 'New post',
-        color: activeBoard.state.selectedPostColor,
-        position: {
-          left: event.clientX - containerPosition.left - postWidth / 2,
-          top: event.clientY - containerPosition.top - postWidth / 2
-        }
-      });
-
-      await activeBoard.startEditingPost(notedEvent.aggregate.id);
-    } catch (ex) {
-      uxServices.notifications.show({ type: 'error', text: ex.message });
-    }
   }
 
   static async handleFileDrop (images, coords) {
@@ -165,6 +143,8 @@ class ActiveBoardScreen extends React.Component {
     super(props);
 
     this.stopReading = undefined;
+
+    this.handleDoubleClick = this.handleDoubleClick.bind(this);
   }
 
   async componentDidMount () {
@@ -194,6 +174,32 @@ class ActiveBoardScreen extends React.Component {
     menu.clearItems();
   }
 
+  async handleDoubleClick (event) {
+    const { classes } = this.props;
+
+    if (!event.target.classList.contains(classes.Posts)) {
+      return;
+    }
+
+    const containerPosition = event.target.getBoundingClientRect();
+
+    try {
+      const notedEvent = await backend.collaboration.post.noteText({
+        boardId: activeBoard.state.id,
+        content: 'New post',
+        color: activeBoard.state.selectedPostColor,
+        position: {
+          left: event.clientX - containerPosition.left - postWidth / 2,
+          top: event.clientY - containerPosition.top - postWidth / 2
+        }
+      });
+
+      await activeBoard.startEditingPost(notedEvent.aggregate.id);
+    } catch (ex) {
+      uxServices.notifications.show({ type: 'error', text: ex.message });
+    }
+  }
+
   async startReadingBoard (slug) {
     if (!slug) {
       throw new Error('Slug is missing.');
@@ -221,12 +227,14 @@ class ActiveBoardScreen extends React.Component {
       return null;
     }
 
+    const { classes } = this.props;
+
     const activePostId = activeBoard.state.activePost && activeBoard.state.activePost.id;
 
     return (
-      <div className={ styles.ActiveBoardScreen }>
+      <div className={ classes.ActiveBoardScreen }>
         <FileDropZone onDrop={ ActiveBoardScreen.handleFileDrop }>
-          <div className={ styles.Posts } onDoubleClick={ ActiveBoardScreen.handleDoubleClick }>
+          <div className={ classes.Posts } onDoubleClick={ this.handleDoubleClick }>
             <TransitionGroup>
               { activeBoard.state.posts.map(post => {
                 const isEditing = activePostId === post.id;
@@ -258,12 +266,22 @@ class ActiveBoardScreen extends React.Component {
           </div>
         </FileDropZone>
 
-        <ColorToggle
-          className={ styles.ColorToggle }
-          colors={ [ 'yellow', 'red', 'green', 'paper-lined' ] }
-          selectedColor={ activeBoard.state.selectedPostColor }
+        <Toggle
+          values={ [ 'yellow', 'red', 'green', 'paper-lined' ] }
+          selectedValue={ activeBoard.state.selectedPostColor }
+          className={ classes.ColorToggle }
           onChange={ color => activeBoard.selectPostColor(color) }
-        />
+        >
+          { ({ value, isSelected, changeValue }) => (
+            <Button
+              className={ classNames(classes.ColorToggleButton, { [classes.ColorToggleButtonSelected]: isSelected }) }
+              onClick={ () => changeValue(value) }
+              key={ value }
+              isSubtle={ true }
+            ><span className={ classNames(classes.Color, value) } />
+            </Button>
+          )}
+        </Toggle>
         <MediaViewer />
       </div>
     );
@@ -271,4 +289,4 @@ class ActiveBoardScreen extends React.Component {
   /* eslint-enable class-methods-use-this */
 }
 
-export default observer(ActiveBoardScreen);
+export default injectSheet(styles)(observer(ActiveBoardScreen));

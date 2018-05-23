@@ -1,10 +1,11 @@
 import backend from '../../state/backend';
+import injectSheet from 'react-jss';
 import mountBoardDialog from '../../state/mountBoardDialog';
 import MountBoardDialog from '../mountBoardDialog/MountBoardDialog.jsx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { services } from 'thenativeweb-ux';
-import styles from './BoardsScreen.css';
+import styles from './BoardsScreen.styles';
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
@@ -61,9 +62,11 @@ class BoardsScreen extends React.Component {
 
   /* eslint-disable class-methods-use-this */
   render () {
+    const { classes } = this.props;
+
     return (
-      <div className={ styles.BoardsScreen }>
-        <List className={ styles.List }>
+      <div className={ classes.BoardsScreen }>
+        <List className={ classes.List }>
           <List.Header>
             <ListItem
               type='add'
@@ -97,4 +100,4 @@ class BoardsScreen extends React.Component {
   /* eslint-enable class-methods-use-this */
 }
 
-export default observer(BoardsScreen);
+export default injectSheet(styles)(observer(BoardsScreen));

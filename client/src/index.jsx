@@ -2,9 +2,6 @@ import App from './screens/App.jsx';
 import backend from './state/backend';
 import React from 'react';
 import ReactDom from 'react-dom';
-import { setup } from 'wolkenkit-ux';
-
-setup.client();
 
 /* eslint-disable no-process-env */
 const host = process.env.API_HOST || 'local.wolkenkit.io',
