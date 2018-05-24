@@ -1,4 +1,4 @@
-import { extendObservable } from 'mobx';
+import { set } from 'mobx';
 import state from '../state';
 
 const boards = {
@@ -10,7 +10,7 @@ const boards = {
       boards.unsubscribe = undefined;
     }
 
-    extendObservable(state.lists, {
+    set(state.lists, {
       boards: []
     });
   },
@@ -29,12 +29,12 @@ const boards = {
         orderBy: { timestamp: 'descending' }
       }).
         started((items, cancel) => {
-          extendObservable(state.lists, { boards: items });
+          set(state.lists, { boards: items });
           boards.unsubscribe = cancel;
           resolve();
         }).
         updated(items => {
-          extendObservable(state.lists, { boards: items });
+          set(state.lists, { boards: items });
         }).
         failed(reject);
     });

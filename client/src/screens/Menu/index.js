@@ -1,8 +1,9 @@
 import backend from '../../state/backend';
+import injectSheet from 'react-jss';
 import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
-import styles from './Menu.css';
+import styles from './styles';
 import { Brand, ThemeProvider } from 'thenativeweb-ux';
 import { MenuItem, SidebarMenu } from '../../components';
 
@@ -16,7 +17,7 @@ const handleMenuItemClicked = function (id) {
   }
 };
 
-const MainMenu = () => (
+const MainMenu = ({ classes }) => (
   <SidebarMenu
     isExpanded={ menu.state.isExpanded }
     onCollapse={ () => menu.collapse() }
@@ -38,9 +39,9 @@ const MainMenu = () => (
     </MenuItem>
 
     <ThemeProvider theme='wolkenkit'>
-      <div className={ styles.Footer }>
+      <div className={ classes.Footer }>
         <Brand.PoweredBy product='wolkenkit' />
-        <div className={ styles.Sponsors }>
+        <div className={ classes.Sponsors }>
           <Brand.MadeBy partner={{ name: 'Intuity', href: 'https://www.intuity.de' }} />
         </div>
       </div>
@@ -48,4 +49,4 @@ const MainMenu = () => (
   </SidebarMenu>
 );
 
-export default observer(MainMenu);
+export default injectSheet(styles)(observer(MainMenu));

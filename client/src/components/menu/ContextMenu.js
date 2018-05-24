@@ -1,7 +1,18 @@
 import eventbus from '../../services/eventbus';
-import MenuItem from './MenuItem.jsx';
+import injectSheet from 'react-jss';
+import MenuItem from './MenuItem';
 import React from 'react';
-import styles from './ContextMenu.css';
+
+const styles = theme => ({
+  Container: {
+    position: 'absolute',
+    background: theme.color.brand.white,
+    'border-radius': theme.components.borderRadius.default,
+    'min-width': theme.grid.stepSize * 15,
+    'z-index': theme.zIndex.menu,
+    'box-shadow': theme.shadow.overlay
+  }
+});
 
 class ContextMenu extends React.Component {
   constructor (props) {
@@ -14,8 +25,9 @@ class ContextMenu extends React.Component {
     this.handleDocumentClicked = this.handleDocumentClicked.bind(this);
 
     this.state = {
+      isVisible: false,
       target: undefined,
-      items: undefined,
+      items: [],
       onItemSelected: undefined
     };
   }
@@ -31,15 +43,21 @@ class ContextMenu extends React.Component {
   }
 
   open (options) {
-    this.setState(options);
+    this.setState({
+      isVisible: true,
+      target: options.target,
+      items: options.items,
+      onItemSelected: options.onItemSelected
+    });
 
     window.document.addEventListener('mouseup', this.handleDocumentClicked, true);
   }
 
   close () {
     this.setState({
+      isVisible: false,
       target: undefined,
-      items: undefined,
+      items: [],
       onItemSelected: undefined
     });
 
@@ -82,10 +100,18 @@ class ContextMenu extends React.Component {
   }
 
   render () {
-    if (!this.state.items) {
-      return <div />;
+    const { classes } = this.props;
+    const { isVisible, items, target } = this.state;
+
+    if (!isVisible) {
+      return null;
     }
-    const targetRect = this.state.target.getBoundingClientRect();
+
+    let targetRect = { left: 0, top: 0 };
+
+    if (target) {
+      targetRect = target.getBoundingClientRect();
+    }
 
     const style = {
       left: targetRect.left + (window.pageXOffset || window.scrollX),
@@ -97,11 +123,11 @@ class ContextMenu extends React.Component {
       <div
         id='ui-context-menu'
         ref={ this.handleRefContainerChanged }
-        className={ styles.Container }
+        className={ classes.Container }
         style={ style }
       >
-        <div className={ styles.ContextMenu }>
-          {this.state.items.map(
+        <div className={ classes.ContextMenu }>
+          {items.map(
             (item, i) =>
               <MenuItem key={ i } id={ item.id } data={ item.data } onClick={ this.handleItemClicked }>{item.label}</MenuItem>
           )}
@@ -111,4 +137,4 @@ class ContextMenu extends React.Component {
   }
 }
 
-export default ContextMenu;
+export default injectSheet(styles)(ContextMenu);

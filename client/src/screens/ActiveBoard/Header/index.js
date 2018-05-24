@@ -1,8 +1,9 @@
-import activeBoard from '../../state/activeBoard';
-import backend from '../../state/backend';
+import activeBoard from '../../../state/activeBoard';
+import backend from '../../../state/backend';
+import injectSheet from 'react-jss';
 import { observer } from 'mobx-react';
 import React from 'react';
-import styles from './BoardHeader.css';
+import styles from './styles';
 import { Form, services, TextBox } from 'thenativeweb-ux';
 
 class BoardHeader extends React.Component {
@@ -57,6 +58,8 @@ class BoardHeader extends React.Component {
   }
 
   render () {
+    const { classes } = this.props;
+
     if (!activeBoard.state.id) {
       return null;
     }
@@ -64,9 +67,9 @@ class BoardHeader extends React.Component {
     const isEditingTitle = activeBoard.state.newTitle !== undefined;
 
     return (
-      <Form className={ styles.Form } onSubmit={ this.handleFormSubmit }>
+      <Form className={ classes.Form } onSubmit={ this.handleFormSubmit }>
         <TextBox
-          className={ styles.TextBox }
+          className={ classes.TextBox }
           autofocus={ false }
           ref={ this.handleInputRefChanged }
           value={ isEditingTitle ? activeBoard.state.newTitle || '' : activeBoard.state.title || '' }
@@ -79,4 +82,4 @@ class BoardHeader extends React.Component {
   }
 }
 
-export default observer(BoardHeader);
+export default injectSheet(styles)(observer(BoardHeader));

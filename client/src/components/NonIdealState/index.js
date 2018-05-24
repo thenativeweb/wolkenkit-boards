@@ -14,7 +14,7 @@ const styles = theme => ({
   Message: {
     'text-align': 'center',
     'max-width': '50%',
-    'font-size': theme.font.size.xlarge,
+    'font-size': theme.font.size.large,
     color: theme.color.brand
   }
 });

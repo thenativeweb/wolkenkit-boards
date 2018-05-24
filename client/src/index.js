@@ -1,4 +1,4 @@
-import App from './screens/App.jsx';
+import App from './screens/App';
 import backend from './state/backend';
 import React from 'react';
 import ReactDom from 'react-dom';
@@ -24,6 +24,6 @@ const clientId = process.env.AUTH_CLIENT_ID || 'jBA1TFVpyhi37Z38i7l0hdAc3rPKpka9
       }
     });
 
-    ReactDom.render(<App />, document.querySelector('.Shell'));
+    ReactDom.render(React.createElement(App), document.querySelector('.Shell'));
   }
 })();

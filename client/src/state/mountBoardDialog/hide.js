@@ -1,4 +1,4 @@
-import { extendObservable } from 'mobx';
+import { set } from 'mobx';
 import state from './state';
 
 const hide = function () {
@@ -6,7 +6,7 @@ const hide = function () {
     return;
   }
 
-  extendObservable(state, {
+  set(state, {
     isVisible: false,
     title: '',
     isPrivate: false

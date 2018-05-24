@@ -6,7 +6,7 @@ import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
 import services from '../../services';
-import styles from './ActiveBoardScreen.styles';
+import styles from './styles';
 import { TransitionGroup } from 'react-transition-group';
 import { Button, services as uxServices } from 'thenativeweb-ux';
 import { FileDropZone, MediaViewer, Post, Toggle } from '../../components';

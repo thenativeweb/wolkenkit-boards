@@ -1,6 +1,6 @@
-import { extendObservable } from 'mobx';
+import { observable } from 'mobx';
 
-const state = extendObservable({}, {
+const state = observable.object({
   isVisible: false,
   title: '',
   isPrivate: false

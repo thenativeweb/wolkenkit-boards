@@ -1,5 +1,5 @@
 import backend from '../backend';
-import { extendObservable } from 'mobx';
+import { set } from 'mobx';
 import state from './state';
 
 const startReading = function (slug) {
@@ -29,7 +29,7 @@ const startReading = function (slug) {
             const activeBoard = boards[0];
 
             if (activeBoard) {
-              extendObservable(state, {
+              set(state, {
                 id: activeBoard.id,
                 title: activeBoard.title,
                 slug: activeBoard.slug
@@ -44,7 +44,7 @@ const startReading = function (slug) {
             subscriptions.push(cancel);
           }).
           updated(posts => {
-            extendObservable(state, {
+            set(state, {
               posts
             });
           });
@@ -52,7 +52,7 @@ const startReading = function (slug) {
         const stopReading = () => {
           subscriptions.forEach(cancel => cancel());
 
-          extendObservable(state, {
+          set(state, {
             id: undefined,
             title: undefined,
             slug: undefined,

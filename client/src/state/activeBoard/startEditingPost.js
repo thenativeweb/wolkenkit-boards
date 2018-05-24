@@ -1,4 +1,4 @@
-import { extendObservable } from 'mobx';
+import { set } from 'mobx';
 import state from './state';
 
 const pause = function (ms) {
@@ -26,7 +26,7 @@ const startEditingPost = async function (postId) {
     return;
   }
 
-  extendObservable(state, {
+  set(state, {
     activePost: {
       id: editedPost.id,
       content: editedPost.content

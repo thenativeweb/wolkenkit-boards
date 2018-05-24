@@ -1,11 +1,11 @@
 import backend from '../../state/backend';
 import injectSheet from 'react-jss';
 import mountBoardDialog from '../../state/mountBoardDialog';
-import MountBoardDialog from '../mountBoardDialog/MountBoardDialog.jsx';
+import MountBoardDialog from '../MountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { services } from 'thenativeweb-ux';
-import styles from './BoardsScreen.styles';
+import styles from './styles';
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
