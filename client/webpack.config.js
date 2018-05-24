@@ -12,15 +12,6 @@ const paths = {
   build: path.join(__dirname, 'build')
 };
 
-const getDevToolFor = function (environment) {
-  switch (environment) {
-    case 'production':
-      return undefined;
-    default:
-      return 'cheap-module-source-map';
-  }
-};
-
 const getEnvironmentVariables = function () {
   return {
     'process.env.NODE_ENV': JSON.stringify(nodeEnv),
@@ -43,7 +34,6 @@ const getPluginsFor = function (environment) {
           algorithm: 'gzip',
           test: /\.(js|html)$/
         }),
-        new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
           template: path.join(paths.src, 'template.ejs'),
           minify: {
@@ -65,7 +55,7 @@ const getPluginsFor = function (environment) {
 };
 
 const configuration = {
-  devtool: getDevToolFor(nodeEnv),
+  mode: nodeEnv || 'development',
   context: paths.src,
   devServer: {
     contentBase: paths.src,

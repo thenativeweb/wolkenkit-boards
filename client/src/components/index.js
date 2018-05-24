@@ -10,9 +10,9 @@ import MediaViewer from './MediaViewer';
 import MenuItem from './menu/MenuItem';
 import NonIdealState from './NonIdealState';
 import Post from './Post';
-import Screen from './Screen.jsx';
+import Screen from './Screen';
 import SidebarMenu from './menu/SidebarMenu';
-import Symbols from './Symbols.jsx';
+import Symbols from './Symbols';
 import Toggle from './Toggle';
 
 export {
