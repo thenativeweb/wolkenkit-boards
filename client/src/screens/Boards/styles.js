@@ -12,6 +12,16 @@ const styles = theme => ({
     'flex-shrink': 0,
     'flex-basis': 'auto',
     width: '50%'
+  },
+
+  [theme.device.medium]: {
+    BoardsScreen: {
+      padding: [ theme.grid.stepSize * 4, 0, 0, 0 ]
+    },
+
+    List: {
+      width: '100%'
+    }
   }
 });
 

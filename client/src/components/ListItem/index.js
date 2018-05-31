@@ -20,6 +20,8 @@ const styles = theme => ({
   },
 
   IconRight: {
+    'flex-grow': 0,
+    'flex-shrink': 0,
     'margin-left': theme.grid.stepSize * 2
   },
 
@@ -34,7 +36,9 @@ const styles = theme => ({
       padding: `${theme.grid.stepSize * 3}px ${theme.grid.stepSize * 3}px `,
       'font-size': 'inherit',
       'font-weight': 'inherit',
-      'flex-grow': 1,
+      'flex-grow': 0,
+      'flex-shrink': 0,
+      'flex-basis': 'auto',
       'text-align': 'left',
       margin: 0,
 
@@ -76,6 +80,16 @@ const styles = theme => ({
 
       '& $ContextMenuButton': {
         display: 'block'
+      }
+    }
+  },
+
+  [theme.device.small]: {
+    ContextMenuButton: {},
+
+    TypeLink: {
+      '& $ContextMenuButton': {
+        display: 'flex'
       }
     }
   }

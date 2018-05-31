@@ -1,13 +1,10 @@
 import classNames from 'classnames';
 import injectSheet from 'react-jss';
 import React from 'react';
-import { Button, Transition } from 'thenativeweb-ux';
+import { Transition } from 'thenativeweb-ux';
 
 const styles = theme => ({
-  SidebarMenu: {
-    height: theme.grid.stepSize * 4,
-    width: theme.grid.stepSize * 4
-  },
+  SidebarMenu: {},
 
   Container: {},
 
@@ -15,8 +12,8 @@ const styles = theme => ({
     background: theme.color.backdrop,
     position: 'fixed',
     left: 0,
-    top: theme.grid.stepSize * 4,
-    height: `calc(100% - ${theme.grid.stepSize * 4}px)`,
+    top: 0,
+    height: `100%`,
     width: '100%',
     overflow: 'hidden',
     zIndex: theme.zIndex.navigation,
@@ -28,47 +25,24 @@ const styles = theme => ({
 
   Menu: {
     position: 'fixed',
-    left: 0,
-    top: theme.grid.stepSize * 4,
+    left: theme.components.sidebar.width,
+    top: 0,
     width: 300,
     zIndex: theme.zIndex.navigation,
-    height: `calc(100% - ${theme.grid.stepSize * 4}px)`,
-    background: theme.color.panelBackground,
+    height: `100%`,
+    background: theme.color.brand.white,
     'border-top': `1px solid ${theme.color.brand.lightGrey}`,
     'will-change': 'transform'
   },
-
-  Toggles: {
-    position: 'relative'
-  },
-
-  Toggle: {
-    position: 'absolute',
-    height: theme.grid.stepSize * 4,
-    width: theme.grid.stepSize * 4,
-    display: 'none',
-    margin: 0
-  },
-
-  ToggleCollapse: {},
-  ToggleExpand: {},
 
   IsExpanded: {
     '& $Backdrop': {
       opacity: 1,
       'pointer-events': 'all'
-    },
-
-    '& $ToggleCollapse': {
-      display: 'flex'
     }
   },
 
-  IsCollapsed: {
-    '& $ToggleExpand': {
-      display: 'flex'
-    }
-  }
+  IsCollapsed: {}
 });
 
 class SidebarMenu extends React.Component {
@@ -108,20 +82,6 @@ class SidebarMenu extends React.Component {
               {this.props.children}
             </div>
           </Transition>
-        </div>
-        <div className={ classes.Toggles }>
-          <Button
-            icon='menu'
-            iconSize='s'
-            onClick={ this.handleExpandPressed }
-            className={ classNames(classes.Toggle, classes.ToggleExpand) }
-          />
-          <Button
-            icon='close'
-            iconSize='s'
-            onClick={ this.handleCollapseRessed }
-            className={ classNames(classes.Toggle, classes.ToggleCollapse) }
-          />
         </div>
       </div>
     );

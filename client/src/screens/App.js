@@ -1,33 +1,57 @@
+import AboutDialog from './AboutDialog';
+import aboutDialog from '../state/aboutDialog';
 import ActiveBoard from './ActiveBoard';
 import ActiveBoardHeader from './ActiveBoard/Header';
 import backend from '../state/backend';
 import Boards from './Boards';
+import classNames from 'classnames';
+import injectSheet from 'react-jss';
 import Menu from './Menu';
+import menu from '../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
+import styles from './styles';
 import theme from '../theme/boards';
 import { AppBar, Breadcrumbs, ContextMenu, Symbols } from '../components';
-import { Application, Button, Headline, Message, Modal, ThemeProvider } from 'thenativeweb-ux';
+import { Application, Brand, Button, Headline, Link, Message, Modal, Sidebar, ThemeProvider, View } from 'thenativeweb-ux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-const App = () => (
+const App = ({ classes }) => (
   <ThemeProvider theme={ theme }>
     <HashRouter>
-      <Application orientation='vertical'>
+      <Application orientation='horizontal'>
         <Application.Services />
         <Symbols />
-        <AppBar>
-          <Menu />
-          <Breadcrumbs>
-            <Route exact={ true } path='/board/:slug' component={ ActiveBoardHeader } />
-          </Breadcrumbs>
-        </AppBar>
-        <Switch>
-          <Route exact={ true } location={ location } path='/' component={ Boards } />
-          <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoard } />
-          <Redirect to='/' />
-        </Switch>
+        <Sidebar>
+          <Sidebar.Brand><Brand.Product name='boards' /></Sidebar.Brand>
+          <Sidebar.Item iconName='menu-2' className={ classNames({ [classes.SidebarItemDisabled]: !menu.isEnabled() }) } onClick={ () => menu.expand() } />
+          <Sidebar.Item className={ classes.UserAvatar } iconUrl={ backend.state.user.picture }>
+            <Sidebar.Item>You are logged in as { backend.state.user.nickname }</Sidebar.Item>
+            <Sidebar.Item onClick={ () => backend.disconnect() }>Logout</Sidebar.Item>
+          </Sidebar.Item>
+          <Sidebar.Item iconName='help' onClick={ () => aboutDialog.show() } />
+          <Sidebar.Footer>
+            <Link href='https://www.thenativeweb.io' isExternal={ true }>
+              <Brand type='minimal' color='monochrome' isInteractive={ true } />
+            </Link>
+          </Sidebar.Footer>
+        </Sidebar>
+        <Menu />
+        <View adjust='flex' scrollable='auto'>
+          <AppBar>
+            <Menu />
+            <Breadcrumbs>
+              <Route exact={ true } path='/board/:slug' component={ ActiveBoardHeader } />
+            </Breadcrumbs>
+          </AppBar>
+          <Switch>
+            <Route exact={ true } location={ location } path='/' component={ Boards } />
+            <Route exact={ true } location={ location } path='/board/:slug' component={ ActiveBoard } />
+            <Redirect to='/' />
+          </Switch>
+        </View>
         <ContextMenu />
+        <AboutDialog />
         <Modal isVisible={ !backend.state.isConnected }>
           <Headline>
             Disconnected
@@ -47,4 +71,4 @@ const App = () => (
   </ThemeProvider>
 );
 
-export default observer(App);
+export default injectSheet(styles)(observer(App));

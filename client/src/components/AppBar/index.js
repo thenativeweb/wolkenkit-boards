@@ -7,7 +7,6 @@ const styles = theme => ({
     'flex-grow': 0,
     'flex-shrink': 0,
     background: theme.color.panelBackground,
-    'box-shadow': theme.shadow.overlay,
     height: theme.grid.stepSize * 4,
     'z-index': theme.zIndex.navigation + 10,
     position: 'fixed',

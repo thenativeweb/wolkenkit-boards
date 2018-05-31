@@ -1,23 +1,9 @@
-import backend from '../../state/backend';
-import injectSheet from 'react-jss';
 import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
-import styles from './styles';
-import { Brand, ThemeProvider } from 'thenativeweb-ux';
 import { MenuItem, SidebarMenu } from '../../components';
 
-const handleMenuItemClicked = function (id) {
-  switch (id) {
-    case 'log-out':
-      backend.disconnect();
-      break;
-    default:
-      break;
-  }
-};
-
-const MainMenu = ({ classes }) => (
+const MainMenu = () => (
   <SidebarMenu
     isExpanded={ menu.state.isExpanded }
     onCollapse={ () => menu.collapse() }
@@ -30,23 +16,7 @@ const MainMenu = ({ classes }) => (
         </MenuItem>
       ))
     }
-    <MenuItem
-      id='log-out'
-      size='m'
-      onClick={ handleMenuItemClicked }
-    >
-      Log out
-    </MenuItem>
-
-    <ThemeProvider theme='wolkenkit'>
-      <div className={ classes.Footer }>
-        <Brand.PoweredBy product='wolkenkit' />
-        <div className={ classes.Sponsors }>
-          <Brand.MadeBy partner={{ name: 'Intuity', href: 'https://www.intuity.de' }} />
-        </div>
-      </div>
-    </ThemeProvider>
   </SidebarMenu>
 );
 
-export default injectSheet(styles)(observer(MainMenu));
+export default observer(MainMenu);
