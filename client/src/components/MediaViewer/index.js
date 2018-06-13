@@ -49,18 +49,6 @@ const styles = theme => ({
     'z-index': theme.zIndex.transfer + 1
   },
 
-  CloseButton: {
-    position: 'fixed',
-    top: theme.grid.stepSize * 0.75,
-    right: theme.grid.stepSize * 0.75,
-    fill: theme.color.brand.dark,
-    cursor: 'pointer',
-    opacity: 0,
-    transition: 'opacity 200ms',
-    'will-change': 'opacity',
-    zIndex: theme.zIndex.transfer + 10
-  },
-
   MediaViewerVisible: {
     'pointer-events': 'all',
 
@@ -70,8 +58,22 @@ const styles = theme => ({
     },
 
     '& $CloseButton': {
-      opacity: 1
+      visibility: 'visible'
     }
+  },
+
+  CloseButton: {
+    position: 'fixed',
+    top: 0,
+    right: 0,
+    fill: theme.color.brand.dark,
+    cursor: 'pointer',
+    visibility: 'hidden',
+    transition: 'opacity 200ms',
+    'will-change': 'opacity',
+    zIndex: theme.zIndex.transfer + 10,
+    background: theme.color.brand.white,
+    padding: theme.grid.stepSize * 0.75
   }
 });
 

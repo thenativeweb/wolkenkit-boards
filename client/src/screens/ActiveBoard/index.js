@@ -266,22 +266,25 @@ class ActiveBoardScreen extends React.Component {
           </div>
         </FileDropZone>
 
-        <Toggle
-          values={ [ 'yellow', 'red', 'green', 'paper-lined' ] }
-          selectedValue={ activeBoard.state.selectedPostColor }
-          className={ classes.ColorToggle }
-          onChange={ color => activeBoard.selectPostColor(color) }
-        >
-          { ({ value, isSelected, changeValue }) => (
-            <Button
-              className={ classNames(classes.ColorToggleButton, { [classes.ColorToggleButtonSelected]: isSelected }) }
-              onClick={ () => changeValue(value) }
-              key={ value }
-              isSubtle={ true }
-            ><span className={ classNames(classes.Color, value) } />
-            </Button>
-          )}
-        </Toggle>
+        <div className={ classes.ColorTogglePanel }>
+          <label>{ 'Choose color' }</label>
+          <Toggle
+            values={ [ 'yellow', 'red', 'green', 'paper-lined' ] }
+            selectedValue={ activeBoard.state.selectedPostColor }
+            className={ classes.ColorToggle }
+            onChange={ color => activeBoard.selectPostColor(color) }
+          >
+            { ({ value, isSelected, changeValue }) => (
+              <Button
+                className={ classNames(classes.ColorToggleButton, { [classes.ColorToggleButtonSelected]: isSelected }) }
+                onClick={ () => changeValue(value) }
+                key={ value }
+                isSubtle={ true }
+              ><span className={ classNames(classes.Color, value) } />
+              </Button>
+            )}
+          </Toggle>
+        </div>
         <MediaViewer />
       </div>
     );

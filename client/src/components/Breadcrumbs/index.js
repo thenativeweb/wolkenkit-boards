@@ -1,6 +1,6 @@
 import injectSheet from 'react-jss';
 import React from 'react';
-import { Button, View } from 'thenativeweb-ux';
+import { Button, Icon, View } from 'thenativeweb-ux';
 import { Link, Route, Switch } from 'react-router-dom';
 
 const styles = theme => ({
@@ -12,18 +12,19 @@ const styles = theme => ({
 
   BackLink: {
     position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
     'text-decoration': 'none',
+    'margin-left': theme.grid.stepSize * 2,
     'margin-right': theme.grid.stepSize * 3,
 
-    '& .BackButton': {
-      margin: 0
-    },
-
     '&:hover': {
-      color: theme.color.brand.highlight,
-
-      '& svg': {
+      '& $BackIcon': {
         fill: theme.color.brand.highlight
+      },
+
+      '& $BackButton': {
+        color: theme.color.brand.highlight
       }
     },
 
@@ -32,11 +33,19 @@ const styles = theme => ({
       position: 'absolute',
       height: 20,
       width: 1,
-      background: theme.color.brand.dark,
+      background: theme.color.brand.midGrey,
       top: 'calc(50% - 10px)',
       right: 0,
-      'margin-right': '-15px'
+      'margin-right': theme.grid.stepSize * -2
     }
+  },
+
+  BackIcon: {
+    fill: theme.color.brand.lightGrey
+  },
+
+  BackButton: {
+    color: theme.color.brand.lightGrey
   }
 });
 
@@ -45,7 +54,8 @@ const Breadcrumbs = ({ children, classes }) => (
     <Switch>
       <Route path='/board/:slug'>
         <Link to='/' className={ classes.BackLink }>
-          <Button icon='arrow-west' iconSize='xs' isSubtle={ true } className={ classes.BackButton }>Boards</Button>
+          <Icon name='arrow-west' size='xs' className={ classes.BackIcon } />
+          <Button isSubtle={ true } className={ classes.BackButton }>Boards</Button>
         </Link>
       </Route>
     </Switch>

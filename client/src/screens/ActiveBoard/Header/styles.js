@@ -9,7 +9,8 @@ const styles = theme => ({
     'min-width': '250px',
     background: 'transparent',
     border: '1px transparent solid',
-    transition: 'border 400ms, background 400ms',
+    transition: 'border 200ms, background 200ms, color 200ms',
+    color: theme.color.brand.white,
 
     '&:hover, &:focus': {
       background: theme.color.brand.white,

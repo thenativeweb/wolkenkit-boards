@@ -24,7 +24,7 @@ const App = ({ classes }) => (
         <Symbols />
         <Sidebar>
           <Sidebar.Brand><Brand.Product name='boards' /></Sidebar.Brand>
-          <Sidebar.Item iconName='menu-2' className={ classNames({ [classes.SidebarItemDisabled]: !menu.isEnabled() }) } onClick={ () => menu.expand() } />
+          <Sidebar.Item iconName='menu' className={ classNames({ [classes.SidebarItemDisabled]: !menu.isEnabled() }) } onClick={ () => menu.expand() } />
           <Sidebar.Item className={ classes.UserAvatar } iconUrl={ backend.state.user.picture }>
             <Sidebar.Item>You are logged in as { backend.state.user.nickname }</Sidebar.Item>
             <Sidebar.Item onClick={ () => backend.disconnect() }>Logout</Sidebar.Item>

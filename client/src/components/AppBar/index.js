@@ -6,7 +6,7 @@ const styles = theme => ({
   AppBar: {
     'flex-grow': 0,
     'flex-shrink': 0,
-    background: theme.color.panelBackground,
+    background: 'rgba(0,0,0,0.15)',
     height: theme.grid.stepSize * 4,
     'z-index': theme.zIndex.navigation + 10,
     position: 'fixed',

@@ -18,27 +18,41 @@ const styles = theme => ({
     overflow: 'visible'
   },
 
-  ColorToggle: {
-    height: theme.grid.stepSize * 3,
+  ColorTogglePanel: {
     display: 'flex',
+    flexDirection: 'row',
     'justify-content': 'flex-end',
+    alignItems: 'center',
     position: 'fixed',
-    left: '50%',
-    'margin-left': '-62px',
-    top: theme.grid.stepSize * 4 - 1,
-    'z-index': theme.zIndex.navigation
+    right: theme.grid.stepSize,
+    top: 3,
+    'z-index': theme.zIndex.menu,
+    padding: 5,
+    borderRadius: 4,
+
+    '& label': {
+      'padding-right': theme.grid.stepSize,
+      'padding-bottom': 2,
+      'line-height': 1,
+      color: theme.color.brand.midGrey
+    }
+  },
+
+  ColorToggle: {
+    display: 'flex',
+    'flex-direction': 'row',
+    'justify-content': 'flex-end'
   },
 
   ColorToggleButton: {
-    width: theme.grid.stepSize * 3,
-    height: theme.grid.stepSize * 3,
+    width: theme.grid.stepSize * 2.5,
+    height: theme.grid.stepSize * 2.5,
     cursor: 'pointer',
     display: 'block',
     margin: 0,
     padding: 0,
     border: 'none !important',
-    'margin-left': 5,
-    'margin-right': 5,
+
     position: 'relative',
 
     '& > div': {
@@ -46,7 +60,7 @@ const styles = theme => ({
     },
 
     '&:hover $Color': {
-      transform: 'scaleY(2.5)'
+      transform: 'scale(1.25)'
     },
 
     '&:focus': {
@@ -56,26 +70,25 @@ const styles = theme => ({
 
   ColorToggleButtonSelected: {
     '& $Color': {
-      transform: 'scaleY(2.5)'
+      transform: 'scale(1.5) !important'
     }
   },
 
   Color: {
     display: 'block',
     'box-sizing': 'border-box',
-    width: (theme.grid.stepSize * 3) - 6,
-    height: 6,
-    left: 0,
-    top: 0,
+    width: 12,
+    height: 12,
+    borderRadius: '100%',
+    left: 6,
+    top: 6,
     position: 'absolute',
-    'margin-left': 3,
-    'margin-right': 3,
-    'box-shadow': '1px 1px 3px rgba(0, 0, 0, 0.3)',
     transform: 'scaleY(1)',
-    'transform-origin': 'top center',
-    transition: 'transform 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)',
+    'transform-origin': 'center center',
+    transition: 'transform 0.2s cubic-bezier(0.175, 0.885, 0.320, 1.275)',
     'will-change': 'transform',
     'pointer-events': 'none',
+    'box-shadow': '1px 1px 3px rgba(0, 0, 0, 0.1)',
 
     '&.green': {
       background: '#96e55d'
