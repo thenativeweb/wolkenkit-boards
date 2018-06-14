@@ -8,8 +8,8 @@ import React from 'react';
 import services from '../../services';
 import styles from './styles';
 import { TransitionGroup } from 'react-transition-group';
-import { Button, services as uxServices } from 'thenativeweb-ux';
-import { FileDropZone, MediaViewer, Post, Toggle } from '../../components';
+import { Button, Toggle, services as uxServices } from 'thenativeweb-ux';
+import { FileDropZone, MediaViewer, Post } from '../../components';
 
 const postWidth = 192;
 

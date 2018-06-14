@@ -13,7 +13,6 @@ import Post from './Post';
 import Screen from './Screen';
 import SidebarMenu from './menu/SidebarMenu';
 import Symbols from './Symbols';
-import Toggle from './Toggle';
 
 export {
   AppBar,
@@ -30,6 +29,5 @@ export {
   Post,
   Screen,
   SidebarMenu,
-  Symbols,
-  Toggle
+  Symbols
 };
