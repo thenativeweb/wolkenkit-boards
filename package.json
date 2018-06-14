@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "slugify": "1.2.9",
-    "uuidv4": "1.0.0",
+    "uuidv4": "1.0.1",
     "wolkenkit-command-tools": "3.0.0"
   },
   "devDependencies": {
