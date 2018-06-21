@@ -1,15 +1,11 @@
 'use strict';
 
-const when = {
-  'collaboration.board.removedPost': (event, services, mark) => {
-    const app = services.get('app');
-
+const reactions = {
+  'collaboration.board.removedPost' (event, { app }) {
     app.collaboration.post(event.data.postId).throwAway({
       postId: event.aggregate.id
     });
-
-    mark.asDone();
   }
 };
 
-module.exports = { when };
+module.exports = { reactions };

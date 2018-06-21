@@ -22,7 +22,7 @@ const initialState = {
 const commands = {
   note: [
     only.ifNotExists(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         boardId: { type: 'string', format: 'uuid' },
@@ -40,7 +40,7 @@ const commands = {
       },
       required: [ 'boardId', 'content', 'position', 'type', 'color' ]
     }),
-    (post, command, services, mark) => {
+    (post, command) => {
       post.events.publish('noted', {
         boardId: command.data.boardId,
         content: command.data.content,
@@ -50,58 +50,52 @@ const commands = {
         isDone: false,
         creator: command.user.token.nickname || 'wolkenkit bot'
       });
-
-      mark.asDone();
     }
   ],
 
   recolor: [
     only.ifExists(),
     onlyIfPostHasNotBeenThrownAway(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         to: { type: 'string', minLength: 1 }
       },
       required: [ 'to' ]
     }),
-    (post, command, mark) => {
+    (post, command) => {
       if (post.state.color === command.data.newColor) {
-        return mark.asRejected(`This post is already colored in ${post.state.color}.`);
+        return command.reject(`This post is already colored in ${post.state.color}.`);
       }
 
       post.events.publish('recolored', {
         from: post.state.color,
         to: command.data.to
       });
-
-      mark.asDone();
     }
   ],
 
   edit: [
     only.ifExists(),
     onlyIfPostHasNotBeenThrownAway(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         content: { type: [ 'string', 'object' ]}
       },
       required: [ 'content' ]
     }),
-    (post, command, mark) => {
+    (post, command) => {
       post.events.publish('edited', {
         content: command.data.content
       });
-
-      mark.asDone();
     }
   ],
 
   move: [
     only.ifExists(),
     onlyIfPostHasNotBeenThrownAway(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         position: {
@@ -115,37 +109,32 @@ const commands = {
       },
       required: [ 'position' ]
     }),
-    (post, command, mark) => {
+    (post, command) => {
       post.events.publish('moved', {
         position: command.data.position
       });
-
-      mark.asDone();
     }
   ],
 
   markAsDone: [
     only.ifExists(),
     onlyIfPostHasNotBeenThrownAway(),
-    (post, command, mark) => {
+    (post, command) => {
       if (post.state.isDone) {
-        return mark.asRejected('Post has already been marked as done.');
+        return command.reject('Post has already been marked as done.');
       }
 
       post.events.publish('markedAsDone');
-      mark.asDone();
     }
   ],
 
   throwAway: [
     only.ifExists(),
     onlyIfPostHasNotBeenThrownAway(),
-    (post, command, mark) => {
+    post => {
       post.events.publish('thrownAway', {
         boardId: post.state.boardId
       });
-
-      mark.asDone();
     }
   ]
 };

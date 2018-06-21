@@ -1,6 +1,6 @@
+import { set } from 'mobx';
 import state from './state';
 import wolkenkit from 'wolkenkit-client';
-import { extendObservable, runInAction } from 'mobx';
 
 const connect = async function ({ host, port, authentication }) {
   if (host === undefined) {
@@ -25,15 +25,13 @@ const connect = async function ({ host, port, authentication }) {
     return api.auth.login();
   }
 
-  runInAction(() => {
-    extendObservable(state, {
-      api,
-      host,
-      port,
-      error: undefined,
-      isConnected: true,
-      user: api.auth.getProfile()
-    });
+  set(state, {
+    api,
+    host,
+    port,
+    error: undefined,
+    isConnected: true,
+    user: api.auth.getProfile()
   });
 
   api.on('disconnected', () => {

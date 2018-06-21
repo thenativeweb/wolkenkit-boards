@@ -1,15 +1,11 @@
 'use strict';
 
-const when = {
-  'collaboration.board.cleanedUp': (event, services, mark) => {
-    const app = services.get('app');
-
+const reactions = {
+  'collaboration.board.cleanedUp' (event, { app }) {
     event.data.postIds.forEach(postId => {
       app.collaboration.post(postId).throwAway();
     });
-
-    mark.asDone();
   }
 };
 
-module.exports = { when };
+module.exports = { reactions };

@@ -7,17 +7,16 @@ const fields = {
   timestamp: { initialState: 0 }
 };
 
-const when = {
-  'collaboration.board.mounted': (boards, event, mark) => {
+const projections = {
+  'collaboration.board.mounted': (boards, event) => {
     boards.add({
       title: event.data.title,
       slug: event.data.slug,
       timestamp: event.metadata.timestamp
     });
-    mark.asDone();
   },
 
-  'collaboration.board.shared': (boards, event, mark) => {
+  'collaboration.board.shared': (boards, event) => {
     boards.authorize({
       where: { id: event.aggregate.id },
       forAuthenticated: true
@@ -28,10 +27,9 @@ const when = {
         isPrivate: false
       }
     });
-    mark.asDone();
   },
 
-  'collaboration.board.renamed': (boards, event, mark) => {
+  'collaboration.board.renamed': (boards, event) => {
     boards.update({
       where: { id: event.aggregate.id },
       set: {
@@ -39,15 +37,13 @@ const when = {
         slug: event.data.slug
       }
     });
-    mark.asDone();
   },
 
-  'collaboration.board.discarded': (boards, event, mark) => {
+  'collaboration.board.discarded': (boards, event) => {
     boards.remove({
       where: { id: event.aggregate.id }
     });
-    mark.asDone();
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };

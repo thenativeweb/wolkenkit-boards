@@ -19,7 +19,7 @@
   "wolkenkit": {
     "application": "boards",
     "runtime": {
-      "version": "1.2.0"
+      "version": "latest"
     },
     "environments": {
       "default": {
@@ -44,13 +44,12 @@
     "postinstall": "cd client && npm install"
   },
   "dependencies": {
-    "slugify": "1.2.1",
-    "uuidv4": "1.0.0",
-    "wolkenkit-command-tools": "1.0.0"
+    "slugify": "1.2.9",
+    "uuidv4": "1.0.1",
+    "wolkenkit-command-tools": "3.0.0"
   },
   "devDependencies": {
-    "eslint-plugin-wolkenkit": "1.0.0",
-    "roboter": "thenativeweb/roboter#vnext"
+    "roboter": "1.0.4"
   },
   "license": "AGPL-3.0"
 }

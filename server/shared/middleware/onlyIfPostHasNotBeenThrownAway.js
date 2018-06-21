@@ -1,12 +1,10 @@
 'use strict';
 
 const onlyIfPostHasNotBeenThrownAway = function () {
-  return function (post, command, mark) {
+  return function (post, command) {
     if (post.state.isThrownAway) {
-      return mark.asRejected('Post has already been thrown away.');
+      return command.reject('Post has already been thrown away.');
     }
-
-    mark.asReadyForNext();
   };
 };
 

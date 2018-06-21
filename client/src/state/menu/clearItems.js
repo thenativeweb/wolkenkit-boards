@@ -1,4 +1,4 @@
-import { extendObservable } from 'mobx';
+import { set } from 'mobx';
 import state from './state';
 
 const clearItems = function () {
@@ -6,7 +6,7 @@ const clearItems = function () {
     return;
   }
 
-  extendObservable(state, {
+  set(state, {
     items: []
   });
 };

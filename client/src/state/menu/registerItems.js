@@ -1,4 +1,4 @@
-import { extendObservable } from 'mobx';
+import { set } from 'mobx';
 import state from './state';
 
 const registerItems = function (items) {
@@ -12,7 +12,7 @@ const registerItems = function (items) {
     }
   });
 
-  extendObservable(state, {
+  set(state, {
     items
   });
 };

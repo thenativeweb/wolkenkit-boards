@@ -1,7 +1,6 @@
 const path = require('path');
 
 const CompressionPlugin = require('compression-webpack-plugin'),
-      ExtractTextPlugin = require('extract-text-webpack-plugin'),
       HtmlWebpackPlugin = require('html-webpack-plugin'),
       processenv = require('processenv'),
       webpack = require('webpack');
@@ -11,48 +10,6 @@ const nodeEnv = processenv('NODE_ENV');
 const paths = {
   src: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'build')
-};
-
-const getDevToolFor = function (environment) {
-  switch (environment) {
-    case 'production':
-      return undefined;
-    default:
-      return 'cheap-module-source-map';
-  }
-};
-
-const getStyleLoadersFor = function (environment) {
-  switch (environment) {
-    case 'production':
-      return ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: 'wk-[local]--[hash:base64:5]'
-            }
-          },
-          'postcss-loader'
-        ]
-      });
-    default:
-      return [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            importLoaders: 1,
-            localIdentName: 'wk-[local]--[hash:base64:5]'
-          }
-        },
-        'postcss-loader'
-      ];
-  }
 };
 
 const getEnvironmentVariables = function () {
@@ -75,10 +32,8 @@ const getPluginsFor = function (environment) {
         new CompressionPlugin({
           asset: '[path].gz[query]',
           algorithm: 'gzip',
-          test: /\.(css|js|html)$/
+          test: /\.(js|html)$/
         }),
-        new ExtractTextPlugin('style.css'),
-        new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
           template: path.join(paths.src, 'template.ejs'),
           minify: {
@@ -100,7 +55,7 @@ const getPluginsFor = function (environment) {
 };
 
 const configuration = {
-  devtool: getDevToolFor(nodeEnv),
+  mode: nodeEnv || 'development',
   context: paths.src,
   devServer: {
     contentBase: paths.src,
@@ -109,7 +64,7 @@ const configuration = {
     port: 8080
   },
   entry: [
-    './index.jsx'
+    './index.js'
   ],
   output: {
     path: paths.build,
@@ -120,16 +75,11 @@ const configuration = {
       {
         test: /\.jsx?$/,
         include: [
-          paths.src,
-          path.join(__dirname, 'node_modules', 'wolkenkit-ux')
+          paths.src
         ],
         use: {
           loader: 'babel-loader'
         }
-      },
-      {
-        test: /\.css$/,
-        use: getStyleLoadersFor(nodeEnv)
       },
       {
         test: /\.html$/,

@@ -26,26 +26,25 @@ const commands = {
   mount: [
     only.ifNotExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         title: { type: 'string', minLength: 1 }
       },
       required: [ 'title' ]
     }),
-    (board, command, mark) => {
+    (board, command) => {
       board.events.publish('mounted', {
         title: command.data.title,
         slug: createUniqueSlug(command.data.title)
       });
-      mark.asDone();
     }
   ],
 
   share: [
     only.ifExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    (board, command, mark) => {
+    board => {
       board.authorize({
         commands: {
           rename: { forAuthenticated: true },
@@ -60,103 +59,91 @@ const commands = {
       });
 
       board.events.publish('shared');
-
-      mark.asDone();
     }
   ],
 
   rename: [
     only.ifExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         title: { type: 'string', minLength: 1 }
       },
       required: [ 'title' ]
     }),
-    (board, command, mark) => {
+    (board, command) => {
       board.events.publish('renamed', {
         title: command.data.title,
         slug: createUniqueSlug(command.data.title)
       });
-
-      mark.asDone();
     }
   ],
 
   pinPost: [
     only.ifExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         postId: { type: 'string', format: 'uuid' }
       },
       required: [ 'postId' ]
     }),
-    (board, command, mark) => {
+    (board, command) => {
       if (board.state.postIds.includes(command.data.postId)) {
-        return mark.asRejected('Post has already been pinned.');
+        return command.reject('Post has already been pinned.');
       }
 
       board.events.publish('pinnedPost', {
         postId: command.data.postId,
         isPrivate: board.state.isPrivate
       });
-
-      mark.asDone();
     }
   ],
 
   removePost: [
     only.ifExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         postId: { type: 'string', format: 'uuid' }
       },
       required: [ 'postId' ]
     }),
-    (board, command, mark) => {
+    (board, command) => {
       if (!board.state.postIds.includes(command.data.postId)) {
-        return mark.asRejected('Post has not been pinned to this board.');
+        return command.reject('Post has not been pinned to this board.');
       }
 
       board.events.publish('removedPost', {
         postId: command.data.postId
       });
-
-      mark.asDone();
     }
   ],
 
   cleanUp: [
     only.ifExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    (board, command, mark) => {
+    (board, command) => {
       if (board.state.postIds.length === 0) {
-        return mark.asRejected('Board is already empty.');
+        return command.reject('Board is already empty.');
       }
 
       board.events.publish('cleanedUp', {
         postIds: board.state.postIds
       });
-
-      mark.asDone();
     }
   ],
 
   discard: [
     only.ifExists(),
     onlyIfBoardHasNotBeenDiscarded(),
-    (board, command, mark) => {
+    board => {
       board.events.publish('discarded', {
         postIds: board.state.postIds
       });
-
-      mark.asDone();
     }
   ]
 };
