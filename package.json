@@ -19,7 +19,7 @@
   "wolkenkit": {
     "application": "boards",
     "runtime": {
-      "version": "latest"
+      "version": "2.0.0"
     },
     "environments": {
       "default": {

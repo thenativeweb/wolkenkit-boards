@@ -36,7 +36,7 @@
     "webpack": "4.8.3",
     "webpack-cli": "2.1.4",
     "webpack-dev-server": "3.1.4",
-    "wolkenkit-client": "1.2.0"
+    "wolkenkit-client": "2.0.0"
   },
   "license": "AGPL-3.0"
 }
