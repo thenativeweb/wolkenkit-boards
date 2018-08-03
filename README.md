@@ -2,6 +2,8 @@
 
 wolkenkit-boards is a tool for collaboratively organizing notes.
 
+![wolkenkit-boards](images/preview.gif "wolkenkit-boards")
+
 It allows you to mount public and private boards and attach notes and images to them. Its backend is powered by [wolkenkit](https://www.wolkenkit.io/).
 
 ## What is wolkenkit?
