@@ -82,12 +82,6 @@ const configuration = {
         }
       },
       {
-        test: /\.html$/,
-        use: [
-          { loader: 'file-loader', options: { name: '[name].[ext]' }}
-        ]
-      },
-      {
         test: /\.(svg|jpe?g|png|gif|ico)$/i,
         use: [
           { loader: 'file-loader' }
