@@ -13,7 +13,7 @@ import React from 'react';
 import styles from './styles';
 import theme from '../theme/boards';
 import { AppBar, Breadcrumbs, ContextMenu, Symbols } from '../components';
-import { Application, Brand, Button, Headline, Link, Message, Modal, Sidebar, ThemeProvider, View } from 'thenativeweb-ux';
+import { Application, Brand, Button, Headline, Link, Message, Modal, Product, Sidebar, ThemeProvider, View } from 'thenativeweb-ux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 const App = ({ classes }) => (
@@ -23,7 +23,7 @@ const App = ({ classes }) => (
         <Application.Services />
         <Symbols />
         <Sidebar>
-          <Sidebar.Brand><Brand.Product name='boards' /></Sidebar.Brand>
+          <Sidebar.Brand><Product name='boards' /></Sidebar.Brand>
           <Sidebar.Item iconName='menu' className={ classNames({ [classes.SidebarItemDisabled]: !menu.isEnabled() }) } onClick={ () => menu.expand() } />
           <Sidebar.Item className={ classes.UserAvatar } iconUrl={ backend.state.user.picture }>
             <Sidebar.Item>You are logged in as { backend.state.user.nickname }</Sidebar.Item>

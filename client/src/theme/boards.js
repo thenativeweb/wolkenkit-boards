@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
-import wolkenkit from 'thenativeweb-ux/dist/themes/wolkenkit';
+import { themes } from 'thenativeweb-ux';
 
-const theme = merge({}, wolkenkit, {
+const theme = merge({}, themes.wolkenkit, {
   color: {
     panelBackground: 'rgba(255, 255, 255, 0.95)'
   }
