@@ -18,8 +18,7 @@ class FileDropZone extends React.Component {
     const { fileTypes, onDrop } = this.props;
 
     const containerPosition = dropEvent.target.getBoundingClientRect(),
-          files = dropEvent.dataTransfer.files,
-          readFiles = [];
+          files = dropEvent.dataTransfer.files;
 
     const coords = {
       left: dropEvent.clientX - containerPosition.left,
@@ -29,23 +28,10 @@ class FileDropZone extends React.Component {
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
-    const onImageLoaded = event => {
-      readFiles.push(event.target.result);
-      if (readFiles.length === files.length) {
-        onDrop(readFiles, coords);
-      }
-    };
+    const firstFile = files[0];
 
-    for (let fileCount = 0; fileCount < files.length; fileCount++) {
-      const file = files[fileCount];
-
-      if (!file.type.match(fileTypes)) {
-        continue;
-      }
-      const fileReader = new window.FileReader();
-
-      fileReader.onloadend = onImageLoaded;
-      fileReader.readAsArrayBuffer(files[fileCount]);
+    if (firstFile.type.match(fileTypes)) {
+      onDrop(files, coords);
     }
   }
 

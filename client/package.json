@@ -29,12 +29,14 @@
     "react-transition-group": "2.5.0",
     "roboter": "2.0.0",
     "slugify": "1.3.1",
-    "superagent": "3.8.3",
     "thenativeweb-ux": "0.8.4",
     "webpack": "4.20.2",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.9",
     "wolkenkit-client": "2.0.0"
   },
-  "license": "AGPL-3.0"
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "wolkenkit-depot-client": "0.0.1"
+  }
 }
