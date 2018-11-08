@@ -30,8 +30,6 @@ const fileStorage = {
     await depotClient.authorize({
       id,
       isAuthorized: {
-        commands: {
-        },
         queries: {
           getFile: { forAuthenticated: true, forPublic: true }
         }

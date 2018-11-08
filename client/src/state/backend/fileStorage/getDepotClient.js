@@ -1,7 +1,7 @@
 import DepotClient from 'wolkenkit-depot-client';
 import state from '../state';
 
-let depotClient;
+const cache = {};
 
 const getDepotClient = function ({ host, port }) {
   if (!host) {
@@ -19,15 +19,17 @@ const getDepotClient = function ({ host, port }) {
 
   const token = api.auth.getToken();
 
-  if (!depotClient) {
-    depotClient = new DepotClient({
+  const cacheKey = `${host}:${port}:${token}`;
+
+  if (!cache[cacheKey]) {
+    cache[cacheKey] = new DepotClient({
       host,
       port,
       token
     });
   }
 
-  return depotClient;
+  return cache[cacheKey];
 };
 
 export default getDepotClient;
