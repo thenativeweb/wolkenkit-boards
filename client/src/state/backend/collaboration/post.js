@@ -1,5 +1,5 @@
+import fileStorage from '../fileStorage';
 import state from '../state';
-import storage from '../storage';
 
 const post = {
   edit ({ id, content }) {
@@ -62,40 +62,42 @@ const post = {
     });
   },
 
-  noteImage ({ boardId, color, content, position }) {
-    return new Promise((resolve, reject) => {
-      if (!boardId) {
-        return reject(new Error('Board id is missing.'));
-      }
-      if (!color) {
-        return reject(new Error('Color is missing.'));
-      }
-      if (!content) {
-        return reject(new Error('Content is missing.'));
-      }
-      if (!position || !position.left || !position.top) {
-        throw new Error('Position is missing.');
-      }
+  async noteImage ({ boardId, color, image, position }) {
+    if (!boardId) {
+      throw new Error('Board id is missing.');
+    }
+    if (!color) {
+      throw new Error('Color is missing.');
+    }
+    if (!image) {
+      throw new Error('Image is missing.');
+    }
+    if (!position || !position.left || !position.top) {
+      throw new Error('Position is missing.');
+    }
 
-      const api = state.api;
+    const api = state.api;
 
-      if (!api) {
-        return reject(new Error('Not connected to backend.'));
-      }
+    if (!api) {
+      throw new Error('Not connected to backend.');
+    }
 
-      storage.put(content).
-        then(object => {
-          api.collaboration.post().note({
-            boardId,
-            content: object,
-            color,
-            type: 'image',
-            position
-          }).
-            await('noted', resolve).
-            failed(reject);
-        }).
-        catch(reject);
+    const file = await fileStorage.addFile({
+      content: image,
+      fileName: image.name,
+      contentType: image.type
+    });
+
+    await new Promise((resolve, reject) => {
+      api.collaboration.post().note({
+        boardId,
+        content: file,
+        color,
+        type: 'image',
+        position
+      }).
+        await('noted', resolve).
+        failed(reject);
     });
   },
 

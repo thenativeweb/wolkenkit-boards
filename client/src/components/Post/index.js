@@ -140,13 +140,15 @@ class Post extends React.PureComponent {
     });
   }
 
-  handleMenuItemSelected (id) {
-    switch (id) {
+  handleMenuItemSelected (menuId) {
+    const { id, content, type, onMarkAsDone, onThrowAway } = this.props;
+
+    switch (menuId) {
       case 'markAsDone':
-        this.props.onMarkAsDone(this.props.id);
+        onMarkAsDone(id);
         break;
       case 'throwAway':
-        this.props.onThrowAway(this.props.id);
+        onThrowAway({ id, content, type });
         break;
       default:
         break;

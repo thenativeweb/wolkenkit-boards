@@ -31,7 +31,7 @@ class ActiveBoardScreen extends React.Component {
       await backend.collaboration.post.noteImage({
         boardId: activeBoard.state.id,
         color: activeBoard.state.selectedPostColor,
-        content: images[0],
+        image: images[0],
         position: {
           left: coords.left - postWidth / 2,
           top: coords.top - postWidth / 2
@@ -97,11 +97,11 @@ class ActiveBoardScreen extends React.Component {
     }
   }
 
-  static async handlePostThrowAway (postId) {
+  static async handlePostThrowAway (post) {
     try {
       await backend.collaboration.board.removePost({
         id: activeBoard.state.id,
-        postId
+        post
       });
     } catch (ex) {
       uxServices.notifications.show({ type: 'error', text: ex.message });
