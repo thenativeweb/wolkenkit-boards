@@ -53,6 +53,7 @@ const commands = {
         },
         events: {
           renamed: { forAuthenticated: true },
+          discarded: { forAuthenticated: true },
           pinnedPost: { forAuthenticated: true },
           removedPost: { forAuthenticated: true }
         }
