@@ -57,6 +57,7 @@ const getPluginsFor = function (environment) {
 const configuration = {
   mode: nodeEnv || 'development',
   context: paths.src,
+  devtool: 'source-map',
   devServer: {
     contentBase: paths.src,
     compress: true,

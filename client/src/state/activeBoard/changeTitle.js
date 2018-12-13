@@ -1,11 +1,11 @@
-import state from './state';
+export default function (state) {
+  const changeTitle = function (title) {
+    if (title === undefined) {
+      throw new Error('Title is missing.');
+    }
 
-const changeTitle = function (title) {
-  if (title === undefined) {
-    throw new Error('Title is missing.');
-  }
+    state.newTitle = title;
+  };
 
-  state.newTitle = title;
-};
-
-export default changeTitle;
+  return changeTitle;
+}

@@ -1,69 +1,69 @@
-import backend from '../backend';
 import { set } from 'mobx';
-import state from './state';
 
-const startReading = function (slug) {
-  return new Promise((resolve, reject) => {
-    if (!slug) {
-      return reject(new Error('Slug is missing.'));
-    }
+export default function (state, backend) {
+  const startReading = function (slug) {
+    return new Promise((resolve, reject) => {
+      if (!slug) {
+        return reject(new Error('Slug is missing.'));
+      }
 
-    const api = backend.state.api;
+      const api = backend.state.api;
 
-    if (!api) {
-      return reject(new Error('Not connected to backend.'));
-    }
+      if (!api) {
+        return reject(new Error('Not connected to backend.'));
+      }
 
-    const subscriptions = [];
+      const subscriptions = [];
 
-    api.lists.boards.readOne({ where: { slug }}).
-      finished(board => {
-        api.lists.boards.readAndObserve({
-          where: { id: board.id },
-          take: 1
-        }).
-          started((boards, cancel) => {
-            subscriptions.push(cancel);
+      api.lists.boards.readOne({ where: { slug }}).
+        finished(board => {
+          api.lists.boards.readAndObserve({
+            where: { id: board.id },
+            take: 1
           }).
-          updated(boards => {
-            const activeBoard = boards[0];
+            started((boards, cancel) => {
+              subscriptions.push(cancel);
+            }).
+            updated(boards => {
+              const activeBoard = boards[0];
 
-            if (activeBoard) {
-              set(state, {
-                id: activeBoard.id,
-                title: activeBoard.title,
-                slug: activeBoard.slug
-              });
-            }
-          });
-
-        api.lists.posts.readAndObserve({
-          where: { boardId: board.id }
-        }).
-          started((posts, cancel) => {
-            subscriptions.push(cancel);
-          }).
-          updated(posts => {
-            set(state, {
-              posts
+              if (activeBoard) {
+                set(state, {
+                  id: activeBoard.id,
+                  title: activeBoard.title,
+                  slug: activeBoard.slug
+                });
+              }
             });
-          });
 
-        const stopReading = () => {
-          subscriptions.forEach(cancel => cancel());
+          api.lists.posts.readAndObserve({
+            where: { boardId: board.id }
+          }).
+            started((posts, cancel) => {
+              subscriptions.push(cancel);
+            }).
+            updated(posts => {
+              set(state, {
+                posts
+              });
+            });
 
-          set(state, {
-            id: undefined,
-            title: undefined,
-            slug: undefined,
-            posts: []
-          });
-        };
+          const stopReading = () => {
+            subscriptions.forEach(cancel => cancel());
 
-        resolve(stopReading);
-      }).
-      failed(reject);
-  });
-};
+            set(state, {
+              id: undefined,
+              title: undefined,
+              slug: undefined,
+              posts: []
+            });
+          };
 
-export default startReading;
+          resolve(stopReading);
+        }).
+        failed(reject);
+    });
+  };
+
+  return startReading;
+}

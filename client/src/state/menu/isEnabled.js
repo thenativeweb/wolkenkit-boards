@@ -1,7 +1,7 @@
-import state from './state';
+export default function (state) {
+  const isEnabled = function () {
+    return state.items.length !== 0;
+  };
 
-const isEnabled = function () {
-  return state.items.length !== 0;
-};
-
-export default isEnabled;
+  return isEnabled;
+}

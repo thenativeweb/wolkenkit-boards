@@ -1,11 +1,11 @@
-import state from './state';
+export default function (state) {
+  const stopEditingTitle = function () {
+    if (!state.newTitle) {
+      return;
+    }
 
-const stopEditingTitle = function () {
-  if (!state.newTitle) {
-    return;
-  }
+    state.newTitle = undefined;
+  };
 
-  state.newTitle = undefined;
-};
-
-export default stopEditingTitle;
+  return stopEditingTitle;
+}

@@ -1,9 +1,9 @@
-import state from './state';
+export default function (state) {
+  const collapse = function () {
+    if (state.isExpanded) {
+      state.isExpanded = false;
+    }
+  };
 
-const collapse = function () {
-  if (state.isExpanded) {
-    state.isExpanded = false;
-  }
-};
-
-export default collapse;
+  return collapse;
+}

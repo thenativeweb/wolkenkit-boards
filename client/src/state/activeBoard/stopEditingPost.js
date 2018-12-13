@@ -1,11 +1,11 @@
-import state from './state';
+export default function (state) {
+  const stopEditingPost = function () {
+    if (!state.activePost) {
+      return;
+    }
 
-const stopEditingPost = function () {
-  if (!state.activePost) {
-    return;
-  }
+    state.activePost = undefined;
+  };
 
-  state.activePost = undefined;
-};
-
-export default stopEditingPost;
+  return stopEditingPost;
+}

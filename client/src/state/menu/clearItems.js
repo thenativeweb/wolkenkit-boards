@@ -1,14 +1,15 @@
 import { set } from 'mobx';
-import state from './state';
 
-const clearItems = function () {
-  if (state.items.length === 0) {
-    return;
-  }
+export default function (state) {
+  const clearItems = function () {
+    if (state.items.length === 0) {
+      return;
+    }
 
-  set(state, {
-    items: []
-  });
-};
+    set(state, {
+      items: []
+    });
+  };
 
-export default clearItems;
+  return clearItems;
+}

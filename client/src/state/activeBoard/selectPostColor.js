@@ -1,11 +1,11 @@
-import state from './state';
+export default function (state) {
+  const selectPostColor = function (color) {
+    if (!color) {
+      throw new Error('Color is missing.');
+    }
 
-const selectPostColor = function (color) {
-  if (!color) {
-    throw new Error('Color is missing.');
-  }
+    state.selectedPostColor = color;
+  };
 
-  state.selectedPostColor = color;
-};
-
-export default selectPostColor;
+  return selectPostColor;
+}

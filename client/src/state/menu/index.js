@@ -1,16 +1,19 @@
 import clearItems from './clearItems';
 import collapse from './collapse';
 import expand from './expand';
+import initialState from './initialState';
 import isEnabled from './isEnabled';
+import { observable } from 'mobx';
 import registerItems from './registerItems';
-import state from './state';
+
+const state = observable.object(initialState);
 
 export default {
   state,
 
-  clearItems,
-  collapse,
-  expand,
-  isEnabled,
-  registerItems
+  clearItems: clearItems(state),
+  collapse: collapse(state),
+  expand: expand(state),
+  isEnabled: isEnabled(state),
+  registerItems: registerItems(state)
 };
