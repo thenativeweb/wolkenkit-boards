@@ -1,7 +1,7 @@
 import anime from 'animejs';
 import { Button } from 'thenativeweb-ux';
 import classNames from 'classnames';
-import { DraggableCore } from 'react-draggable';
+import Draggable from '../Draggable';
 import EditableText from '../EditableText';
 import eventbus from '../../services/eventbus';
 import injectSheet from 'react-jss';
@@ -10,64 +10,26 @@ import React from 'react';
 import styles from './styles.js';
 import { Transition } from 'react-transition-group';
 
-const constrain = function (num, low, high) {
-  return Math.max(Math.min(num, high), low);
-};
-
-const translateToRange = function (num, start1, stop1, start2, stop2, withinBounds) {
-  const newval = (num - start1) / (stop1 - start1) * (stop2 - start2) + start2;
-
-  if (!withinBounds) {
-    return newval;
-  }
-
-  if (start2 < stop2) {
-    return constrain(newval, start2, stop2);
-  }
-
-  return constrain(newval, stop2, start2);
-};
-
 class Post extends React.PureComponent {
   constructor (props) {
     super(props);
 
+    this.imageRef = React.createRef();
+    this.elementRef = React.createRef();
+
     this.handleEnter = this.handleEnter.bind(this);
     this.handleExit = this.handleExit.bind(this);
-
-    this.handleElementRefChanged = this.handleElementRefChanged.bind(this);
-    this.handleImageRefChanged = this.handleImageRefChanged.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
-    this.handleDragStart = this.handleDragStart.bind(this);
-    this.handleDragMove = this.handleDragMove.bind(this);
-    this.handleDragStop = this.handleDragStop.bind(this);
+    this.handleDragMoveEnd = this.handleDragMoveEnd.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleContextMenuButtonClicked = this.handleContextMenuButtonClicked.bind(this);
     this.handleFullscreenButtonPressed = this.handleFullscreenButtonPressed.bind(this);
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
-
-    this.state = {
-      isBeingEdited: false,
-      isBeingDragged: false,
-      rotation: 0,
-      left: props.left,
-      top: props.top
-    };
-  }
-
-  componentDidUpdate (prevProps) {
-    // If the backend has save the new values after a move, a new position
-    // will be passed down. Then it's time to remove the dragging values.
-    if (prevProps.left !== this.props.left || prevProps.top !== this.props.top) {
-      this.setState({
-        dragging: null
-      });
-    }
   }
 
   handleEnter () {
     anime({
-      targets: this.element,
+      targets: this.elementRef.current,
       opacity: [ 0, 1 ],
       scale: [ 1.4, 1 ],
       duration: 300,
@@ -77,7 +39,7 @@ class Post extends React.PureComponent {
 
   handleExit () {
     anime({
-      targets: this.element,
+      targets: this.elementRef.current,
       opacity: [ 1, 0 ],
       translateY: [ 0, 40 ],
       duration: 300,
@@ -85,23 +47,10 @@ class Post extends React.PureComponent {
     });
   }
 
-  handleElementRefChanged (element) {
-    this.element = element;
-  }
-
-  handleImageRefChanged (image) {
-    this.imageRef = image;
-  }
-
-  didMove (newPosition) {
-    return this.state.previousPosition.left !== newPosition.left ||
-           this.state.previousPosition.top !== newPosition.top;
-  }
-
   handleContentChange (event) {
     const newText = event.target.value;
 
-    const { id, color, onRecolor } = this.props;
+    const { id, color, onContentChange, onRecolor } = this.props;
 
     if (newText.includes(':)') || newText.includes(':-)')) {
       if (color !== 'green') {
@@ -113,7 +62,7 @@ class Post extends React.PureComponent {
       }
     }
 
-    this.props.onContentChange(newText);
+    onContentChange(newText);
   }
 
   handleContextMenuButtonClicked (event) {
@@ -136,7 +85,7 @@ class Post extends React.PureComponent {
     this.props.onRequestFullscreen({
       type: this.props.type,
       content: this.props.content,
-      element: this.imageRef
+      element: this.imageRef.current
     });
   }
 
@@ -167,90 +116,11 @@ class Post extends React.PureComponent {
     }
   }
 
-  handleDragStart (event, data) {
-    const { node } = data;
-    const parentRect = node.offsetParent.getBoundingClientRect();
-    const clientRect = node.getBoundingClientRect();
-
-    this.setState({
-      isBeingDragged: true,
-      previousPosition: {
-        left: this.props.left,
-        top: this.props.top
-      },
-      dragging: {
-        left: clientRect.left - parentRect.left + node.offsetParent.scrollLeft,
-        top: clientRect.top - parentRect.top + node.offsetParent.scrollTop
-      }
+  handleDragMoveEnd ({ top, left }) {
+    this.props.onMoveEnd(this.props.id, {
+      top,
+      left
     });
-  }
-
-  handleDragMove (event, data) {
-    const { deltaX, deltaY } = data;
-
-    this.setState({
-      rotation: translateToRange(deltaX, -120, 120, -20, 20),
-      dragging: {
-        left: this.state.dragging.left + deltaX,
-        top: this.state.dragging.top + deltaY
-      }
-    });
-  }
-
-  handleDragStop () {
-    if (this.didMove(this.state.dragging)) {
-      this.props.onMoveEnd(this.props.id, {
-        top: this.state.dragging.top,
-        left: this.state.dragging.left
-      });
-    }
-
-    this.setState({
-      rotation: 0,
-      isBeingDragged: false,
-      previousPosition: null
-    });
-  }
-
-  renderTextContent () {
-    const { classes } = this.props;
-
-    return (
-      <EditableText
-        className={ classes.Content }
-        content={ this.props.content }
-        isEditing={ this.props.isEditing }
-        onChange={ this.handleContentChange }
-        onBlur={ this.props.onEditEnd }
-      />
-    );
-  }
-
-  renderImageContent () {
-    const { classes } = this.props;
-
-    return (
-      <div className={ classes.Content }>
-        <img ref={ this.handleImageRefChanged } src={ this.props.content.url } />
-      </div>
-    );
-  }
-
-  renderContent (type) {
-    let content;
-
-    switch (type) {
-      case 'text':
-        content = this.renderTextContent();
-        break;
-      case 'image':
-        content = this.renderImageContent();
-        break;
-      default:
-        break;
-    }
-
-    return content;
   }
 
   renderMetaActions (type) {
@@ -292,12 +162,20 @@ class Post extends React.PureComponent {
   }
 
   render () {
-    const { classes, color, isDone, left, top, type, isEditing } = this.props;
-    const { dragging, isBeingDragged, rotation } = this.state;
+    const {
+      classes,
+      color,
+      content,
+      isDone,
+      left,
+      top,
+      type,
+      isEditing,
+      onEditEnd
+    } = this.props;
 
     const postClasses = classNames(classes.Post, {
       [classes.IsBeingEdited]: isEditing,
-      [classes.IsDragging]: isBeingDragged,
       [classes.IsDone]: isDone,
       [classes.ColorGreen]: color === 'green',
       [classes.ColorPaperLined]: color === 'paper-lined',
@@ -306,16 +184,6 @@ class Post extends React.PureComponent {
       [classes.TypeImage]: type === 'image',
       [classes.TypeText]: type === 'text'
     });
-
-    const position = {
-      left,
-      top
-    };
-
-    if (dragging) {
-      position.left = dragging.left;
-      position.top = dragging.top;
-    }
 
     return (
       <Transition
@@ -327,28 +195,46 @@ class Post extends React.PureComponent {
         onExit={ this.handleExit }
         timeout={ 400 }
       >
-        <DraggableCore
-          disabled={ isEditing }
-          onStart={ this.handleDragStart }
-          onDrag={ this.handleDragMove }
-          onStop={ this.handleDragStop }
+        <Draggable
+          isDisabled={ isEditing }
+          onMoveEnd={ this.handleDragMoveEnd }
+          left={ left }
+          top={ top }
+          classNames={{
+            IsDragging: classes.IsDragging
+          }}
         >
           <div
-            className={ classes.Container }
-            style={{ transform: `translate(${position.left}px, ${position.top}px)` }}
+            ref={ this.elementRef }
+            className={ classNames(postClasses) }
+            data-type={ this.props.type }
+            onDoubleClick={ this.handleDoubleClick }
           >
-            <div
-              ref={ this.handleElementRefChanged }
-              className={ classNames(postClasses) }
-              data-type={ this.props.type }
-              onDoubleClick={ this.handleDoubleClick }
-              style={{ transform: `rotate(${(rotation)}deg)` }}
-            >
-              {this.renderContent(type)}
-              {this.renderMetaActions(type)}
-            </div>
+            {
+              type === 'image' ?
+                (
+                  <div className={ classes.Content }>
+                    <img ref={ this.imageRef } src={ content.url } />
+                  </div>
+                ) :
+                null
+            }
+            {
+              type === 'text' ?
+                (
+                  <EditableText
+                    className={ classes.Content }
+                    content={ content }
+                    isEditing={ isEditing }
+                    onChange={ this.handleContentChange }
+                    onBlur={ onEditEnd }
+                  />
+                ) :
+                null
+            }
+            {this.renderMetaActions(type)}
           </div>
-        </DraggableCore>
+        </Draggable>
       </Transition>
     );
   }

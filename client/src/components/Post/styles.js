@@ -80,7 +80,7 @@ const styles = theme => ({
   },
 
   IsDragging: {
-    transition: 'transform 0ms !important',
+    transition: 'transform 5ms !important',
     cursor: 'move !important',
     'user-select': 'none !important'
   },
