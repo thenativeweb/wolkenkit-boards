@@ -7,12 +7,6 @@ const postMetabarHeight = 35;
 const contentPaddingTop = 9;
 
 const styles = theme => ({
-  Container: {
-    'will-change': 'transform',
-    'backface-visibility': 'hidden',
-    position: 'absolute'
-  },
-
   Post: {
     position: 'absolute',
     cursor: 'move',
@@ -80,7 +74,7 @@ const styles = theme => ({
   },
 
   IsDragging: {
-    transition: 'transform 5ms !important',
+    transition: 'transform 30ms !important',
     cursor: 'move !important',
     'user-select': 'none !important'
   },
