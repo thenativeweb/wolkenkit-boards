@@ -1,11 +1,11 @@
 import backend from '../../state/backend';
-import injectSheet from 'react-jss';
 import mountBoardDialog from '../../state/mountBoardDialog';
 import MountBoardDialog from '../MountBoardDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { services } from 'thenativeweb-ux';
 import styles from './styles';
+import { withStyles } from 'thenativeweb-ux/dist/styles';
 import { List, ListItem, NonIdealState } from '../../components';
 
 class BoardsScreen extends React.Component {
@@ -100,4 +100,4 @@ class BoardsScreen extends React.Component {
   /* eslint-enable class-methods-use-this */
 }
 
-export default injectSheet(styles)(observer(BoardsScreen));
+export default withStyles(styles)(observer(BoardsScreen));

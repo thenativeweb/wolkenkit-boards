@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { classNames } from 'thenativeweb-ux/dist/styles';
 /* eslint-disable no-unused-vars */
 import linkify from 'linkifyjs';
 /* eslint-enable no-unused-vars */

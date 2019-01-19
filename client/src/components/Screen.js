@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { classNames } from 'thenativeweb-ux/dist/styles';
 import React from 'react';
 
 const Screen = function (props) {

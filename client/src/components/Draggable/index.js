@@ -1,9 +1,8 @@
-import classNames from 'classnames';
 import { DraggableCore } from 'react-draggable';
-import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import translateToRange from './translateToRange';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const didPositionChange = (previousPosition, newPosition) =>
   previousPosition.x !== newPosition.x ||
@@ -135,4 +134,4 @@ Draggable.propTypes = {
   onMoveEnd: PropTypes.func
 };
 
-export default injectSheet(styles)(Draggable);
+export default withStyles(styles)(Draggable);

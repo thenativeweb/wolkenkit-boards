@@ -1,7 +1,7 @@
 import aboutDialog from '../../state/aboutDialog';
-import injectSheet from 'react-jss';
 import { observer } from 'mobx-react';
 import React from 'react';
+import { withStyles } from 'thenativeweb-ux/dist/styles';
 import { Brand, Button, Headline, Modal, ThemeProvider } from 'thenativeweb-ux';
 
 const styles = theme => ({
@@ -59,4 +59,4 @@ const AboutDialog = ({ classes }) => (
   </Modal>
 );
 
-export default injectSheet(styles)(observer(AboutDialog));
+export default withStyles(styles)(observer(AboutDialog));

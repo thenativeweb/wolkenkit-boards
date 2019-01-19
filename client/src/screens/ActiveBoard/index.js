@@ -1,7 +1,5 @@
 import activeBoard from '../../state/activeBoard';
 import backend from '../../state/backend';
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import menu from '../../state/menu';
 import { observer } from 'mobx-react';
 import React from 'react';
@@ -9,8 +7,8 @@ import services from '../../services';
 import styles from './styles';
 import { TransitionGroup } from 'react-transition-group';
 import { Button, Toggle, services as uxServices } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 import { FileDropZone, MediaViewer, Post } from '../../components';
-
 const postWidth = 192;
 
 class ActiveBoardScreen extends React.Component {
@@ -292,4 +290,4 @@ class ActiveBoardScreen extends React.Component {
   /* eslint-enable class-methods-use-this */
 }
 
-export default injectSheet(styles)(observer(ActiveBoardScreen));
+export default withStyles(styles)(observer(ActiveBoardScreen));

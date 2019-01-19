@@ -1,14 +1,12 @@
-import anime from 'animejs';
-import { Button } from 'thenativeweb-ux';
-import classNames from 'classnames';
 import Draggable from '../Draggable';
 import EditableText from '../EditableText';
 import eventbus from '../../services/eventbus';
-import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.js';
 import { Transition } from 'react-transition-group';
+import { animate, Button } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 class Post extends React.PureComponent {
   constructor (props) {
@@ -28,7 +26,7 @@ class Post extends React.PureComponent {
   }
 
   handleEnter () {
-    anime({
+    animate({
       targets: this.elementRef.current,
       opacity: [ 0, 1 ],
       scale: [ 1.4, 1 ],
@@ -38,7 +36,7 @@ class Post extends React.PureComponent {
   }
 
   handleExit () {
-    anime({
+    animate({
       targets: this.elementRef.current,
       opacity: [ 1, 0 ],
       translateY: [ 0, 40 ],
@@ -277,4 +275,4 @@ Post.propTypes = {
   onThrowAway: PropTypes.func
 };
 
-export default injectSheet(styles)(Post);
+export default withStyles(styles)(Post);

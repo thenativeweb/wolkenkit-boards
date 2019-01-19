@@ -1,6 +1,5 @@
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import React from 'react';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = {
   Label: {
@@ -22,4 +21,4 @@ const Label = function ({ classes, className, children }) {
   );
 };
 
-export default injectSheet(styles)(Label);
+export default withStyles(styles)(Label);
