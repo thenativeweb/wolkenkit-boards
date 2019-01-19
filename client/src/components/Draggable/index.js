@@ -6,8 +6,8 @@ import React from 'react';
 import translateToRange from './translateToRange';
 
 const didPositionChange = (previousPosition, newPosition) =>
-  previousPosition.left !== newPosition.left ||
-    previousPosition.top !== newPosition.top;
+  previousPosition.x !== newPosition.x ||
+    previousPosition.y !== newPosition.y;
 
 const styles = () => ({
   Container: {
@@ -28,15 +28,14 @@ class Draggable extends React.PureComponent {
     this.state = {
       isBeingDragged: false,
       rotation: 0,
-      left: props.left,
-      top: props.top
+      position: props.position
     };
   }
 
   componentDidUpdate (prevProps) {
-    // If the backend has saved the new values after a move, a new position
+    // If the parent container changed its state in reaction to an onMoveEnd, a new position
     // will be passed down. Then it's time to remove the draggingPosition values.
-    if (didPositionChange(prevProps, this.props)) {
+    if (didPositionChange(prevProps.position, this.props.position)) {
       this.setState({
         draggingPosition: null
       });
@@ -44,18 +43,19 @@ class Draggable extends React.PureComponent {
   }
 
   handleDragStart (event, { node }) {
+    const { position } = this.props;
     const parentRect = node.offsetParent.getBoundingClientRect();
     const clientRect = node.getBoundingClientRect();
 
     this.setState({
       isBeingDragged: true,
       previousPosition: {
-        left: this.props.left,
-        top: this.props.top
+        x: position.x,
+        y: position.y
       },
       draggingPosition: {
-        left: clientRect.left - parentRect.left + node.offsetParent.scrollLeft,
-        top: clientRect.top - parentRect.top + node.offsetParent.scrollTop
+        x: clientRect.left - parentRect.left + node.offsetParent.scrollLeft,
+        y: clientRect.top - parentRect.top + node.offsetParent.scrollTop
       }
     });
   }
@@ -64,8 +64,8 @@ class Draggable extends React.PureComponent {
     this.setState(state => ({
       rotation: translateToRange(deltaX, -120, 120, -20, 20),
       draggingPosition: {
-        left: state.draggingPosition.left + deltaX,
-        top: state.draggingPosition.top + deltaY
+        x: state.draggingPosition.x + deltaX,
+        y: state.draggingPosition.y + deltaY
       }
     }));
   }
@@ -76,8 +76,8 @@ class Draggable extends React.PureComponent {
 
     if (didPositionChange(previousPosition, draggingPosition)) {
       onMoveEnd({
-        top: draggingPosition.top,
-        left: draggingPosition.left
+        x: draggingPosition.x,
+        y: draggingPosition.y
       });
     }
 
@@ -91,15 +91,14 @@ class Draggable extends React.PureComponent {
   render () {
     const { classes, isDisabled, children } = this.props;
     const { draggingPosition, isBeingDragged, rotation } = this.state;
-    let { left, top } = this.props;
+    let { position } = this.props;
 
     const componentClasses = classNames(classes.Container, {
       [this.props.classNames.IsDragging]: isBeingDragged
     });
 
     if (draggingPosition) {
-      left = draggingPosition.left;
-      top = draggingPosition.top;
+      position = draggingPosition;
     }
 
     return (
@@ -111,7 +110,7 @@ class Draggable extends React.PureComponent {
       >
         <div
           className={ componentClasses }
-          style={{ transform: `translate(${left}px, ${top}px) rotate(${rotation}deg)` }}
+          style={{ transform: `translate(${position.x}px, ${position.y}px) rotate(${rotation}deg)` }}
         >
           { children }
         </div>
@@ -125,15 +124,13 @@ Draggable.defaultProps = {
   classNames: {
     IsDragging: 'IsDragging'
   },
-  left: 0,
-  top: 0,
+  position: { x: 0, y: 0 },
   onMoveEnd () {}
 };
 
 Draggable.propTypes = {
   isDisabled: PropTypes.bool.isRequired,
-  left: PropTypes.number.isRequired,
-  top: PropTypes.number.isRequired,
+  position: PropTypes.object.isRequired,
   classNames: PropTypes.object,
   onMoveEnd: PropTypes.func
 };

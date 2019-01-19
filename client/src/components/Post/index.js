@@ -116,10 +116,10 @@ class Post extends React.PureComponent {
     }
   }
 
-  handleDragMoveEnd ({ top, left }) {
+  handleDragMoveEnd (position) {
     this.props.onMoveEnd(this.props.id, {
-      top,
-      left
+      left: position.x,
+      top: position.y
     });
   }
 
@@ -198,8 +198,7 @@ class Post extends React.PureComponent {
         <Draggable
           isDisabled={ isEditing }
           onMoveEnd={ this.handleDragMoveEnd }
-          left={ left }
-          top={ top }
+          position={{ x: left, y: top }}
           classNames={{
             IsDragging: classes.IsDragging
           }}
