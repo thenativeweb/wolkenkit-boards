@@ -30,7 +30,7 @@ const getPluginsFor = function (environment) {
       return [
         new webpack.DefinePlugin(getEnvironmentVariables()),
         new CompressionPlugin({
-          asset: '[path].gz[query]',
+          filename: '[path].gz[query]',
           algorithm: 'gzip',
           test: /\.(js|html)$/
         }),

@@ -1,12 +1,16 @@
 import { DraggableCore } from 'react-draggable';
 import PropTypes from 'prop-types';
 import React from 'react';
-import translateToRange from './translateToRange';
+import { animated, Spring } from 'react-spring';
 import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
-const didPositionChange = (previousPosition, newPosition) =>
-  previousPosition.x !== newPosition.x ||
-    previousPosition.y !== newPosition.y;
+const didPositionChange = function (previousPosition = {}, newPosition = {}) {
+  if (newPosition === null || previousPosition === null) {
+    return false;
+  }
+
+  return previousPosition.x !== newPosition.x || previousPosition.y !== newPosition.y;
+};
 
 const styles = () => ({
   Container: {
@@ -25,9 +29,15 @@ class Draggable extends React.PureComponent {
     this.handleDragStop = this.handleDragStop.bind(this);
 
     this.state = {
+      deltaX: 0,
       isBeingDragged: false,
       rotation: 0,
-      position: props.position
+      position: props.position,
+      transformOrigin: {
+        x: 50,
+        y: 10
+      },
+      width: 0
     };
   }
 
@@ -43,8 +53,19 @@ class Draggable extends React.PureComponent {
 
   handleDragStart (event, { node }) {
     const { position } = this.props;
-    const parentRect = node.offsetParent.getBoundingClientRect();
-    const clientRect = node.getBoundingClientRect();
+    const clientRect = node.getBoundingClientRect(),
+          parentRect = node.offsetParent.getBoundingClientRect();
+
+    const relativePositionX = event.clientX - clientRect.left,
+          relativePositionY = event.clientY - clientRect.top;
+
+    const height = clientRect.bottom - clientRect.top,
+          width = clientRect.right - clientRect.left;
+
+    const transformOrigin = {
+      x: Math.round(relativePositionX / width * 100),
+      y: Math.round(relativePositionY / height * 100)
+    };
 
     this.setState({
       isBeingDragged: true,
@@ -55,16 +76,18 @@ class Draggable extends React.PureComponent {
       draggingPosition: {
         x: clientRect.left - parentRect.left + node.offsetParent.scrollLeft,
         y: clientRect.top - parentRect.top + node.offsetParent.scrollTop
-      }
+      },
+      transformOrigin,
+      width
     });
   }
 
   handleDragMove (event, { deltaX, deltaY }) {
-    this.setState(state => ({
-      rotation: translateToRange(deltaX, -120, 120, -20, 20),
+    this.setState(({ draggingPosition = {}}) => ({
+      deltaX,
       draggingPosition: {
-        x: state.draggingPosition.x + deltaX,
-        y: state.draggingPosition.y + deltaY
+        x: draggingPosition.x + deltaX,
+        y: draggingPosition.y + deltaY
       }
     }));
   }
@@ -81,15 +104,15 @@ class Draggable extends React.PureComponent {
     }
 
     this.setState({
-      rotation: 0,
+      deltaX: 0,
       isBeingDragged: false,
       previousPosition: null
     });
   }
 
   render () {
-    const { classes, isDisabled, children } = this.props;
-    const { draggingPosition, isBeingDragged, rotation } = this.state;
+    const { classes, isDisabled, children, usePhysics } = this.props;
+    const { draggingPosition, isBeingDragged, transformOrigin, deltaX } = this.state;
     let { position } = this.props;
 
     const componentClasses = classNames(classes.Container, {
@@ -101,19 +124,27 @@ class Draggable extends React.PureComponent {
     }
 
     return (
-      <DraggableCore
-        disabled={ isDisabled }
-        onStart={ this.handleDragStart }
-        onDrag={ this.handleDragMove }
-        onStop={ this.handleDragStop }
-      >
-        <div
-          className={ componentClasses }
-          style={{ transform: `translate(${position.x}px, ${position.y}px) rotate(${rotation}deg)` }}
-        >
-          { children }
-        </div>
-      </DraggableCore>
+      <Spring native={ true } to={{ deltaX }} config={{ tension: 200, friction: 18 }}>
+        {props => (
+          <DraggableCore
+            disabled={ isDisabled }
+            onStart={ this.handleDragStart }
+            onDrag={ this.handleDragMove }
+            onStop={ this.handleDragStop }
+          >
+            <animated.div
+              className={ componentClasses }
+              style={{
+                transform: props.deltaX.interpolate({ range: [ -120, 120 ], output: [ -20, 20 ]}).
+                  interpolate(rotation => `translate3d(${position.x}px, ${position.y}px, 0px) rotate(${usePhysics ? rotation : 0}deg)`),
+                transformOrigin: `${transformOrigin.x}% ${transformOrigin.y}%`
+              }}
+            >
+              { children }
+            </animated.div>
+          </DraggableCore>
+        )}
+      </Spring>
     );
   }
 }
@@ -124,6 +155,7 @@ Draggable.defaultProps = {
     IsDragging: 'IsDragging'
   },
   position: { x: 0, y: 0 },
+  usePhysics: true,
   onMoveEnd () {}
 };
 
@@ -131,6 +163,7 @@ Draggable.propTypes = {
   isDisabled: PropTypes.bool.isRequired,
   position: PropTypes.object.isRequired,
   classNames: PropTypes.object,
+  usePhysics: PropTypes.bool,
   onMoveEnd: PropTypes.func
 };
 

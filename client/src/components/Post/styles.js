@@ -8,7 +8,7 @@ const contentPaddingTop = 9;
 
 const styles = theme => ({
   Post: {
-    position: 'absolute',
+    position: 'relative',
     cursor: 'move',
     width: postWidth,
     'max-height': 2 * contentPaddingTop + 9 * postLineHeight + postMetabarHeight + 2 * postBorderWidth,
@@ -74,7 +74,6 @@ const styles = theme => ({
   },
 
   IsDragging: {
-    transition: 'transform 30ms !important',
     cursor: 'move !important',
     'user-select': 'none !important'
   },
