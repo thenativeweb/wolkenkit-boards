@@ -1,7 +1,6 @@
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   NonIdealState: {
@@ -41,4 +40,4 @@ NonIdealState.propTypes = {
   ])
 };
 
-export default injectSheet(styles)(NonIdealState);
+export default withStyles(styles)(NonIdealState);

@@ -1,6 +1,4 @@
-import { observable } from 'mobx';
-
-const state = observable.object({
+const initialState = {
   id: undefined,
   title: undefined,
   slug: undefined,
@@ -8,6 +6,6 @@ const state = observable.object({
   activePost: undefined,
   newTitle: undefined,
   selectedPostColor: 'yellow'
-});
+};
 
-export default state;
+export default initialState;

@@ -1,9 +1,9 @@
-import state from './state';
+export default function (state) {
+  const expand = function () {
+    if (!state.isExpanded) {
+      state.isExpanded = true;
+    }
+  };
 
-const expand = function () {
-  if (!state.isExpanded) {
-    state.isExpanded = true;
-  }
-};
-
-export default expand;
+  return expand;
+}

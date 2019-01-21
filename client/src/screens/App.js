@@ -4,8 +4,6 @@ import ActiveBoard from './ActiveBoard';
 import ActiveBoardHeader from './ActiveBoard/Header';
 import backend from '../state/backend';
 import Boards from './Boards';
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import Menu from './Menu';
 import menu from '../state/menu';
 import { observer } from 'mobx-react';
@@ -14,6 +12,7 @@ import styles from './styles';
 import theme from '../theme/boards';
 import { AppBar, Breadcrumbs, ContextMenu, Symbols } from '../components';
 import { Application, Brand, Button, Headline, Link, Message, Modal, Product, Sidebar, ThemeProvider, View } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 const App = ({ classes }) => (
@@ -71,4 +70,4 @@ const App = ({ classes }) => (
   </ThemeProvider>
 );
 
-export default injectSheet(styles)(observer(App));
+export default withStyles(styles)(observer(App));

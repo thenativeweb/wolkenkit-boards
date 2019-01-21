@@ -1,7 +1,6 @@
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   MenuItem: {
@@ -89,4 +88,4 @@ MenuItem.defaultProps = {
   size: 's'
 };
 
-export default injectSheet(styles)(MenuItem);
+export default withStyles(styles)(MenuItem);

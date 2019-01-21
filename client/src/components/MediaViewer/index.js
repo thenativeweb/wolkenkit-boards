@@ -1,9 +1,7 @@
-import anime from 'animejs';
 import bus from '../../services/eventbus';
-import { Button } from 'thenativeweb-ux';
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import React from 'react';
+import { animate, Button } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   MediaViewer: {
@@ -182,7 +180,7 @@ class MediaViewer extends React.Component {
 
     destinationElement.style.opacity = 0;
 
-    anime({
+    animate({
       targets: this.transferRef,
       opacity: [ 1, 1 ],
       width: [ source.width, destination.width ],
@@ -214,7 +212,7 @@ class MediaViewer extends React.Component {
 
     sourceElement.style.opacity = 0;
 
-    anime({
+    animate({
       targets: this.transferRef,
       opacity: [ 1, 0.25 ],
       width: [ source.width, destination.width ],
@@ -277,4 +275,4 @@ class MediaViewer extends React.Component {
   }
 }
 
-export default injectSheet(styles)(MediaViewer);
+export default withStyles(styles)(MediaViewer);

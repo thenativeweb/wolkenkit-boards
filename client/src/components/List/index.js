@@ -1,7 +1,6 @@
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import React from 'react';
 import { Transition } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   List: {
@@ -46,7 +45,7 @@ const List = function ({ className, classes, children }) {
   );
 };
 
-List.Header = injectSheet(styles)(Header);
+List.Header = withStyles(styles)(Header);
 List.Body = Body;
 
-export default injectSheet(styles)(List);
+export default withStyles(styles)(List);

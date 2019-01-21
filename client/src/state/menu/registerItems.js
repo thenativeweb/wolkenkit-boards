@@ -1,20 +1,21 @@
 import { set } from 'mobx';
-import state from './state';
 
-const registerItems = function (items) {
-  if (!items) {
-    throw new Error('Items are missing.');
-  }
-
-  items.forEach(item => {
-    if (!item.id || !item.label || !item.onSelect) {
-      throw new Error('Invalid menu item.');
+export default function (state) {
+  const registerItems = function (items) {
+    if (!items) {
+      throw new Error('Items are missing.');
     }
-  });
 
-  set(state, {
-    items
-  });
-};
+    items.forEach(item => {
+      if (!item.id || !item.label || !item.onSelect) {
+        throw new Error('Invalid menu item.');
+      }
+    });
 
-export default registerItems;
+    set(state, {
+      items
+    });
+  };
+
+  return registerItems;
+}

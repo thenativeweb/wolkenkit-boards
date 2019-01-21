@@ -1,11 +1,10 @@
-import classNames from 'classnames';
 import eventbus from '../../services/eventbus';
-import injectSheet from 'react-jss';
 import { Label } from '../index';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Icon } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   ListItem: {},
@@ -177,4 +176,4 @@ ListItem.propTypes = {
   onSecondaryAction: PropTypes.func
 };
 
-export default injectSheet(styles)(ListItem);
+export default withStyles(styles)(ListItem);

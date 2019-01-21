@@ -1,13 +1,13 @@
-import state from './state';
+export default function (state) {
+  const changeActivePost = function (content) {
+    if (content === undefined) {
+      throw new Error('Content is missing.');
+    }
 
-const changeActivePost = function (content) {
-  if (content === undefined) {
-    throw new Error('Content is missing.');
-  }
+    if (state.activePost) {
+      state.activePost.content = content;
+    }
+  };
 
-  if (state.activePost) {
-    state.activePost.content = content;
-  }
-};
-
-export default changeActivePost;
+  return changeActivePost;
+}

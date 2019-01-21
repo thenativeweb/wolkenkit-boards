@@ -1,6 +1,6 @@
-import injectSheet from 'react-jss';
 import React from 'react';
 import { View } from 'thenativeweb-ux';
+import { withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   AppBar: {
@@ -20,4 +20,4 @@ const AppBar = ({ children, classes }) => (
   </View>
 );
 
-export default injectSheet(styles)(AppBar);
+export default withStyles(styles)(AppBar);

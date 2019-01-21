@@ -1,5 +1,5 @@
-import injectSheet from 'react-jss';
 import React from 'react';
+import { withStyles } from 'thenativeweb-ux/dist/styles';
 import { Button, Icon, View } from 'thenativeweb-ux';
 import { Link, Route, Switch } from 'react-router-dom';
 
@@ -63,4 +63,4 @@ const Breadcrumbs = ({ children, classes }) => (
   </View>
 );
 
-export default injectSheet(styles)(Breadcrumbs);
+export default withStyles(styles)(Breadcrumbs);

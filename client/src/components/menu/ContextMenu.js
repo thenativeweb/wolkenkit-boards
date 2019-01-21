@@ -1,7 +1,7 @@
 import eventbus from '../../services/eventbus';
-import injectSheet from 'react-jss';
 import MenuItem from './MenuItem';
 import React from 'react';
+import { withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   Container: {
@@ -137,4 +137,4 @@ class ContextMenu extends React.Component {
   }
 }
 
-export default injectSheet(styles)(ContextMenu);
+export default withStyles(styles)(ContextMenu);

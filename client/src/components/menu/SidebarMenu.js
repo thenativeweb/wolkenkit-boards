@@ -1,7 +1,6 @@
-import classNames from 'classnames';
-import injectSheet from 'react-jss';
 import React from 'react';
 import { Transition } from 'thenativeweb-ux';
+import { classNames, withStyles } from 'thenativeweb-ux/dist/styles';
 
 const styles = theme => ({
   SidebarMenu: {},
@@ -94,4 +93,4 @@ SidebarMenu.defaultProps = {
   onExpand () {}
 };
 
-export default injectSheet(styles)(SidebarMenu);
+export default withStyles(styles)(SidebarMenu);
