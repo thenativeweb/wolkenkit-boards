@@ -19,15 +19,12 @@
   "wolkenkit": {
     "application": "boards",
     "runtime": {
-      "version": "3.1.0"
+      "version": "latest"
     },
     "environments": {
       "default": {
         "api": {
-          "address": {
-            "host": "local.wolkenkit.io",
-            "port": 3000
-          },
+          "port": 3000,
           "allowAccessFrom": "*"
         },
         "fileStorage": {
@@ -36,10 +33,12 @@
         "node": {
           "environment": "development"
         },
-        "identityProvider": {
-          "name": "https://thenativeweb.eu.auth0.com/",
-          "certificate": "/server/keys/auth0"
-        }
+        "identityProviders": [
+          {
+            "issuer": "https://thenativeweb.eu.auth0.com/",
+            "certificate": "/server/keys/auth0"
+          }
+        ]
       }
     }
   },
