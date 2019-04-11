@@ -30,10 +30,12 @@ const commands = {
             left: { type: 'number' },
             top: { type: 'number' }
           },
-          required: [ 'left', 'top' ]
+          required: [ 'left', 'top' ],
+          additionalProperties: false
         }
       },
-      required: [ 'boardId', 'content', 'type', 'color', 'position' ]
+      required: [ 'boardId', 'content', 'type', 'color', 'position' ],
+      additionalProperties: false
     },
 
     isAuthorized: forBoard(),
@@ -58,7 +60,8 @@ const commands = {
       properties: {
         to: { type: 'string', minLength: 1 }
       },
-      required: [ 'to' ]
+      required: [ 'to' ],
+      additionalProperties: false
     },
 
     isAuthorized: forBoard(),
@@ -82,7 +85,8 @@ const commands = {
       properties: {
         content: { type: [ 'string', 'object' ]}
       },
-      required: [ 'content' ]
+      required: [ 'content' ],
+      additionalProperties: false
     },
 
     isAuthorized: forBoard(),
@@ -108,10 +112,12 @@ const commands = {
             left: { type: 'number' },
             top: { type: 'number' }
           },
-          required: [ 'left', 'top' ]
+          required: [ 'left', 'top' ],
+          additionalProperties: false
         }
       },
-      required: [ 'position' ]
+      required: [ 'position' ],
+      additionalProperties: false
     },
 
     isAuthorized: forBoard(),
@@ -154,6 +160,28 @@ const commands = {
 
 const events = {
   noted: {
+    schema: {
+      type: 'object',
+      properties: {
+        boardId: { type: 'string', pattern: getUuidRegex() },
+        content: { type: [ 'string', 'object' ]},
+        type: { type: 'string', enum: [ 'text', 'image' ]},
+        color: { type: 'string', minLength: 1 },
+        position: {
+          type: 'object',
+          properties: {
+            left: { type: 'number' },
+            top: { type: 'number' }
+          },
+          required: [ 'left', 'top' ],
+          additionalProperties: false
+        },
+        creator: { type: 'string', minLength: 1 }
+      },
+      required: [ 'boardId', 'content', 'type', 'color', 'position', 'creator' ],
+      additionalProperties: false
+    },
+
     handle (post, event) {
       post.setState({
         boardId: event.data.boardId,
@@ -169,6 +197,16 @@ const events = {
   },
 
   recolored: {
+    schema: {
+      type: 'object',
+      properties: {
+        from: { type: 'string', minLength: 1 },
+        to: { type: 'string', minLength: 1 }
+      },
+      required: [ 'from', 'to' ],
+      additionalProperties: false
+    },
+
     handle (post, event) {
       post.setState({
         color: event.data.to
@@ -179,6 +217,15 @@ const events = {
   },
 
   edited: {
+    schema: {
+      type: 'object',
+      properties: {
+        content: { type: [ 'string', 'object' ]}
+      },
+      required: [ 'content' ],
+      additionalProperties: false
+    },
+
     handle (post, event) {
       post.setState({
         content: event.data.content
@@ -189,6 +236,23 @@ const events = {
   },
 
   moved: {
+    schema: {
+      type: 'object',
+      properties: {
+        position: {
+          type: 'object',
+          properties: {
+            left: { type: 'number' },
+            top: { type: 'number' }
+          },
+          required: [ 'left', 'top' ],
+          additionalProperties: false
+        }
+      },
+      required: [ 'position' ],
+      additionalProperties: false
+    },
+
     handle (post, event) {
       post.setState({
         position: event.data.position
@@ -199,6 +263,13 @@ const events = {
   },
 
   markedAsDone: {
+    schema: {
+      type: 'object',
+      properties: {},
+      required: [],
+      additionalProperties: false
+    },
+
     handle (post) {
       post.setState({
         isDone: true
@@ -209,6 +280,15 @@ const events = {
   },
 
   thrownAway: {
+    schema: {
+      type: 'object',
+      properties: {
+        boardId: { type: 'string', pattern: getUuidRegex() }
+      },
+      required: [ 'boardId' ],
+      additionalProperties: false
+    },
+
     handle (post) {
       post.setState({
         boardId: undefined,

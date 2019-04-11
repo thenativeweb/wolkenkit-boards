@@ -148,6 +148,16 @@ const commands = {
 
 const events = {
   mounted: {
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', minLength: 1 },
+        slug: { type: 'string', minLength: 1 }
+      },
+      required: [ 'title', 'slug' ],
+      additionalProperties: false
+    },
+
     handle (board, event) {
       board.setState({
         title: event.data.title,
@@ -159,6 +169,13 @@ const events = {
   },
 
   shared: {
+    schema: {
+      type: 'object',
+      properties: {},
+      required: [],
+      additionalProperties: false
+    },
+
     handle (board) {
       board.setState({
         isShared: true
@@ -169,6 +186,16 @@ const events = {
   },
 
   renamed: {
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', minLength: 1 },
+        slug: { type: 'string', minLength: 1 }
+      },
+      required: [ 'title', 'slug' ],
+      additionalProperties: false
+    },
+
     handle (board, event) {
       board.setState({
         title: event.data.title,
@@ -180,6 +207,15 @@ const events = {
   },
 
   postPinned: {
+    schema: {
+      type: 'object',
+      properties: {
+        postId: { type: 'string', pattern: getUuidRegex() }
+      },
+      required: [ 'postId' ],
+      additionalProperties: false
+    },
+
     handle (board, event) {
       board.setState({
         postIds: [ ...board.state.postIds, event.data.postId ]
@@ -190,6 +226,15 @@ const events = {
   },
 
   postRemoved: {
+    schema: {
+      type: 'object',
+      properties: {
+        postId: { type: 'string', pattern: getUuidRegex() }
+      },
+      required: [ 'postId' ],
+      additionalProperties: false
+    },
+
     handle (board, event) {
       board.setState({
         postIds: board.state.postIds.filter(id => id !== event.data.postId)
@@ -200,6 +245,18 @@ const events = {
   },
 
   cleanedUp: {
+    schema: {
+      type: 'object',
+      properties: {
+        postIds: {
+          type: 'array',
+          item: { type: 'string', pattern: getUuidRegex() }
+        }
+      },
+      required: [ 'postIds' ],
+      additionalProperties: false
+    },
+
     handle (board) {
       board.setState({
         postIds: []
@@ -210,6 +267,18 @@ const events = {
   },
 
   discarded: {
+    schema: {
+      type: 'object',
+      properties: {
+        postIds: {
+          type: 'array',
+          item: { type: 'string', pattern: getUuidRegex() }
+        }
+      },
+      required: [ 'postIds' ],
+      additionalProperties: false
+    },
+
     handle (board) {
       board.setState({
         isDiscarded: true
