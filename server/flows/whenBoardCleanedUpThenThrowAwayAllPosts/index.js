@@ -2,9 +2,9 @@
 
 const reactions = {
   'collaboration.board.cleanedUp' (event, { app }) {
-    event.data.postIds.forEach(postId => {
+    for (const postId of event.data.postIds) {
       app.collaboration.post(postId).throwAway();
-    });
+    }
   }
 };
 

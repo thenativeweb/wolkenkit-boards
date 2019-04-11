@@ -1,7 +1,7 @@
 'use strict';
 
 const reactions = {
-  'collaboration.board.removedPost' (event, { app }) {
+  'collaboration.board.postRemoved' (event, { app }) {
     app.collaboration.post(event.data.postId).throwAway({
       postId: event.aggregate.id
     });

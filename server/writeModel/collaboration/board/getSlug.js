@@ -3,9 +3,9 @@
 const slugify = require('slugify'),
       uuid = require('uuidv4');
 
-const createUniqueSlug = function (title) {
+const getSlug = function (title) {
   if (!title || title === undefined) {
-    throw new Error('Title is missing');
+    throw new Error('Title is missing.');
   }
 
   const uniqueId = uuid().substring(0, 8);
@@ -13,4 +13,4 @@ const createUniqueSlug = function (title) {
   return `${slugify(title, { lower: true })}-${uniqueId}`;
 };
 
-module.exports = createUniqueSlug;
+module.exports = getSlug;

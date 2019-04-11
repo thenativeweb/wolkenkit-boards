@@ -75,7 +75,7 @@ class BoardsScreen extends React.Component {
             />
           </List.Header>
           <NonIdealState when={ backend.state.lists.boards.length === 0 }>
-            You haven&lsquo;t created any board yet, go ahead and do so!
+            You haven&apos;t created any board yet, go ahead and do so!
           </NonIdealState>
           <List.Body>
             { backend.state.lists.boards.map(board => (

@@ -1,8 +1,13 @@
 'use strict';
 
 const identity = {
-  'collaboration.board.mounted': event => event.aggregate.id,
-  'collaboration.board.pinnedPost': event => event.aggregate.id
+  'collaboration.board.mounted' (event) {
+    return event.aggregate.id;
+  },
+
+  'collaboration.board.pinnedPost' (event) {
+    return event.aggregate.id;
+  }
 };
 
 const initialState = {

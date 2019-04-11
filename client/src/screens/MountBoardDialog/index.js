@@ -14,10 +14,7 @@ const handleFormSubmitted = async function (event) {
   const { title, isPrivate } = mountBoardDialog.state;
 
   try {
-    const mountedEvent = await backend.collaboration.board.mount({
-      title,
-      isPrivate
-    });
+    const mountedEvent = await backend.collaboration.board.mount({ title });
 
     if (!isPrivate) {
       await backend.collaboration.board.share({ id: mountedEvent.aggregate.id });

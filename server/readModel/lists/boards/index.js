@@ -1,35 +1,35 @@
 'use strict';
 
+const forAuthenticatedIfSharedAndAlwaysForOwner = require('./forAuthenticatedIfSharedAndAlwaysForOwner');
+
 const fields = {
+  owner: { initialState: undefined },
   title: { initialState: '' },
   slug: { initialState: '', fastLookup: true },
-  isPrivate: { initialState: true },
+  isShared: { initialState: false },
   timestamp: { initialState: 0 }
 };
 
 const projections = {
-  'collaboration.board.mounted': (boards, event) => {
+  'collaboration.board.mounted' (boards, event) {
     boards.add({
+      owner: event.initiator.id,
       title: event.data.title,
       slug: event.data.slug,
       timestamp: event.metadata.timestamp
     });
   },
 
-  'collaboration.board.shared': (boards, event) => {
-    boards.authorize({
-      where: { id: event.aggregate.id },
-      forAuthenticated: true
-    });
+  'collaboration.board.shared' (boards, event) {
     boards.update({
       where: { id: event.aggregate.id },
       set: {
-        isPrivate: false
+        isShared: true
       }
     });
   },
 
-  'collaboration.board.renamed': (boards, event) => {
+  'collaboration.board.renamed' (boards, event) {
     boards.update({
       where: { id: event.aggregate.id },
       set: {
@@ -39,11 +39,17 @@ const projections = {
     });
   },
 
-  'collaboration.board.discarded': (boards, event) => {
+  'collaboration.board.discarded' (boards, event) {
     boards.remove({
       where: { id: event.aggregate.id }
     });
   }
 };
 
-module.exports = { fields, projections };
+const queries = {
+  readItem: {
+    isAuthorized: forAuthenticatedIfSharedAndAlwaysForOwner()
+  }
+};
+
+module.exports = { fields, projections, queries };
