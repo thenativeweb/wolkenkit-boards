@@ -42,7 +42,21 @@ Additionally, you need to get the certificate for your client:
 
 ## Running the application
 
-To run a wolkenkit application, you first need to install wolkenkit. For this, see the installation guide for [macOS](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-macos/), [Linux](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-linux/), [Windows](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-windows/), or [Docker Machine](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-using-docker-machine/).
+To run a wolkenkit application, you first need to install the dependencies of wolkenkit, such as Node.js and Docker. For this, see the installation guide for [macOS](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-macos/), [Linux](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-linux/), [Windows](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-windows/), or [Docker Machine](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-using-docker-machine/).
+
+### Installing the wolkenkit CLI locally
+
+In order to start the backend, you need to install the corresponding version of the wolkenkit CLI. The version is preconfigured in the dev dependencies of this project. Install it using npm:
+
+```shell
+$ npm install
+```
+
+You can now use the local version of wolkenkit to control the backend:
+
+```shell
+$ npx wolkenkit --help
+```
 
 ### Running the backend
 
@@ -58,7 +72,7 @@ Before you can run the backend, you need to adjust the `identityProvider` sectio
 Finally, now it's time to run the backend. For that, run the `start` command using the wolkenkit CLI from inside the application's directory:
 
 ```shell
-$ wolkenkit start
+$ npx wolkenkit start
 ```
 
 ### Running the frontend
@@ -80,7 +94,7 @@ After a short time, the frontend is running at `http://local.wolkenkit.io:8080/`
 
 ## License
 
-Copyright (c) 2015-2018 the native web.
+Copyright (c) 2015-2019 the native web.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
