@@ -52,7 +52,8 @@
     "wolkenkit-command-tools": "3.0.0"
   },
   "devDependencies": {
-    "roboter": "3.0.3"
+    "roboter": "3.0.3",
+    "wolkenkit": "3.1.0"
   },
   "license": "AGPL-3.0"
 }
