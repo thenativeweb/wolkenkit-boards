@@ -44,15 +44,15 @@ Additionally, you need to get the certificate for your client:
 
 To run a wolkenkit application, you first need to install the dependencies of wolkenkit, such as Node.js and Docker. For this, see the installation guide for [macOS](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-macos/), [Linux](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-linux/), [Windows](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-on-windows/), or [Docker Machine](https://docs.wolkenkit.io/latest/getting-started/installing-wolkenkit/installing-using-docker-machine/).
 
-### Installing the wolkenkit CLI locally
+### Installing the dependencies
 
-In order to start the backend, you need to install the corresponding version of the wolkenkit CLI. The version is preconfigured in the dev dependencies of this project. Install it using npm:
+Everything you need to run the backend is preconfigured in the dependencies of the project. Install them using npm:
 
 ```shell
 $ npm install
 ```
 
-You can now use the local version of wolkenkit to control the backend:
+You can now use the local version of the wolkenkit CLI to control the backend. For example to list all the available wolkenkit commands, run:
 
 ```shell
 $ npx wolkenkit --help
@@ -60,7 +60,7 @@ $ npx wolkenkit --help
 
 ### Running the backend
 
-Before you can run the backend, you need to adjust the `identityProvider` section in the application's `package.json` file. Set its `name` property to the domain of your Auth0 account, so that it looks like this:
+Before you can actually start the backend, you need to adjust the `identityProvider` section in the application's `package.json` file. Set its `name` property to the domain of your Auth0 account, so that it looks like this:
 
 ```json
 "identityProvider": {
